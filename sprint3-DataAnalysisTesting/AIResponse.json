@@ -1,0 +1,94 @@
+{
+    "case_number": "B2022-16584",
+    "incident_type": "Found Property",
+    "date_of_incident": "2022-05-04",
+    "incident_address": "620 Mason Street",
+    "complainants": [
+      {
+        "name": "Julie Hodges",
+        "address": "620 Mason Street"
+      },
+      {
+        "name": "Jeff Hodges",
+        "address": "620 Mason Street"
+      }
+    ],
+    "summary": "On May 4, 2022, homeowners Jeff and Julie Hodges discovered a metal box containing a firearm, unfired cartridges, and other items while gardening. The items were packaged and sent for forensic testing. A forensic report later confirmed that the pistol functioned properly and was test fired to generate a cartridge case for entry into NIBIN. A possible investigative lead was identified linking this case with another from 2002. Unfired cartridges were not examined.",
+    "description": "Homeowners discovered a buried metal box containing a firearm and other items while gardening. The items were packaged and sent for forensic testing.",
+    "evidence": [
+      {
+        "item_number": "BCSO-1",
+        "description": "Tattered black in color plastic bag",
+        "forensic_disciplines": ["Latent Prints"]
+      },
+      {
+        "item_number": "BCSO-2",
+        "description": "Black in color metal box with latch with interior containing insulated material and cardboard",
+        "forensic_disciplines": ["Latent Prints"]
+      },
+      {
+        "item_number": "BCSO-3",
+        "description": "Black in color Glock 17 pistol, 9x19 mm caliber (serial number obliterated) and unloaded Glock 9mm magazine",
+        "forensic_disciplines": ["DNA", "Latent Prints", "Firearms"],
+        "forensic_results": {
+          "functionality": "The pistol functions properly.",
+          "test_firing": {
+            "description": "The pistol was test fired to generate cartridge cases.",
+            "generated_item": "BCSO-3.5",
+            "nibin_entry": "One (1) test fired cartridge case was entered into NIBIN.",
+            "nibin_lead": {
+              "case_1": {
+                "lab_case_number": "A2022-05555",
+                "agency_case_number": "B2022-16584"
+              },
+              "case_2": {
+                "lab_case_number": "A2002-10096",
+                "agency_case_number": "B2002-17654"
+              },
+              "lead_notes": "This is an investigative lead and has not been confirmed."
+            }
+          }
+        }
+      },
+      {
+        "item_number": "BCSO-4",
+        "description": "Seven stray bronze and silver in color 9mm unfired cartridges with Luger headstamp",
+        "forensic_disciplines": ["Latent Prints", "Firearms"],
+        "forensic_results": "Not utilized in this examination."
+      },
+      {
+        "item_number": "BCSO-5",
+        "description": "Small white towel with reddish-brown stains",
+        "forensic_disciplines": ["DNA"]
+      },
+      {
+        "item_number": "BCSO-6",
+        "description": "Black Halloween-type face mask with white eye rings",
+        "forensic_disciplines": ["DNA"]
+      },
+      {
+        "item_number": "BCSO-7",
+        "description": "Black Halloween-type face mask with purple eye rings",
+        "forensic_disciplines": ["DNA"]
+      }
+    ],
+    "responding_officer": {
+      "name": "Investigator Carrie Fitz",
+      "badge_number": "625",
+      "report_date": "2022-05-09"
+    },
+    "forensic_report": {
+      "laboratory_number": "A2022-05555",
+      "agency": "Bramblewood County Sheriff’s Office",
+      "report_date": "2022-06-30",
+      "services_requested": ["Function Test", "NIBIN Search"],
+      "generated_evidence": [
+        {
+          "item_number": "BCSO-3.5",
+          "description": "Laboratory test cartridge case fired by Glock 17 pistol (BCSO-3)"
+        }
+      ]
+    },
+    "conclusions": "The pistol functions properly and was test fired to generate cartridge cases. One test-fired cartridge case was entered into NIBIN, and a possible investigative lead was identified linking this case to a 2002 case. Unfired cartridges (BCSO-4) were not examined."
+  }
+  
