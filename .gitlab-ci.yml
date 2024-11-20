@@ -1,0 +1,15 @@
+image: python:3.11
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  before_script:
+    - pip install awsebcli  # Install the Elastic Beanstalk CLI
+  script:
+    - eb init -p python-3.11 my-django-app --region $AWS_DEFAULT_REGION
+    - eb use $EB_ENV_NAME
+    - eb deploy
+  only:
+    - main 
