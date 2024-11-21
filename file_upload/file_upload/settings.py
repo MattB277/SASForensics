@@ -29,7 +29,12 @@ SECRET_KEY = "django-insecure-&4v*x*!8!qu@j8#bmwq+o1o4w%a%+zo+u^#a9a8&)^q9znux=w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'my-django-env.eba-uhd3fbzr.eu-west-1.elasticbeanstalk.com',
+    'localhost',
+    '127.0.0.1'
+]
+
 
 
 # Application definition
@@ -83,11 +88,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'HOST': '<RDS_ENDPOINT>',
+        'PORT': '5432',
+        'NAME': '<DB_NAME>',
+        'USER': '<DB_USER>',
+        'PASSWORD': '<DB_PASSWORD>',
     }
 }
+
 
 
 # Password validation
@@ -119,6 +129,10 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
+
+AWS_S3_REGION_NAME = 'eu-west-1'
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 
 
 # Static files (CSS, JavaScript, Images)
