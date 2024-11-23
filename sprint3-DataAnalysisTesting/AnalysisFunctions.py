@@ -56,14 +56,16 @@ def openLocalPDF(path):
 def analyseTextIntoJSON(client, document_text):
     # The prompt to instruct the model
     prompt = f"""
-    Analyze the following document independently and generate a structured JSON response:
+    Analyze the following document independently and generate a structured JSON response, you must make sure that all information you give me is based solely upon this document:
     {document_text}
 
     Output a JSON object with the following fields:
     - case_number
     - incident_type
     - date_of_incident
-    - incident_address
+    - incident_address (or the location if no address is given)
+    - organisations (if there are any organisations referenced in the document)
+    - telephones (a list of phones referenced in the document, if any, with "model", "phone_number", "owner")
     - complainants (list of objects with "name" and "address" if available)
     - summary (a concise overview of the document)
     - description (a one-sentence description of the document)
@@ -72,7 +74,7 @@ def analyseTextIntoJSON(client, document_text):
     - forensic_report (details of the lab report including lab number, agency, report date, and services requested)
     - conclusions (final remarks based on the document)
 
-    Use only information contained in the provided text. Leave fields blank or null if not applicable.
+    Use only information contained in the provided text. Leave fields as null if not applicable or no information regarding that field was found.
     """
 
     response = client.chat.completions.create(
