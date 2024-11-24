@@ -10,13 +10,16 @@ s3_key = os.getenv("S3_ACCESS_KEY")
 s3_client = boto3.client('s3', aws_access_key_id=s3_key, aws_secret_access_key=s3_secret_key)
 
 openAI_key = os.getenv("OPENAI_API_KEY")        # openAI key
-openAI_Client = OpenAI(api_key=openAI_key)      # create openAI client
+openAI_Client = OpenAI(api_key=openAI_key)
 
 # Transforming a pdf document in an s3 bucket into text
 converted_s3_PDF_text = getPDFtextfromS3(s3_client, 'Day-1A_Incident-Report_Final3.pdf')
 
+# transforming a pdf from local directory into text
+local_pdf_converted = getPDFtext(openLocalPDF("sh06-main\sprint3-DataAnalysisTesting\Day-1A_Incident-Report_Final3.pdf"))
 # sending that text to the OpenAI API (simple prompt as of now)
-analysed_text_JSON=analyseTextIntoJSON(openAI_Client, converted_s3_PDF_text)
+analysed_text_JSON=analyseTextIntoJSON(openAI_Client, local_pdf_converted)
 
+print(analysed_text_JSON)
 
 
