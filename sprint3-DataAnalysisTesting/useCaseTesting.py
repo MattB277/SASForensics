@@ -20,6 +20,9 @@ local_pdf_converted = getPDFtext(openLocalPDF("sh06-main\sprint3-DataAnalysisTes
 # sending that text to the OpenAI API (simple prompt as of now)
 analysed_text_JSON=analyseTextIntoJSON(openAI_Client, local_pdf_converted)
 
-print(analysed_text_JSON)
+# example finished output
+"""ChatCompletionMessage(content='```json\n{\n  "case_number": "B2022-16584",\n  "incident_type": "Found Property",\n  "date_of_incident": "May 4, 2022",\n  "incident_address": "620 Mason Street",\n  "organisations": [\n    "Bramblewood County Sheriff’s Office",\n    "ABC Forensic Services Laboratory"\n  ],\n  "telephones": [],\n  "complainants": [\n    {\n      "name": "Julie Hodges",\n      "address": "620 Mason Street"\n    },\n    {\n      "name": "Jeff Hodges",\n      "address": "620 Mason Street"\n    }\n  ],\n  "summary": "On May 
+4, 2022, while doing landscaping, Jeff and Julie Hodges discovered a box containing a firearm and other items in their yard at 620 Mason Street. They reported it to the Bramblewood County Sheriff’s Office, and Investigator Carrie Fitz collected and secured the items for forensic analysis.",\n  "description": "The document 
+details the discovery of a firearm and other items by Jeff and Julie Hodges at their home, with subsequent handling by law enforcement for forensic testing.",\n  "evidence": [\n    {\n      "item_number": "BC', refusal=None, role='assistant', audio=None, function_call=None, tool_calls=None)"""
 
 
