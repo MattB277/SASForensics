@@ -78,16 +78,19 @@ def analyseTextIntoJSON(client, document_text):
     """
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",  # Or other preferred model
-        messages=prompt,
+        model="gpt-4o",  # Or other preferred model
+        messages=[
+            {'role':'system', 'content':"You are a helpful assistant whose task is to reduce the time required by detectives in analysing cold case documents by ingesting documents and returning valuable information"},
+            {'role':'user', 'content':prompt}
+        ],
         max_tokens=256,
         temperature=1,
         n=1,
         stop=None
     )
 
-    print(response.choices[0].text.strip())
-    return response.choices[0].text.strip()
+    print(response.choices[0].message)
+    return response.choices[0].message
 
 
 # S3 functions
