@@ -4,6 +4,7 @@ import boto3
 from botocore.exceptions import ClientError
 import os
 from openai import OpenAI
+from openai import APIStatusError
 # Pdf conversion functions
 
 def pyMuPDFconvert(pdf):
@@ -53,7 +54,22 @@ def openLocalPDF(path):
 
 # AI analysis functions
 
-def analyseTextIntoJSON(client, document_text):
+def analyseTextIntoJSON(document_text):
+    # try to create OpenAI client instance
+    try:
+        client = OpenAI()
+        print("openAI client opened successfully!")
+    except APIStatusError as e:
+        # environment variables are misbehaving
+        print("openAI client creation failed!")
+        print(e)
+        try:
+            # try to manually retrieve the API key from environment
+            client=OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        except:
+            print("fatal error with OpenAI client!")
+            print("Set the API key to an evironment variable with the name OPENAI_API_KEY")
+
     # The prompt to instruct the model
     prompt = f"""
     Analyze the following document independently and generate a structured JSON response, you must make sure that all information you give me is based solely upon this document:
@@ -89,7 +105,6 @@ def analyseTextIntoJSON(client, document_text):
         stop=None
     )
 
-    print(response.choices[0].message)
     return response.choices[0].message
 
 
