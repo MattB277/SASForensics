@@ -6,3 +6,5 @@
 *.ps
 myenv
 venv
+.env
+sh06
