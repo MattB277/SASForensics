@@ -1,6 +1,11 @@
 # Python Files
 *.pyc
+db.sqlite3
 
 # Compiled Documents
 *.pdf
 *.ps
+myenv
+venv
+.env
+sh06
