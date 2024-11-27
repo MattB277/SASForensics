@@ -4,3 +4,5 @@
 # Compiled Documents
 *.pdf
 *.ps
+myenv
+venv
