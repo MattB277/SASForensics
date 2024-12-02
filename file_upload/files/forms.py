@@ -1,9 +1,9 @@
 from django import forms
-from .models import Document
+from .models import File
 
-class DocumentForm(forms.ModelForm):
+class FileForm(forms.ModelForm):
     class Meta:
-        model = Document
+        model = File
         fields = ('file',)
 
     def clean_file(self):
