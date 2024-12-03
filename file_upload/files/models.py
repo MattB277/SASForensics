@@ -1,11 +1,17 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from .utils import upload_to_based_on_type
-
-
-
 # Create your models here.
 from django.db import models
+
+class User(AbstractUser):
+    #constant role types
+    USER_ROLES  = [("detective", "detective"), ("reviewer", "reviewer")]
+    role = models.CharField(max_length=10, choices=USER_ROLES, default=USER_ROLES[0])
+    def is_reviewer(self):
+        return self.role=="reviewer"
+    
+
 
 class Case(models.Model):
     case_id=models.CharField(max_length=50, primary_key=True, unique=True)
@@ -15,20 +21,32 @@ class Case(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     location = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=50, choices=[("New Evidence","New Evidence"), ("Updated Information","Updated Information"), ("No changes", "No changes")])
-    
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name="created_cases")
     assigned_users = models.ManyToManyField(User, related_name="assigned_cases", blank=True)
 
-    
+
 class File(models.Model):
     ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
     file = models.FileField(upload_to=upload_to_based_on_type)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="files", null=True, blank=True) # THIS SHOULD BECOME NULL=FALSE BY TIME CASE IS IMPLEMENTED!
+    file_type = models.CharField(max_length=20, choices=[("pdf","pdf"),("mp4","mp4"),("jpeg","jpeg"),("docx","docx")], blank=True)
+    
     def __str__(self):
         return self.file.name
 
     def file_extension(self):
         return self.file.name.split('.')[-1].lower()
+    
+    def runAnalysis(self):
+        #open file and call JSONAnalysis function from utils.py, use it to update related records/create new analysis output instance in repective model
+        pass
+
+    # overriding File save() method to set file_type automatically:
+    def save(self, *args, **kwargs):
+        if not self.file_type:
+            self.file_type = self.file_extension()
+        super().save(*args, **kwargs)
     
 class View(models.Model):
     title = models.CharField(max_length=120)
