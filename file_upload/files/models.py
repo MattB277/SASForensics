@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from .utils import upload_to_based_on_type
 
 
@@ -14,6 +15,9 @@ class Case(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     location = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=50, choices=[("New Evidence","New Evidence"), ("Updated Information","Updated Information"), ("No changes", "No changes")])
+    
+    assigned_users = models.ManyToManyField(User, related_name="assigned_cases", blank=True)
+
     
 class File(models.Model):
     ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
