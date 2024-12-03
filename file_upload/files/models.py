@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils import timezone, timesince
 from .utils import upload_to_based_on_type
 # Create your models here.
 from django.db import models
@@ -17,13 +18,17 @@ class Case(models.Model):
     case_id=models.CharField(max_length=50, primary_key=True, unique=True)
     case_number=models.CharField(max_length=20, unique=True)
     type_of_crime=models.CharField(max_length=255)
-    date_opened = models.DateField()
-    last_updated = models.DateTimeField(auto_now=True)
+    date_opened = models.DateTimeField()
+    last_updated = models.DateTimeField()
+    last_accessed = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=255, blank=True, null=True)
     status = models.CharField(max_length=50, choices=[("New Evidence","New Evidence"), ("Updated Information","Updated Information"), ("No changes", "No changes")])
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name="created_cases")
     assigned_users = models.ManyToManyField(User, related_name="assigned_cases", blank=True)
-
+    
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.date_opened = timezone.now()
 
 class File(models.Model):
     ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
