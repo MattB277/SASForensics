@@ -33,7 +33,7 @@ class File(models.Model):
     ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
     file = models.FileField(upload_to=upload_to_based_on_type)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="files", null=True, blank=True) # THIS SHOULD BECOME NULL=FALSE BY TIME CASE IS IMPLEMENTED!
+    case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="files", null=True, blank=True) # updated upon document analysis completion
     file_type = models.CharField(max_length=20, choices=[("pdf","pdf"),("mp4","mp4"),("jpeg","jpeg"),("docx","docx")], blank=True)
     
     def __str__(self):
