@@ -30,10 +30,11 @@ class UserCaseAccessRecord(models.Model):
     status = models.CharField(max_length=50, choices=[("New Evidence","New Evidence"), ("Updated Information","Updated Information"), ("No changes", "No changes")])
 
 class File(models.Model):
+    file_id = models.IntegerField(max_length=30, primary_key=True, unique=True) # used for referencing analysed_docs model
     ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
     file = models.FileField(upload_to=upload_to_based_on_type)
     uploaded_at = models.DateTimeField(auto_now_add=True)
-    case = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="files", null=True, blank=True) # updated upon document analysis completion
+    case_id = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="files", null=True, blank=True) # updated upon document analysis completion
     file_type = models.CharField(max_length=20, choices=[("pdf","pdf"),("mp4","mp4"),("jpeg","jpeg"),("docx","docx")], blank=True)
     
     def __str__(self):
