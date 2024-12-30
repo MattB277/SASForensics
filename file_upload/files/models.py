@@ -36,6 +36,7 @@ class File(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     case_id = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="files", null=True, blank=True) # updated upon document analysis completion
     file_type = models.CharField(max_length=20, choices=[("pdf","pdf"),("mp4","mp4"),("jpeg","jpeg"),("docx","docx")], blank=True)
+    changelog_id = models.ForeignKey(DocChangelog)
     
     def __str__(self):
         return self.file.name
@@ -52,7 +53,15 @@ class File(models.Model):
         if not self.file_type:
             self.file_type = self.file_extension()
         super().save(*args, **kwargs)
-    
+
+
+class DocChangelog(models.Model):
+    file_id = models.OneToOneField(File, on_delete=models.CASCADE) # only delete changes when the document is deleted
+    change_id = models.IntegerField(max_length=30, primary_key=True, blank=False)
+    change_date = models.DateTimeField(auto_now=True)
+    change_details = models.CharField(max_length=70, blank=False)
+    change_author = models.OneToOneField(User, on_delete=models.DO_NOTHING, null=True) # if a user instance is deleted, keep record of the changes they made! (allow null entry)
+
 class View(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField()
