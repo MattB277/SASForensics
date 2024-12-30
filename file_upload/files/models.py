@@ -55,7 +55,7 @@ class File(models.Model):
         super().save(*args, **kwargs)
 
 class CaseChangelog(models.Model):
-    case_id = models.ForeignKey(Case, on_delete=models.CASCADE) # only delete changes when the case is deleted
+    case_id = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="changelog record") # only delete changes when the case is deleted
     change_id = models.IntegerField(max_length=30, primary_key=True, blank=False)
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
@@ -63,14 +63,18 @@ class CaseChangelog(models.Model):
     type_of_change = models.CharField(max_length=50, choices=[("Added Evidence","Added Evidence"), ("Updated Information","Updated Information"), ("Assigned Detective", "Assigned Detective"), ("Assigned Reviewer", "Assigned Reviewer"), ("Created Connection","Created Connection"), ("Created Case", "Created Case")])
 
 class DocChangelog(models.Model):
-    file_id = models.ForeignKey(File, on_delete=models.CASCADE) # only delete changes when the document is deleted
+    file_id = models.ForeignKey(File, on_delete=models.CASCADE, related_name="changelog record") # only delete changes when the document is deleted
     change_id = models.IntegerField(max_length=30, primary_key=True, blank=False)
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
     change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True) # if a user instance is deleted, keep record of the changes they made! (allow null entry)
 
 class AnalysedDocs(models.Model):
-    file_id = models.OneToOneField
+    file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="Analysed Document")
+    Analysis_id = models.IntegerField(max_length=30, primary_key=True, blank=False)
+    JSON_file = models.FilePathField(blank=False) # incomplete
+    case_number = models.CharField(max_length=20, blank=True) # allows for the analysed file to sort itself into its case automatically.
+
 class View(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField()
