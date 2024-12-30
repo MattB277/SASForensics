@@ -12,15 +12,22 @@ class Case(models.Model):
     type_of_crime=models.CharField(max_length=255)
     date_opened = models.DateTimeField()
     last_updated = models.DateTimeField()
-    last_accessed = models.DateTimeField(null=True, blank=True)
     location = models.CharField(max_length=255, blank=True, null=True)
-    status = models.CharField(max_length=50, choices=[("New Evidence","New Evidence"), ("Updated Information","Updated Information"), ("No changes", "No changes")])
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name="created_cases")
     assigned_users = models.ManyToManyField(User, related_name="assigned_cases", blank=True)
+    reviewers = models.ManyToManyField(User, related_name="case_reviewers", blank=True)
+    referenced_cases = models.ManyToManyField(Case, related_name="referenced_cases", blank=True) 
     
     def save(self, *args, **kwargs):
         if not self.pk:
             self.date_opened = timezone.now()
+
+# model to track user accesses per user for every case, should remain a lightweight model!
+class UserCaseAccessRecord(models.Model):
+    case_id=models.ForeignKey(Case, on_delete=models.CASCADE, related_name="case_access_records", null=False, blank=False)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="case_access_records", null=False, blank=False)
+    last_accessed = models.DateTimeField(null=True, blank=True)
+    status = models.CharField(max_length=50, choices=[("New Evidence","New Evidence"), ("Updated Information","Updated Information"), ("No changes", "No changes")])
 
 class File(models.Model):
     ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
