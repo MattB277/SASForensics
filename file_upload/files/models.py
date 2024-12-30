@@ -5,14 +5,6 @@ from .utils import upload_to_based_on_type
 # Create your models here.
 from django.db import models
 
-class User(AbstractUser):
-    #constant role types
-    USER_ROLES  = [("detective", "detective"), ("reviewer", "reviewer")]
-    role = models.CharField(max_length=10, choices=USER_ROLES, default=USER_ROLES[0])
-    def is_reviewer(self):
-        return self.role=="reviewer"
-    
-
 
 class Case(models.Model):
     case_id=models.CharField(max_length=50, primary_key=True, unique=True)
