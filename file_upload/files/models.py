@@ -16,7 +16,7 @@ class Case(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name="created_cases")
     assigned_users = models.ManyToManyField(User, related_name="assigned_cases", blank=True)
     reviewers = models.ManyToManyField(User, related_name="case_reviewers", blank=True)
-    referenced_cases = models.ManyToManyField(Case, related_name="referenced_cases", blank=True) 
+    referenced_cases = models.ManyToManyField("self", related_name="referenced_cases", blank=True, symmetrical=False) 
     
     def save(self, *args, **kwargs):
         if not self.pk:
