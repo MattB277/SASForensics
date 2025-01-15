@@ -36,8 +36,7 @@ class File(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     case_id = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="files", null=True, blank=True) # updated upon document analysis completion
     file_type = models.CharField(max_length=20, choices=[("pdf","pdf"),("mp4","mp4"),("jpeg","jpeg"),("docx","docx")], blank=True)
-    changelog_id = models.ForeignKey(DocChangelog)
-    
+
     def __str__(self):
         return self.file.name
 
