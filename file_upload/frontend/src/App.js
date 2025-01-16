@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import FileList from './components/FileList';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
     const [selectedFile, setSelectedFile] = useState(null);
