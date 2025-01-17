@@ -1,12 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
 from django.utils import timezone, timesince
 from .utils import upload_to_based_on_type
 # Create your models here.
 from django.db import models
 
-class User(AbstractUser):
-    role = models.CharField(max_length=20, choices=[("detective", "Detective"),("reviewer", "Reviewer"),("admin", "Admin")], default="detective",)
 
 class Case(models.Model):
     case_id=models.CharField(max_length=50, primary_key=True, unique=True)
@@ -18,7 +16,7 @@ class Case(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, null=False, related_name="created_cases")
     assigned_users = models.ManyToManyField(User, related_name="assigned_cases", blank=True)
     reviewers = models.ManyToManyField(User, related_name="case_reviewers", blank=True)
-    referenced_cases = models.ManyToManyField("self", related_name="referenced_cases", blank=True, symmetrical=False) 
+    references = models.ManyToManyField("self", related_name="referenced_cases", blank=True, symmetrical=False) 
     
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -56,7 +54,7 @@ class File(models.Model):
         super().save(*args, **kwargs)
 
 class CaseChangelog(models.Model):
-    case_id = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="changelog record") # only delete changes when the case is deleted
+    case_id = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="case_changelog_record") # only delete changes when the case is deleted
     change_id = models.IntegerField(primary_key=True, blank=False)
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
@@ -64,14 +62,14 @@ class CaseChangelog(models.Model):
     type_of_change = models.CharField(max_length=50, choices=[("Added Evidence","Added Evidence"), ("Updated Information","Updated Information"), ("Assigned Detective", "Assigned Detective"), ("Assigned Reviewer", "Assigned Reviewer"), ("Created Connection","Created Connection"), ("Created Case", "Created Case")])
 
 class DocChangelog(models.Model):
-    file_id = models.ForeignKey(File, on_delete=models.CASCADE, related_name="changelog record") # only delete changes when the document is deleted
+    file_id = models.ForeignKey(File, on_delete=models.CASCADE, related_name="file_changelog_record") # only delete changes when the document is deleted
     change_id = models.IntegerField(primary_key=True, blank=False)
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
     change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True) # if a user instance is deleted, keep record of the changes they made! (allow null entry)
 
 class AnalysedDocs(models.Model):
-    file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="Analysed Document")
+    file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="analysed_document")
     Analysis_id = models.IntegerField(primary_key=True, blank=False)
     JSON_file = models.FilePathField(blank=False) # incomplete
     case_number = models.CharField(max_length=20, blank=True) # allows for the analysed file to sort itself into its case automatically.
