@@ -7,7 +7,7 @@ from django.db import models
 
 
 class Case(models.Model):
-    case_id=models.AutoField(max_length=50, primary_key=True, unique=True)
+    case_id=models.AutoField(primary_key=True, unique=True)
     case_number=models.CharField(max_length=20, unique=True)
     type_of_crime=models.CharField(max_length=255)
     date_opened = models.DateTimeField()
@@ -30,7 +30,7 @@ class UserCaseAccessRecord(models.Model):
     status = models.CharField(max_length=50, choices=[("New Evidence","New Evidence"), ("Updated Information","Updated Information"), ("No changes", "No changes")])
 
 class File(models.Model):
-    file_id = models.AutoField(primary_key=True, unique=True) # used for referencing analysed_docs model
+    file_id = models.AutoField(primary_key=True, unique=True, default=0) # used for referencing analysed_docs model
     ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
     file = models.FileField(upload_to=upload_to_based_on_type)
     uploaded_at = models.DateTimeField(auto_now_add=True)
