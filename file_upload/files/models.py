@@ -7,7 +7,7 @@ from django.db import models
 
 
 class Case(models.Model):
-    case_id=models.CharField(max_length=50, primary_key=True, unique=True)
+    case_id=models.AutoField(max_length=50, primary_key=True, unique=True)
     case_number=models.CharField(max_length=20, unique=True)
     type_of_crime=models.CharField(max_length=255)
     date_opened = models.DateTimeField()
@@ -30,7 +30,7 @@ class UserCaseAccessRecord(models.Model):
     status = models.CharField(max_length=50, choices=[("New Evidence","New Evidence"), ("Updated Information","Updated Information"), ("No changes", "No changes")])
 
 class File(models.Model):
-    file_id = models.IntegerField(primary_key=True, unique=True) # used for referencing analysed_docs model
+    file_id = models.AutoField(primary_key=True, unique=True) # used for referencing analysed_docs model
     ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
     file = models.FileField(upload_to=upload_to_based_on_type)
     uploaded_at = models.DateTimeField(auto_now_add=True)
@@ -54,23 +54,23 @@ class File(models.Model):
         super().save(*args, **kwargs)
 
 class CaseChangelog(models.Model):
+    change_id = models.AutoField(primary_key=True, blank=False)
     case_id = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="case_changelog_record") # only delete changes when the case is deleted
-    change_id = models.IntegerField(primary_key=True, blank=False)
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
     change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True) # if a user instance is deleted, keep record of the changes they made! (allow null entry)
     type_of_change = models.CharField(max_length=50, choices=[("Added Evidence","Added Evidence"), ("Updated Information","Updated Information"), ("Assigned Detective", "Assigned Detective"), ("Assigned Reviewer", "Assigned Reviewer"), ("Created Connection","Created Connection"), ("Created Case", "Created Case")])
 
 class DocChangelog(models.Model):
+    change_id = models.AutoField(primary_key=True, blank=False)
     file_id = models.ForeignKey(File, on_delete=models.CASCADE, related_name="file_changelog_record") # only delete changes when the document is deleted
-    change_id = models.IntegerField(primary_key=True, blank=False)
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
     change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True) # if a user instance is deleted, keep record of the changes they made! (allow null entry)
 
 class AnalysedDocs(models.Model):
+    Analysis_id = models.AutoField(primary_key=True, blank=False)
     file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="analysed_document")
-    Analysis_id = models.IntegerField(primary_key=True, blank=False)
     JSON_file = models.FilePathField(blank=False) # incomplete
     case_number = models.CharField(max_length=20, blank=True) # allows for the analysed file to sort itself into its case automatically.
 
