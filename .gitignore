@@ -13,3 +13,6 @@ sh06
 # npm installation
 node_modules
 package-lock.json
+
+# database tools
+.idea
