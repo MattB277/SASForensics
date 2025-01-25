@@ -1,0 +1,28 @@
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-button {
+    display: block;
+    padding: 10px 16px;
+    background-color: white;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.menu-button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.menu-button:active {
+    background-color: #dcdcdc;
+    transform: translateY(0);
+}

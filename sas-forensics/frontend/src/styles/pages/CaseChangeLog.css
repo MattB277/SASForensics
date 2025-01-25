@@ -1,0 +1,48 @@
+.case-change-log {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.main-content {
+    flex: 1;
+    padding: 16px;
+    background-color: #ffffff;
+}
+
+h1, h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.change-log-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.change-log-table th,
+.change-log-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.change-log-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.change-log-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.change-log-table tr:hover {
+    background-color: #f1f1f1;
+}
