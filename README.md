@@ -65,10 +65,9 @@ On some READMEs, you may see small images that convey metadata, such as whether 
 Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 ## Installation
-Packages for this system are installed using pip(https://pip.pypa.io/en/stable/) and npm(https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
-First, install the backend dependancies:
-We used virtual environments throughout development, these should be created within the SH06-MAIN directory.
-Once you have activated your virtual environment,
+Packages for this system are installed using pip(https://pip.pypa.io/en/stable/) and npm(https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).   
+We used virtual environments throughout development, these should be created within the SH06-MAIN directory.   
+Once you have activated your virtual environment, run these commands:
 ```bash
 cd sas-forensics
 pip install -r requirements.txt
@@ -76,8 +75,8 @@ pip install -r requirements.txt
 cd frontend
 npm install
 ```
-There may be some installation issues with node.js
-To troubleshoot this, install nodeJS (https://nodejs.org/en/download/) and verify your npm and node versions, then attempt "npm install" again.
+There may be some installation issues with node.js.  
+To troubleshoot these, install nodeJS (https://nodejs.org/en/download/) and verify your npm and node versions, then attempt "npm install" again.
 
 Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
