@@ -5,13 +5,13 @@ stages:
   - start-dev-app
 
 variables:
-  PYTHON_VERSION: "3.10"
   PROJECT_DIR: "sas-forensics"
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
 install:
   stage: install
+  image: python:"3.10"
   script:
     - pip install requirements.txt
     - venv/scripts/activate
@@ -21,4 +21,5 @@ install:
 start-app:
   stage: start-dev-app
   script:
+    - cd sas-forensics/frontend
     - npm start
