@@ -1,24 +1,48 @@
 image: node:18
 
 stages:
-  - install
+  - install_backend
+  - install_frontend
   - start-dev-app
 
 variables:
   PROJECT_DIR: "sas-forensics"
+  FRONTEND_DIR: "sas-forensics/frontend"
+
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
-install:
-  stage: install
+  paths:
+    - venv/
+    - node_modules/
+
+
+install_backend:
+  stage: install_backend
   image: python:3.10
   script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - echo "Created venv OK!"
+    - pip install --ugrade pip
     - pip install -r requirements.txt
-    - cd sas-forensics/frontend
+    - echo "installed pip requirements OK!"
+    
+  artifacts:
+    paths:
+      - venv/
+
+install_frontend:
+  stage: install_frontend
+  image: node:18
+  script:
+    - cd $FRONTEND_DIR
     - npm install
+    - echo "Frontend installed OK!"
 
 start-app:
   stage: start-dev-app
   script:
-    - cd sas-forensics/frontend
+    - cd $FRONTEND_DIR
     - npm start
+    - echo "Started react app OK!"
