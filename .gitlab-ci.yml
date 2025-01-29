@@ -1,15 +1,24 @@
-image: python:3.11
+image: node:18
 
 stages:
-  - deploy
+  - install
+  - start-dev-app
 
-deploy:
-  stage: deploy
-  before_script:
-    - pip install awsebcli  # Install the Elastic Beanstalk CLI
+variables:
+  PYTHON_VERSION: "3.10"
+  PROJECT_DIR: "sas-forensics"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+install:
+  stage: install
   script:
-    - eb init -p python-3.11 file_upload --region $AWS_DEFAULT_REGION
-    - eb use $EB_ENV_NAME
-    - eb deploy
-  only:
-    - main 
+    - pip install requirements.txt
+    - venv/scripts/activate
+    - cd sas-forensics/frontend
+    - npm install
+
+start-app:
+  stage: start-dev-app
+  script:
+    - npm start
