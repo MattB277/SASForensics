@@ -39,7 +39,8 @@ install_frontend:
     - cd $FRONTEND_DIR
     - npm install
     - echo "Frontend installed OK!"
-
+  artifacts:
+    - $FRONTEND_DIR/node_modules/
 start-app:
   stage: start-dev-app
   script:
