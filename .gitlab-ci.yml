@@ -11,7 +11,7 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
 install:
   stage: install
-  image: python:"3.10"
+  image: python:3.10
   script:
     - pip install requirements.txt
     - venv/scripts/activate
