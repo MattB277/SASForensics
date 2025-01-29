@@ -1,4 +1,4 @@
-image: node:18
+image: node:latest
 
 stages:
   - install_backend
@@ -34,7 +34,7 @@ install_backend:
 
 install_frontend:
   stage: install_frontend
-  image: node:18
+  image: node:latest
   script:
     - cd $FRONTEND_DIR
     - npm install
