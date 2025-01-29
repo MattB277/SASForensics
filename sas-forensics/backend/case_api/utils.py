@@ -1,3 +1,103 @@
+# AI Document Analysis Utils
+import pymupdf, boto3, os
+from botocore.exceptions import ClientError
+from openai import APIStatusError, OpenAI
+from typing import List, Optional
+from pydantic import BaseModel, Field
+
+# Structured Output Pydantic model
+class AnalysisOutput(BaseModel):
+    # nested data structures
+    class Person(BaseModel):
+        name:str = Field(description="The name of a person mentioned in the document")
+        address: Optional[str] = Field(description="The address of a person if it is given")
+        relevance: str = Field(description="How this person is related to the document, officer, victim, suspect etc.")
+    class Event(BaseModel):
+        event_type: str = Field(description="What type of event is it?")
+        details: str = Field(description="What happened in this event?")
+    class Evidence(BaseModel):
+        item_number: str = Field(description="The item number specified for this peice of evidence")
+        description: List[str] = Field(description="The descriptions of the peice of evidence")
+
+    # top level data containers/variables
+    case_number: str = Field(description="the case number stated on the document")
+    document_type: str = Field(description="What type of document it is, Interview, Forensic report etc")
+    summary: str = Field(description="A three sentence long description of the document.")
+    conclusion: Optional[str] = Field(description="A short conclusion highlighting any findings made in the document.")
+    location: List[str] = Field(description="Any locations mentioned in the document")
+    people: List[Person] = Field(description="Names of people mentioned, their address and their role in the document if given.")
+    events: List[Event] = Field(description="A list of each event described.")
+    evidence: List[Evidence] = Field(description="A list of each piece of evidence")
+
+# PDF Conversion Util
+def getPDFtext(document_path):
+    """Takes a PDF path and returns the document's text as a single string"""
+    # open PDF reader
+    document = pymupdf.open(filename=document_path, filetype='pdf')
+    # read contents
+    content = ""
+    for page in document:
+        content += page.get_text()
+    return content
+
+# .txt File Reading Util
+def openTXT(document_path):
+    """Used for analysis of handwritten notes, takes a path and returns the string of the txt contents"""
+    with open(document_path, "r") as file:
+        content = file.read()
+    return content
+
+# Analyse Document Text
+def analyseTextIntoJSON(document_text):
+    """This function analyses a string, and returns a JSON dictionary result."""
+    # try to create OpenAI client instance
+    try:
+        client = OpenAI()
+        print("openAI client opened successfully!")
+    except APIStatusError as e:
+        # environment variables are misbehaving
+        print("openAI client creation failed!")
+        print(e)
+        try:
+            # try to manually retrieve the API key from environment
+            client=OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        except:
+            print("fatal error with OpenAI client!")
+            print("Set the API key to an evironment variable with the name OPENAI_API_KEY")
+    # Prompt to instruct the system
+    system_prompt = "You are a helpful assistant whose task is to reduce the time required by detectives in analysing cold case documents by ingesting documents and returning valuable information"
+    # The prompt to instruct the model
+    prompt = f"""
+    Analyze the following document independently and generate a structured JSON response, you must make sure that all information you give me is based solely upon this document:
+    {document_text}
+
+    Output a JSON object with the following fields:
+    - case_number
+    - document_type (is it an Interview, incident report, investigative report, analysis report, etc.)
+    - date_of_incident
+    - people (list of objects with "name", "address" and "relevance" if available)
+    - summary (a concise overview of the document, max 3 sentences long)
+    - evidence (list of objects with "item_number", "description" containing any results or analysis per peice of evidence.)
+    - conclusions (final remarks based on the document)
+
+    Use only information contained in the provided text. Leave fields as null if not applicable or no information regarding that field was found.
+    """
+
+    response = client.beta.chat.completions.parse(
+        model="gpt-4o-2024-08-06",  # models to be experimented with
+        messages=[
+            {'role':'system', 'content':system_prompt},
+            {'role':'user', 'content':prompt}
+        ],
+        response_format=AnalysisOutput,
+        max_tokens=256,
+        temperature=0.2,
+        n=1,
+    )
+
+    return response.choices[0].message.parsed
+
+
 def upload_to_based_on_type(instance, filename):
     ext = filename.split('.')[-1]
     base_filename = '.'.join(filename.split('.')[:-1])
