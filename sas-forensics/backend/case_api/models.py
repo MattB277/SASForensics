@@ -103,6 +103,7 @@ class AnalysedDocs(models.Model):
     file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="analysed_document")
     JSON_file = models.FilePathField(blank=False)
     case_number = models.CharField(max_length=20, blank=True)
+    reviewed = models.BooleanField(default="false")
 
 class View(models.Model):
     title = models.CharField(max_length=120)
