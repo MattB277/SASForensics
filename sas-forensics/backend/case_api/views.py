@@ -1,4 +1,4 @@
-from django.http import FileResponse
+from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 from rest_framework import status, viewsets, generics
@@ -8,13 +8,13 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Case, File, CaseChangelog, DocChangelog, UserCaseAccessRecord
+from .models import Case, File, CaseChangelog, DocChangelog, UserCaseAccessRecord, AnalysedDocs
 from .serializers import (
     CaseSerializer, FileSerializer, CaseChangelogSerializer,
     DocChangelogSerializer, UserCaseAccessRecordSerializer, UserSerializer
 )
 from django.contrib.auth.models import User
-
+import json
 
 class ReactAppView(TemplateView):
     template_name = "react/build/index.html"
