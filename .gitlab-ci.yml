@@ -42,10 +42,3 @@ install_frontend:
   artifacts:
     paths:
       - $FRONTEND_DIR/node_modules/
-
-start-app:
-  stage: start-dev-app
-  script:
-    - cd $FRONTEND_DIR
-    - npm start
-    - echo "Started react app OK!"
