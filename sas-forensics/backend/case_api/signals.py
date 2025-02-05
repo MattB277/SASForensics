@@ -22,7 +22,7 @@ def analyse_upload(sender, instance, created, **kwargs):
         analysis_output = analyseTextIntoJSON(extracted_text)
         
         # configure new JSON file
-        json_filename = os.path.splitext(os.path.basename(instance.file.name))[0] + ".json"
+        json_filename = os.path.splitext(os.path.basename(instance.file.name))[0] + ".json" # same name as original file
         json_path = os.path.join(MEDIA_ROOT , "json", json_filename)
 
         # create database record 
