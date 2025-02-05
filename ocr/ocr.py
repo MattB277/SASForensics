@@ -2,7 +2,10 @@ from PIL import Image
 import pytesseract
 import numpy as np
 
-filename = 'C:\\Users\\48575\\Desktop\\react\\sh06-main\\ocr\\ocr1.jpg'
-img1 = np.array(Image.open(filename))
-text = pytesseract.image_to_string(img1)
-print(text)
+def ocr(filename):
+
+    # you might need to edit it to where your tesseract is installed
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    img1 = np.array(Image.open(filename))
+    text = pytesseract.image_to_string(img1)
+    return text
