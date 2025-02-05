@@ -113,7 +113,7 @@ def update_analysis(request, pk):
                 json.dump(json_data, f, indent=4)
 
         # mark analysis as reviewed
-        if reviewed is not None:
+        if reviewed is not None:    # only update if react component passes reviewed flag in request
             analysed_doc.reviewed = reviewed
             analysed_doc.save()
 
