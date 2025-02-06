@@ -25,6 +25,7 @@ function App() {
                     <Route path="/updatedcases" element={<UpdatedCases />} />
                     <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />
+                    <Route path="/review/:fileId" element={<ReviewAnalysis />} />
                 </Routes>
             </div>
         </Router>
