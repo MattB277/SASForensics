@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import {JSONEditor} from "react-json-editor-viewer";
+import FileViewer from "../components/FileViewer";
 
 const ReviewAnalysis = () => {
     const {fileId} = useParams(); // Get file ID from URL params
@@ -8,14 +10,67 @@ const ReviewAnalysis = () => {
     const [jsonData, setJsonData] = useState({});
     const [reviewed, setReviewed] = useState(false);
     const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-    fetchAnalysis();
-    }, []);
     
-    const fetchAnalysis = async () => {
-        //try to fet analysis through file id
-        // set response data
-        // handle errors
-    }
-    }
+    useEffect(() => {
+        const fetchAnalysis = async () => {
+            //try to fet analysis through file id
+            try{
+                const response = await axios.get(`/api/get-analysis/${fileId}/`);
+                setFileUrl(response.data.file_url);
+                setJsonData(response.data.json_data);
+                setReviewed(response.data.reviewed);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error while fetching analysis, error");
+                setLoading(false);
+            }
+        };
+
+        fetchAnalysis();
+    }, [fileId]);
+
+    const handleJsonChange = (updatedJson) => {
+        setJsonData(updatedJson);
+    };
+
+    const handleApprove = async () => {
+        try {
+            await axios.put(`/api/update-analysis/${fileId}/`, {    // save changes made to JSON
+            json_data: jsonData,
+            reviewed: true,
+            });
+            alert("Analysis Approved!")
+            setReviewed(true)
+        } catch (error) {
+            console.error("Error while approving analysis:", error)
+        }
+    };
+
+    if (loading) return <p>Loading document and analysis...</p>
+
+    return(
+        <div style={{ display: "flex", gap: "20px", padding: "20px" }}>
+        {/* Left side: Display Original File */}
+        <div style={{ flex: 1 }}>
+            <h3>Original Document</h3>
+            <FileViewer fileUrl={fileUrl}/>
+        </div>
+  
+        {/* Right side: JSON Analysis Editor */}
+        <div style={{ flex: 1 }}>
+            <h3>JSON Analysis</h3>
+            <JSONEditor
+                data={jsonData}
+                onChange={handleJsonChange} // Capture changes
+                editable={true} // Allow editing
+            />
+            <br />
+            <button onClick={handleApprove} disabled={reviewed}>
+                {reviewed ? "Approved" : "Approve"}
+            </button>
+            </div>
+        </div>
+    );
+};
+
+export default ReviewAnalysis;
