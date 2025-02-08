@@ -8,6 +8,7 @@ import CaseDashboard from './pages/CaseDashboard';
 import ManageCase from './pages/ManageCase';
 import UpdatedCases from './pages/UpdatedCases';
 import CaseChangeLog from './pages/CaseChangeLog';
+import ReviewAnalysis from './pages/ReviewAnalysis';
 
 function App() {
     return (
