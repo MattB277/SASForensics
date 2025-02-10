@@ -9,6 +9,7 @@ import ManageCase from './pages/ManageCase';
 import UpdatedCases from './pages/UpdatedCases';
 import CaseChangeLog from './pages/CaseChangeLog';
 import ReviewAnalysis from './pages/ReviewAnalysis';
+import ReviewDocuments from './pages/ReviewDocuments';
 
 function App() {
     return (
