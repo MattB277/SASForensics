@@ -74,6 +74,9 @@ class File(models.Model):
 
     def __str__(self):
         return self.file.name
+    
+    def display_name(self):
+        return self.file.name.split("/")[-1]
 
     def file_extension(self):
         return self.file.name.split('.')[-1].lower()
