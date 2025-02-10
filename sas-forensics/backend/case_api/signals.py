@@ -29,5 +29,6 @@ def analyse_upload(sender, instance, created, **kwargs):
         AnalysedDocs.objects.create(
             file_id = instance, 
             JSON_file = json_path,
-            case_number = instance.case_id.case_number if instance.case_id else ""
+            case_number = instance.case_id.case_number if instance.case_id else "",
+            reviewed = False
         )
