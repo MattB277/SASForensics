@@ -63,6 +63,15 @@ def documents_to_review(request):
 
     files = File.objects.filter(case_id__in=cases).order_by("case_id", "uploaded_at")
 
+    document_list = [
+        {
+            "file_id": file.file_id,
+            "file_name": file.display_name,
+            "case_id": file.case_id.case_number if file.case_id else "Unknown",
+            "uploaded_at": file.uploaded_at.strftime("%Y-%m-%d %H:%M:%S"),
+        } for file in files]
+    
+    return Response(document_list, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def list_files(request):
