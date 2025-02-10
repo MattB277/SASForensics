@@ -9,6 +9,7 @@ function Sidebar() {
         { path: "/mycases", label: "My Cases" },
         { path: "/updatedcases", label: "Updated Cases" },
         { path: "/login", label: "Login" },
+        { path: "/review-documents", label: "Review Analysis"}
     ];
 
     return (
