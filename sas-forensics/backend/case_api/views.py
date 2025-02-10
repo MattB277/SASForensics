@@ -55,6 +55,16 @@ class UpdatedCasesView(APIView):
 
 
 @api_view(['GET'])
+def documents_to_review(request):
+    """Get document with analysis assigned to reviewer"""
+    user = request.user
+
+    cases = Case.objects.filter(reviewers__in=[user])
+
+    files = File.objects.filter(case_id__in=cases).order_by("case_id", "uploaded_at")
+
+
+@api_view(['GET'])
 def list_files(request):
     files = File.objects.all()
     serializer = FileSerializer(files, many=True)
