@@ -31,7 +31,7 @@ const ReviewDocuments = () => {
 
     return (
         <div style={{ padding: "20px" }}>
-            <h2>Documents to Review</h2>
+            <h2>Analysis to Review</h2>
             <input
                 type="text"
                 placeholder="Search by document name or case number"
