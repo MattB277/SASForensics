@@ -15,7 +15,11 @@ from .views import (
     UpdatedCasesView,
     CaseChangeLogView,
     upload_file, 
-    list_files
+    list_files,
+    serve_file,
+    get_analysis,
+    update_analysis,
+    documents_to_review
 )
 
 router = DefaultRouter()
