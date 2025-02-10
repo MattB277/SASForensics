@@ -90,7 +90,7 @@ def analyseTextIntoJSON(document_text):
             {'role':'user', 'content':prompt}
         ],
         response_format=AnalysisOutput,
-        max_tokens=256,
+        max_tokens=2560,
         temperature=0.2,
         n=1,
     )
