@@ -18,9 +18,7 @@ def analyse_upload(sender, instance, created, **kwargs):
                 pass
             case _: # default value
                 print("Datatype not supported!")
-        
-        analysis_output = analyseTextIntoJSON(extracted_text)
-        
+
         # configure new JSON file
         json_filename = os.path.splitext(os.path.basename(instance.file.name))[0] + ".json" # same name as original file
         json_path = os.path.join(MEDIA_ROOT , "json", json_filename)
@@ -28,9 +26,14 @@ def analyse_upload(sender, instance, created, **kwargs):
         # create json dir if it does not exist
         if not (os.path.exists(os.path.join(MEDIA_ROOT, 'json'))):
             os.makedirs(os.path.join(MEDIA_ROOT, 'json'))
-        # write JSON file to disk
-        with open(json_path, "w", encoding="utf-8") as json_file:
-            json_file.write(analysis_output.model_dump_json())
+
+        # check if analysis exists before analysing
+        if not os.path.exists(json_path):
+            # analyse text
+            analysis_output = analyseTextIntoJSON(extracted_text)
+            # write JSON file to disk
+            with open(json_path, "w", encoding="utf-8") as json_file:
+                json_file.write(analysis_output.model_dump_json())
 
         # create database record 
         AnalysedDocs.objects.create(
