@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import File, AnalysedDocs
 from .utils import analyseTextIntoJSON, getPDFtext, openTXT
-import os
+import os, json
 from backend_core.settings import MEDIA_ROOT
 
 @receiver(post_save, sender=File)
@@ -24,6 +24,10 @@ def analyse_upload(sender, instance, created, **kwargs):
         # configure new JSON file
         json_filename = os.path.splitext(os.path.basename(instance.file.name))[0] + ".json" # same name as original file
         json_path = os.path.join(MEDIA_ROOT , "json", json_filename)
+
+        # write JSON file to disk
+        with open(json_path, "w", encoding="utf-8") as json_file:
+            json.dump(analysis_output, json_file, indent=4)
 
         # create database record 
         AnalysedDocs.objects.create(
