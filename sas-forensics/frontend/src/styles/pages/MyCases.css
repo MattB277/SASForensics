@@ -1,0 +1,91 @@
+.my-cases {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #B3E5FC;
+}
+
+h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.sort-filter {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.sort-filter button {
+    padding: 8px 16px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.sort-filter button:hover {
+    background-color: #f0f0f0;
+}
+
+.case-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+.case-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.case-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.case-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+}
+
+.view-case-link {
+    display: block;
+    margin-top: 8px;
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.view-case-link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,83 @@
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: #5bc0de;
+  width: 200px;
+  padding: 10px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f7f7f7;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.case-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.content {
+  display: flex;
+  gap: 10px;
+}
+
+.manage-case,
+.manage-users,
+.documents {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  flex: 1;
+  background-color: white;
+}
+
+.upload-documents,
+.manage-files {
+  margin-bottom: 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.user {
+  margin-bottom: 10px;
+  background-color: #d9edf7;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.remove {
+  color: red;
+  cursor: pointer;
+}
+
+.documents .tab {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #e7e7e7;
+  border: none;
+}
+
+.document {
+  margin-bottom: 5px;
+  padding: 10px;
+  background-color: #f0ad4e;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.document:hover {
+  background-color: #ec971f;
+}

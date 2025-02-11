@@ -1,0 +1,41 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to bottom, lightgray, blue);
+}
+
+.login-container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.input-field {
+  display: block;
+  width: 80%;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.sign-in-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: blue;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.forgot-password-button {
+  background: none;
+  border: none;
+  color: blue;
+  cursor: pointer;
+}
