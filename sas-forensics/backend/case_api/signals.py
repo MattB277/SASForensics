@@ -11,13 +11,18 @@ def analyse_upload(sender, instance, created, **kwargs):
         # extract text based upon file type
         match instance.file_extension():
             case "pdf":
-                extracted_text = getPDFtext(instance.file.path)
+                if os.path.exists(instance.file.path):
+                    extracted_text = getPDFtext(instance.file.path)
+                else:
+                    return
             case "docx":    # placeholder until logic implemented
                 print("Docx analysis not implemented yet!")
+                return
             case "png": # placeholder until logic implemented
-                pass
+                return
             case _: # default value
                 print("Datatype not supported!")
+                return 
 
         # configure new JSON file
         json_filename = os.path.splitext(os.path.basename(instance.file.name))[0] + ".json" # same name as original file
