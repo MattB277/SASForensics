@@ -15,7 +15,7 @@ const ReviewAnalysis = () => {
         const fetchAnalysis = async () => {
             //try to fet analysis through file id
             try{
-                const response = await axios.get(`/api/get-analysis/${fileId}/`);
+                const response = await axios.get(`http://localhost:8000/api/api/get-analysis/${fileId}/`);
                 setFileUrl(response.data.file_url);
                 setJsonData(response.data.json_data);
                 setReviewed(response.data.reviewed);
@@ -35,7 +35,7 @@ const ReviewAnalysis = () => {
 
     const handleApprove = async () => {
         try {
-            await axios.put(`/api/update-analysis/${fileId}/`, {    // save changes made to JSON
+            await axios.put(`http://localhost:8000/api/api/update-analysis/${fileId}/`, {    // save changes made to JSON
             json_data: jsonData,
             reviewed: true,
             });
