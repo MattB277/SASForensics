@@ -5,7 +5,7 @@ import {JSONEditor} from "react-json-editor-viewer";
 import FileViewer from "../components/FileViewer";
 import Sidebar from "../components/common/Sidebar";
 import { useNavigate } from "react-router-dom";
-
+import '../styles/pages/ReviewAnalysis.css';
 
 const ReviewAnalysis = () => {
     const {fileId} = useParams(); // Get file ID from URL params
@@ -58,11 +58,11 @@ const ReviewAnalysis = () => {
     if (loading) return <p>Loading document and analysis...</p>
 
     return(
-        <div className="review-analysis">
+        <div className="review-analysis" >
             <Sidebar />
             
             <div className="review-content">
-                <div className="file-viewer-section">
+                <div className="file-viewer-container">
                 {/* Left side: Display Original File */}
                     <h3>Original Document</h3>
                     <FileViewer fileUrl={fileUrl}/>
