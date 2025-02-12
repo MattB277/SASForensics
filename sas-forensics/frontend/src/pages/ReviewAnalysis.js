@@ -53,35 +53,27 @@ const ReviewAnalysis = () => {
         <div className="review-analysis">
             <Sidebar />
             
-            <div className="main-content">
-                <div className="review-content">
-                    <section className="file-viewer-section">
-                        {/* Left side: Display Original File */}
-                        <div style={{ display: "flex", gap: "20px", padding: "20px" }}>    
-                            <div style={{ flex: 1 }}>
-                                <h3>Original Document</h3>
-                                <FileViewer fileUrl={fileUrl}/>
-                            </div>
-                        </div>
-                    </section>
+            <div className="review-content">
+                <div className="file-viewer-section">
+                {/* Left side: Display Original File */}
+                    <h3>Original Document</h3>
+                    <FileViewer fileUrl={fileUrl}/>
+                </div>
 
-                    <section className="json-editor-container">
-                        {/* Right side: JSON Analysis Editor */}
-                        <div style={{ flex: 1 }}>
-                            <h3>JSON Analysis</h3>
-                            <div className="scrollable-content">
-                            <JSONEditor
-                                data={jsonData}
-                                onChange={handleJsonChange} // Capture changes
-                                editable={true} // Allow editing
-                            />
-                            </div>
-                            <br />
-                            <button onClick={handleApprove} disabled={reviewed}>
-                                {reviewed ? "Approved" : "Approve"}
-                            </button>
-                        </div>
-                    </section>
+                <div className="json-editor-container">
+                {/* Right side: JSON Analysis Editor */}
+                    <h3>JSON Analysis</h3>
+                    <div className="scrollable-content">
+                        <JSONEditor
+                            data={jsonData}
+                            onChange={handleJsonChange} // Capture changes
+                            editable={true} // Allow editing
+                        />
+                    </div>
+                    <br />
+                    <button onClick={handleApprove} disabled={reviewed}>
+                        {reviewed ? "Approved" : "Approve"}
+                    </button>
                 </div>
             </div>
         </div>
