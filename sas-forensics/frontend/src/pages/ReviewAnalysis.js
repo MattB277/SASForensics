@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import {JSONEditor} from "react-json-editor-viewer";
 import FileViewer from "../components/FileViewer";
+import Sidebar from "../components/common/Sidebar";
 
 const ReviewAnalysis = () => {
     const {fileId} = useParams(); // Get file ID from URL params
@@ -49,25 +50,39 @@ const ReviewAnalysis = () => {
     if (loading) return <p>Loading document and analysis...</p>
 
     return(
-        <div style={{ display: "flex", gap: "20px", padding: "20px" }}>
-        {/* Left side: Display Original File */}
-        <div style={{ flex: 1 }}>
-            <h3>Original Document</h3>
-            <FileViewer fileUrl={fileUrl}/>
-        </div>
-  
-        {/* Right side: JSON Analysis Editor */}
-        <div style={{ flex: 1 }}>
-            <h3>JSON Analysis</h3>
-            <JSONEditor
-                data={jsonData}
-                onChange={handleJsonChange} // Capture changes
-                editable={true} // Allow editing
-            />
-            <br />
-            <button onClick={handleApprove} disabled={reviewed}>
-                {reviewed ? "Approved" : "Approve"}
-            </button>
+        <div className="review-analysis">
+            <Sidebar />
+            
+            <div className="main-content">
+                <div className="review-content">
+                    <section className="file-viewer-section">
+                        {/* Left side: Display Original File */}
+                        <div style={{ display: "flex", gap: "20px", padding: "20px" }}>    
+                            <div style={{ flex: 1 }}>
+                                <h3>Original Document</h3>
+                                <FileViewer fileUrl={fileUrl}/>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="json-editor-container">
+                        {/* Right side: JSON Analysis Editor */}
+                        <div style={{ flex: 1 }}>
+                            <h3>JSON Analysis</h3>
+                            <div className="scrollable-content">
+                            <JSONEditor
+                                data={jsonData}
+                                onChange={handleJsonChange} // Capture changes
+                                editable={true} // Allow editing
+                            />
+                            </div>
+                            <br />
+                            <button onClick={handleApprove} disabled={reviewed}>
+                                {reviewed ? "Approved" : "Approve"}
+                            </button>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
     );
