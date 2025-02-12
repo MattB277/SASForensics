@@ -4,10 +4,13 @@ import axios from "axios";
 import {JSONEditor} from "react-json-editor-viewer";
 import FileViewer from "../components/FileViewer";
 import Sidebar from "../components/common/Sidebar";
+import { useNavigate } from "react-router-dom";
+
 
 const ReviewAnalysis = () => {
     const {fileId} = useParams(); // Get file ID from URL params
     const [fileUrl, setFileUrl] = useState("");
+    const navigate = useNavigate();
     const [jsonData, setJsonData] = useState({});
     const [reviewed, setReviewed] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -30,8 +33,13 @@ const ReviewAnalysis = () => {
         fetchAnalysis();
     }, [fileId]);
 
-    const handleJsonChange = (updatedJson) => {
-        setJsonData(updatedJson);
+    const handleCancel = () => {
+        navigate("/review-documents");
+    };
+
+    const handleJsonChange = (key, value, parent, data) => {
+        console.log("Key:", key, "Value:", value, "Parent:", parent, "Updated Data:", data);
+        setJsonData(data);
     };
 
     const handleApprove = async () => {
@@ -72,8 +80,9 @@ const ReviewAnalysis = () => {
                     </div>
                     <br />
                     <button onClick={handleApprove} disabled={reviewed}>
-                        {reviewed ? "Approved" : "Approve"}
+                        {reviewed ? "Already Approved" : "Save any changes and Approve"}
                     </button>
+                    <button onClick={handleCancel}>Cancel and delete any changes</button>
                 </div>
             </div>
         </div>
