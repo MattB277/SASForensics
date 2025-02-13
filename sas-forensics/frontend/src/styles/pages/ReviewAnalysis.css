@@ -1,0 +1,75 @@
+.review-analysis {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+}
+
+.review-content {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.file-viewer-container,
+.json-editor-container {
+    flex: 1;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.scrollable-content {
+    overflow-y: auto;
+    max-height: 800px;
+}
+
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.action-button {
+    display: inline-block;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+
+
+  .approve-button {
+    background-color: #d4edda;
+    color: black;
+  }
+  .approve-button:hover {
+    background-color: #c3e6cb;
+    transform: translateY(-2px);
+  }
+  .approve-button:active {
+    background-color: #b1dfbb;
+    transform: translateY(0);
+  }
+  
+
+  .cancel-button {
+    background-color: #cccccc;
+    color: black;
+  }
+  .cancel-button:hover {
+    background-color: #bfbfbf;
+    transform: translateY(-2px);
+  }
+  .cancel-button:active {
+    background-color: #b3b3b3;
+    transform: translateY(0);
+  }
