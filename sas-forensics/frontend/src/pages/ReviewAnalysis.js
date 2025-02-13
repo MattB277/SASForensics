@@ -79,10 +79,12 @@ const ReviewAnalysis = () => {
                         />
                     </div>
                     <br />
-                    <button onClick={handleApprove} disabled={reviewed}>
-                        {reviewed ? "Already Approved" : "Save any changes and Approve"}
+                    <div className="button-container">
+                    <button className="approve-button" onClick={handleApprove} disabled={reviewed}>
+                        {reviewed ? "Already Approved" : "Approve and save any changes"}
                     </button>
-                    <button onClick={handleCancel}>Cancel and delete any changes</button>
+                    <button className="cancel-button" onClick={handleCancel}>Cancel and delete any changes</button>
+                    </div>
                 </div>
             </div>
         </div>
