@@ -25,7 +25,7 @@ const ReviewAnalysis = () => {
                 setReviewed(response.data.reviewed);
                 setLoading(false);
             } catch (error) {
-                console.error("Error while fetching analysis, error");
+                console.error("Error while fetching analysis", error);
                 setLoading(false);
             }
         };
