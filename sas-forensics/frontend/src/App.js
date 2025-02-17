@@ -10,6 +10,7 @@ import UpdatedCases from './pages/UpdatedCases';
 import CaseChangeLog from './pages/CaseChangeLog';
 import ReviewAnalysis from './pages/ReviewAnalysis';
 import ReviewDocuments from './pages/ReviewDocuments';
+import DocumentDashboard from './pages/DocumentDashboard';
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                     <Route path="/updatedcases" element={<UpdatedCases />} />
                     <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />
+                    <Route path="/case/:caseId/document-dashboard/:fileId" element={<DocumentDashboard />} />
                     <Route path="/review/:fileId" element={<ReviewAnalysis />} />
                     <Route path="/review-documents" element={<ReviewDocuments />} />
                 </Routes>
