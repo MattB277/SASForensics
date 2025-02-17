@@ -1,10 +1,11 @@
-import '../styles/pages/DocumentDashboard.css';
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Sidebar from '../components/common/Sidebar';
 import axios from '../utils/axiosConfig';
 import DocTabs from '../components/DocTabs';
+import FileViewer from '../components/FileViewer';
+import '../styles/pages/DocumentDashboard.css';
 
 const CaseDashboard = () => {
     const { caseId , fileId } = useParams();
@@ -33,39 +34,21 @@ const CaseDashboard = () => {
     return (
         <div className="document-dashboard">
             <Sidebar />
-
             <div className="main-content">
                 <header className="header">
                     <h2>File Number: {fileId} Case Number: {caseId}</h2>
                 </header>
                 <DocTabs fileId={fileId} activeTab="summary" />
-
                 <div className="document-content">
+                    
                     <section className="file-viewer-section">
-                        <iframe
-                            src={selectedFile}
-                            title="File Viewer"
-                            width="100%"
-                            height="100%"
-                            frameBorder="0"
-                        ></iframe>
+                        <FileViewer fileUrl={fileUrl}/>
                     </section>
-                    <section className="documents-related">
-                        <nav className="tab-bar">
-                            <button
-                                className={`tab ${activeTab === 'documents' ? 'active' : ''}`}
-                                onClick={() => setActiveTab('documents')}
-                            >
-                                Documents
-                            </button>
-                        </nav>
 
-                        <article className="tab-body">
-                            {activeTab === 'documents' && (
-                                <div className="documents">{renderDocuments()}</div>
-                            )}
-                        </article>
+                    <section className='document-summary'>
+                        <p>this is where the document summary will go.</p>
                     </section>
+                    
                 </div>
             </div>
         </div>
