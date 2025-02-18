@@ -7,7 +7,7 @@ import DocTabs from '../components/DocTabs';
 import FileViewer from '../components/FileViewer';
 import '../styles/pages/DocumentDashboard.css';
 
-const CaseDashboard = () => {
+const DocumentDashboard = () => {
     const { caseId , fileId } = useParams();
     const [fileUrl, setFileUrl] = useState("");
     const [jsonData, setJsonData] = useState({});
@@ -67,4 +67,4 @@ const CaseDashboard = () => {
     );
 };
 
-export default CaseDashboard;
+export default DocumentDashboard;
