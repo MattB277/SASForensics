@@ -18,7 +18,7 @@ const CaseDashboard = () => {
         const fetchAnalysis = async () => {
             //try to get analysis through file id
             try{
-                const response = await axios.get(`http://localhost:8000/api/api/get-analysis/${fileId}/`);
+                const response = await axios.get(`/api/get-analysis/${fileId}/`);
                 setFileUrl(response.data.file_url);
                 setJsonData(response.data.json_data);
                 setLoading(false);
