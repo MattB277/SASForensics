@@ -29,13 +29,10 @@ function App() {
                     <Route path="/updatedcases" element={<UpdatedCases />} />
                     <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />
-<<<<<<< sas-forensics/frontend/src/App.js
                     <Route path="/signup" element={<CreateAccount />} />
-=======
                     <Route path="/case/:caseId/document-dashboard/:fileId" element={<DocumentDashboard />} />
                     <Route path="/review/:fileId" element={<ReviewAnalysis />} />
                     <Route path="/review-documents" element={<ReviewDocuments />} />
->>>>>>> sas-forensics/frontend/src/App.js
                 </Routes>
             </div>
         </Router>
