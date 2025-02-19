@@ -26,6 +26,9 @@ function LoginPage() {
     }
   };
 
+  const handleSignUp = () => {
+    navigate('/signup')};
+
   return (
     <div className="login-page">
       <div className="login-container">
@@ -45,10 +48,14 @@ function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           className="input-field"
         />
+        <div className="button-container">
         <button onClick={handleSignIn} className="sign-in-button">
           Sign In
         </button>
-        <button className="forgot-password-button">Forgot Password?</button>
+        <button onClick={handleSignUp} className="sign-up-button">
+          Sign Up
+        </button>
+        </div>
       </div>
     </div>
   );
