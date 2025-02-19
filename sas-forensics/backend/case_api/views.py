@@ -1,3 +1,4 @@
+import json
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
@@ -14,6 +15,9 @@ from .serializers import (
     DocChangelogSerializer, UserCaseAccessRecordSerializer, UserSerializer
 )
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from rest_framework.authtoken.models import Token
+from django.views.decorators.csrf import csrf_exempt
 import json
 
 class ReactAppView(TemplateView):
@@ -97,6 +101,18 @@ def upload_file(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def login_view(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({'token': token.key}, status=status.HTTP_200_OK)
+    else:
+        return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['GET'])
 def get_analysis(request, pk):
@@ -195,6 +211,30 @@ class CaseViewSet(viewsets.ModelViewSet):
             status=status.HTTP_200_OK,
         )
 
+@csrf_exempt    
+def register_user(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            username = data.get("username")
+            email = data.get("email")
+            password = data.get("password")
+
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({"error": "Username already taken"}, status=400)
+
+            if User.objects.filter(email=email).exists():
+                return JsonResponse({"error": "Email already registered"}, status=400)
+
+            user = User.objects.create_user(username=username, email=email, password=password)
+            user.save()
+
+            return JsonResponse({"message": "User registered successfully"}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid request format"}, status=400)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+
 
 class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()
@@ -241,3 +281,6 @@ class CaseListCreateView(generics.ListCreateAPIView):
 class CaseListView(ListAPIView):
     queryset = Case.objects.all()
     serializer_class = CaseSerializer
+
+
+
