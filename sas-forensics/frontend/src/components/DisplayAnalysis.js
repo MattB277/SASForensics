@@ -61,7 +61,7 @@ const DisplayAnalysis = ({ jsonData, keysToDisplay, reviewed }) => {
   return (
     <div className="display-analysis">
       <p className="disclaimer">
-        Disclaimer: This content is AI-generated and may require review.
+        Disclaimer: This content is AI-generated.
       </p>
       {keys.map((key) => {
         const value = jsonData[key];
