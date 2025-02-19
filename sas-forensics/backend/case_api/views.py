@@ -15,7 +15,6 @@ from .serializers import (
     DocChangelogSerializer, UserCaseAccessRecordSerializer, UserSerializer
 )
 from django.contrib.auth.models import User
-<<<<<<< sas-forensics/backend/case_api/views.py
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
