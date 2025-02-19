@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from '../utils/axiosConfig'; 
 import '../styles/pages/LoginPage.css';
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null); 
   const navigate = useNavigate();
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     console.log('Sign In Clicked', { username, password });
-    navigate('/');
+    try {
+      const response = await axios.post('/login/', {
+        username,
+        password,
+      });
+
+      const { token } = response.data;
+      localStorage.setItem('token', token); 
+      navigate('/'); 
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Invalid username or password.'); 
+    }
   };
 
   return (
     <div className="login-page">
       <div className="login-container">
         <h1>Cold Case Tracking System</h1>
+        {error && <div className="error-message">{error}</div>} {/* Display error message */}
         <input
           type="text"
           placeholder="Username"

@@ -2,6 +2,7 @@ import random
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from case_api.models import Case, File, CaseChangelog
+from django.contrib.auth.hashers import make_password
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
@@ -12,8 +13,11 @@ class Command(BaseCommand):
             email = f"officer{i}@policescotland.uk"
             user, created = User.objects.get_or_create(
                 username=username,
-                defaults={"email": email, "password": "securepassword"}
+                defaults={"email": email}
             )
+            if created:  
+                user.password = make_password("securepassword" + str(i))  # Hash the password
+                user.save()
             users.append(user)
 
         # Create cases and explicitly track their case numbers
