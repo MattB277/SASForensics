@@ -1,4 +1,7 @@
+<<<<<<< sas-forensics/backend/case_api/views.py
 import json
+=======
+>>>>>>> sas-forensics/backend/case_api/views.py
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
@@ -9,16 +12,17 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Case, File, CaseChangelog, DocChangelog, UserCaseAccessRecord
+from .models import Case, File, CaseChangelog, DocChangelog, UserCaseAccessRecord, AnalysedDocs
 from .serializers import (
     CaseSerializer, FileSerializer, CaseChangelogSerializer,
     DocChangelogSerializer, UserCaseAccessRecordSerializer, UserSerializer
 )
 from django.contrib.auth.models import User
+<<<<<<< sas-forensics/backend/case_api/views.py
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
-
+import json
 
 class ReactAppView(TemplateView):
     template_name = "react/build/index.html"
@@ -59,6 +63,25 @@ class UpdatedCasesView(APIView):
 
 
 @api_view(['GET'])
+def documents_to_review(request):
+    """Get document with analysis assigned to reviewer"""
+    user = request.user
+
+    cases = Case.objects.filter(reviewers__in=[user])
+
+    files = File.objects.filter(case_id__in=cases).order_by("case_id", "uploaded_at")
+
+    document_list = [
+        {
+            "file_id": file.file_id,
+            "file_name": file.display_name,
+            "case_id": file.case_id.case_number if file.case_id else "Unknown",
+            "uploaded_at": file.uploaded_at.strftime("%Y-%m-%d %H:%M:%S"),
+        } for file in files]
+    
+    return Response(document_list, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
 def list_files(request):
     files = File.objects.all()
     serializer = FileSerializer(files, many=True)
@@ -94,6 +117,49 @@ def login_view(request):
         return Response({'token': token.key}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+@api_view(['GET'])
+def get_analysis(request, pk):
+    """Gets JSON analysis file and file URL for a given file object."""
+    file_obj = get_object_or_404(File, pk=pk)
+
+    try:
+        analysed_doc = file_obj.analysed_document # access analysed document through reference name set in AnalysedDocs
+        with open(analysed_doc.JSON_file, 'r') as f:
+            json_data = json.load(f)
+        
+        return Response({
+            "file_url" : request.build_absolute_uri(file_obj.file.url),     # uri for original file
+            "json_data": json_data,                                         # read JSON data
+            "reviewed": analysed_doc.reviewed                               # reviewed flag
+        })
+    except AnalysedDocs.DoesNotExist:
+        return Response({"error": "Analysis not found"}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['PUT'])
+def update_analysis(request, pk):
+    """Update JSON analysis if there are changes, and mark it as reviewed."""
+    file_obj = get_object_or_404(File, pk = pk)
+    try:
+        analysed_doc = file_obj.analysed_document
+        json_data = request.data.get('json_data', None)
+        reviewed = request.data.get('reviewed', None)
+
+        # save updated JSON if provided
+        if json_data is not None:
+            with open(analysed_doc.JSON_file, 'w') as f:
+                json.dump(json_data, f, indent=4)
+
+        # mark analysis as reviewed
+        if reviewed is not None:    # only update if react component passes reviewed flag in request
+            analysed_doc.reviewed = reviewed
+            analysed_doc.save()
+
+        return Response({"message": "Analysis updated Successfully"})
+    except AnalysedDocs.DoesNotExist:
+        return Response({"error": "Analysis not found"}, status=status.HTTP_404_NOT_FOUND)
+
 
 def serve_file(request, pk):
     file_obj = get_object_or_404(File, pk=pk)

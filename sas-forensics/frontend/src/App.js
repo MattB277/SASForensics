@@ -8,7 +8,13 @@ import CaseDashboard from './pages/CaseDashboard';
 import ManageCase from './pages/ManageCase';
 import UpdatedCases from './pages/UpdatedCases';
 import CaseChangeLog from './pages/CaseChangeLog';
+<<<<<<< sas-forensics/frontend/src/App.js
+=======
 import CreateAccount from './pages/CreateAccount';
+import ReviewAnalysis from './pages/ReviewAnalysis';
+import ReviewDocuments from './pages/ReviewDocuments';
+import DocumentDashboard from './pages/DocumentDashboard';
+>>>>>>> sas-forensics/frontend/src/App.js
 
 function App() {
     return (
@@ -26,7 +32,13 @@ function App() {
                     <Route path="/updatedcases" element={<UpdatedCases />} />
                     <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />
+<<<<<<< sas-forensics/frontend/src/App.js
                     <Route path="/signup" element={<CreateAccount />} />
+=======
+                    <Route path="/case/:caseId/document-dashboard/:fileId" element={<DocumentDashboard />} />
+                    <Route path="/review/:fileId" element={<ReviewAnalysis />} />
+                    <Route path="/review-documents" element={<ReviewDocuments />} />
+>>>>>>> sas-forensics/frontend/src/App.js
                 </Routes>
             </div>
         </Router>

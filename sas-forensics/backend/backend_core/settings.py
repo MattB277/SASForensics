@@ -65,6 +65,8 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
+X_FRAME_OPTIONS = 'ALLOWALL'    # Required for documents to load.
+
 ROOT_URLCONF = "backend_core.urls"
 
 TEMPLATES = [

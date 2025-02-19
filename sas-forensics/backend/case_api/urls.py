@@ -16,8 +16,15 @@ from .views import (
     CaseChangeLogView,
     upload_file, 
     list_files,
+<<<<<<< sas-forensics/backend/case_api/urls.py
+=======
+    serve_file,
+    get_analysis,
+    update_analysis,
+    documents_to_review,
     login_view, 
     register_user,
+>>>>>>> sas-forensics/backend/case_api/urls.py
 )
 
 router = DefaultRouter()
@@ -40,6 +47,9 @@ urlpatterns = [
     path('files/<int:pk>/', views.serve_file, name='serve_file'),
     path('cases/<int:case_id>/change-log/', CaseChangeLogView.as_view(), name='case-change-log'),
     path('api/cases/<int:case_id>/change-log/', CaseChangeLogView.as_view(), name='case-change-log'),
+    path('api/get-analysis/<int:pk>/', get_analysis, name='get_analysis'),
+    path('api/update-analysis/<int:pk>/', update_analysis, name='update_analysis'),
+    path('api/documents-to-review/', documents_to_review, name='documents_to_review'),
     path('api/', include(router.urls)), 
     path('login/', login_view, name='login'),
     path('signup/', register_user, name = 'sign_up'),
