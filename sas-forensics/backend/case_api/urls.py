@@ -16,15 +16,12 @@ from .views import (
     CaseChangeLogView,
     upload_file, 
     list_files,
-<<<<<<< sas-forensics/backend/case_api/urls.py
-=======
     serve_file,
     get_analysis,
     update_analysis,
     documents_to_review,
     login_view, 
     register_user,
->>>>>>> sas-forensics/backend/case_api/urls.py
 )
 
 router = DefaultRouter()
