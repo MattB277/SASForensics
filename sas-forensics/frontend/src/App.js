@@ -8,6 +8,7 @@ import CaseDashboard from './pages/CaseDashboard';
 import ManageCase from './pages/ManageCase';
 import UpdatedCases from './pages/UpdatedCases';
 import CaseChangeLog from './pages/CaseChangeLog';
+import CreateAccount from './pages/CreateAccount';
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                     <Route path="/updatedcases" element={<UpdatedCases />} />
                     <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />
+                    <Route path="/signup" element={<CreateAccount />} />
                 </Routes>
             </div>
         </Router>
