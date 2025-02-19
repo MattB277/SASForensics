@@ -8,13 +8,10 @@ import CaseDashboard from './pages/CaseDashboard';
 import ManageCase from './pages/ManageCase';
 import UpdatedCases from './pages/UpdatedCases';
 import CaseChangeLog from './pages/CaseChangeLog';
-<<<<<<< sas-forensics/frontend/src/App.js
-=======
 import CreateAccount from './pages/CreateAccount';
 import ReviewAnalysis from './pages/ReviewAnalysis';
 import ReviewDocuments from './pages/ReviewDocuments';
 import DocumentDashboard from './pages/DocumentDashboard';
->>>>>>> sas-forensics/frontend/src/App.js
 
 function App() {
     return (
