@@ -5,6 +5,7 @@ import Sidebar from '../components/common/Sidebar';
 import axios from '../utils/axiosConfig';
 import DocTabs from '../components/DocTabs';
 import FileViewer from '../components/FileViewer';
+import DisplayAnalysis from '../components/DisplayAnalysis';
 import '../styles/pages/DocumentDashboard.css';
 
 const DocumentDashboard = () => {
@@ -50,15 +51,7 @@ const DocumentDashboard = () => {
                     </section>
 
                     <section className='document-summary-section'>
-                        <h2><u>AI Generated Summary</u></h2>
-                        <br/>
-                        {Object.keys(jsonData).length === 0 ? (
-                            <p style={{ color: "red" }}>Error: No analysis found for this document!</p>
-                                ) : !reviewed ? (
-                            <p style={{ color: "orange" }}>This document is waiting for review.</p>
-                                ) : (
-                            <p style={{ wordWrap: "break-word", whiteSpace: "pre-line" }}>{jsonData.summary.replace(/\. /g, ".\n")}</p>
-                        )}
+                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={"all"}/>
                     </section>
 
                 </div>
