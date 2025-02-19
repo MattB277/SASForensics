@@ -1,9 +1,10 @@
 # AI Document Analysis Utils
+
 import pymupdf, boto3, os
 from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PastDatetime
 
 # Structured Output Pydantic model
 class AnalysisOutput(BaseModel):
@@ -15,12 +16,14 @@ class AnalysisOutput(BaseModel):
     class Event(BaseModel):
         event_type: str = Field(description="What type of event is it?")
         details: str = Field(description="What happened in this event?")
+        time_of_event: str = Field(description="The datetime of the event") 
     class Evidence(BaseModel):
         item_number: str = Field(description="The item number specified for this peice of evidence")
         description: List[str] = Field(description="The descriptions of the peice of evidence")
 
     # top level data containers/variables
     case_number: str = Field(description="the case number stated on the document")
+    date_on_document: str = Field(description="The date of the document, sometimes stated under Date of report")
     document_type: str = Field(description="What type of document it is, Interview, Forensic report etc")
     summary: str = Field(description="A three sentence long description of the document.")
     conclusion: Optional[str] = Field(description="A short conclusion highlighting any findings made in the document.")

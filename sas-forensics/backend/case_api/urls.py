@@ -19,7 +19,9 @@ from .views import (
     serve_file,
     get_analysis,
     update_analysis,
-    documents_to_review
+    documents_to_review,
+    login_view, 
+    register_user,
 )
 
 router = DefaultRouter()
@@ -46,4 +48,6 @@ urlpatterns = [
     path('api/update-analysis/<int:pk>/', update_analysis, name='update_analysis'),
     path('api/documents-to-review/', documents_to_review, name='documents_to_review'),
     path('api/', include(router.urls)), 
+    path('login/', login_view, name='login'),
+    path('signup/', register_user, name = 'sign_up'),
 ]

@@ -1,9 +1,18 @@
 import React from "react";
 import '../../styles/components/Sidebar.css';
 import logo from '../../assets/policelogo.png';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar() {
+    const isLoggedIn = !!localStorage.getItem('token');
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    };
+
+    // Static menu items that always appear
     const menuItems = [
         { path: "/", label: "Dashboard" },
         { path: "/mycases", label: "My Cases" },
@@ -23,6 +32,14 @@ function Sidebar() {
                         {item.label}
                     </Link>
                 ))}
+                {isLoggedIn ? (
+                    <>
+                        <Link to="/account" className="menu-button">My Account</Link>
+                        <button onClick={handleLogout} className="menu-button">Logout</button>
+                    </>
+                ) : (
+                    <Link to="/login" className="menu-button">Login</Link>
+                )}
             </div>
         </div>
     );
