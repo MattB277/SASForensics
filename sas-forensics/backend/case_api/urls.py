@@ -16,7 +16,8 @@ from .views import (
     CaseChangeLogView,
     upload_file, 
     list_files,
-    login_view 
+    login_view, 
+    register_user,
 )
 
 router = DefaultRouter()
@@ -41,4 +42,5 @@ urlpatterns = [
     path('api/cases/<int:case_id>/change-log/', CaseChangeLogView.as_view(), name='case-change-log'),
     path('api/', include(router.urls)), 
     path('login/', login_view, name='login'),
+    path('signup/', register_user, name = 'sign_up'),
 ]
