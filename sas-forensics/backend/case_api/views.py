@@ -1,7 +1,4 @@
-<<<<<<< sas-forensics/backend/case_api/views.py
 import json
-=======
->>>>>>> sas-forensics/backend/case_api/views.py
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
