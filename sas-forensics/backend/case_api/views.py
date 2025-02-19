@@ -1,4 +1,5 @@
-from django.http import FileResponse
+import json
+from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 from rest_framework import status, viewsets, generics
@@ -14,6 +15,7 @@ from .serializers import (
     DocChangelogSerializer, UserCaseAccessRecordSerializer, UserSerializer
 )
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 
 
 class ReactAppView(TemplateView):
@@ -133,6 +135,30 @@ class CaseViewSet(viewsets.ModelViewSet):
             status=status.HTTP_200_OK,
         )
 
+@csrf_exempt    
+def register_user(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            username = data.get("username")
+            email = data.get("email")
+            password = data.get("password")
+
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({"error": "Username already taken"}, status=400)
+
+            if User.objects.filter(email=email).exists():
+                return JsonResponse({"error": "Email already registered"}, status=400)
+
+            user = User.objects.create_user(username=username, email=email, password=password)
+            user.save()
+
+            return JsonResponse({"message": "User registered successfully"}, status=201)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid request format"}, status=400)
+
+    return JsonResponse({"error": "Invalid request method"}, status=405)
+
 
 class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()
@@ -179,3 +205,6 @@ class CaseListCreateView(generics.ListCreateAPIView):
 class CaseListView(ListAPIView):
     queryset = Case.objects.all()
     serializer_class = CaseSerializer
+
+
+
