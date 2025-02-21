@@ -53,8 +53,8 @@ const ReviewDocuments = () => {
                         filteredDocuments.map((doc) => (
                             <li key={doc.file_id} style={{ marginBottom: "10px" }}>
                                 <Link to={`/review/${doc.file_id}`}>
-                                    {doc.file_name} (Case: {doc.case_id})
-                                </Link> - Uploaded on {doc.uploaded_at}
+                                    {doc.file_name} <br/> {doc.case_id}
+                                </Link> <span style={{ marginLeft: "50px" }}> - Uploaded on {doc.uploaded_at}</span>
                             </li>
                         ))
                     ) : (
