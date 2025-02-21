@@ -16,14 +16,14 @@ class AnalysisOutput(BaseModel):
     class Event(BaseModel):
         event_type: str = Field(description="What type of event is it?")
         details: str = Field(description="What happened in this event?")
-        time_of_event: str = Field(description="The datetime of the event") 
+        time_of_event: str = Field(description="The datetime of the event, in the format of DD/MM/YYYY-HH:MM, exclude hours and minutes if not applicable") 
     class Evidence(BaseModel):
         item_number: str = Field(description="The item number specified for this peice of evidence")
         description: List[str] = Field(description="The descriptions of the peice of evidence")
 
     # top level data containers/variables
     case_number: str = Field(description="the case number stated on the document")
-    date_on_document: str = Field(description="The date of the document, sometimes stated under Date of report")
+    date_on_document: str = Field(description="The date of the document, sometimes stated under Date of report, in the format DD/MM/YYYY")
     document_type: str = Field(description="What type of document it is, Interview, Forensic report etc")
     summary: str = Field(description="A three sentence long description of the document.")
     conclusion: Optional[str] = Field(description="A short conclusion highlighting any findings made in the document.")
