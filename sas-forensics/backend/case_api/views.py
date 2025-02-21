@@ -61,16 +61,15 @@ class UpdatedCasesView(APIView):
 @api_view(['GET'])
 def documents_to_review(request):
     """Get document with analysis assigned to reviewer"""
-    user = request.user
-
-    cases = Case.objects.filter(reviewers__in=[user])
-
-    files = File.objects.filter(case_id__in=cases).order_by("case_id", "uploaded_at")
+    #user = request.user
+    #cases = Case.objects.filter(reviewers__in=[user])
+    #files = File.objects.filter(case_id__in=cases).order_by("case_id", "uploaded_at")
+    files = File.objects.all().order_by("case_id", "uploaded_at")
 
     document_list = [
         {
             "file_id": file.file_id,
-            "file_name": file.display_name,
+            "file_name": file.display_name(),
             "case_id": file.case_id.case_number if file.case_id else "Unknown",
             "uploaded_at": file.uploaded_at.strftime("%Y-%m-%d %H:%M:%S"),
         } for file in files]
