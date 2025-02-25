@@ -74,6 +74,9 @@ class File(models.Model):
 
     def __str__(self):
         return self.file.name
+    
+    def display_name(self):
+        return self.file.name.split("/")[-1]
 
     def file_extension(self):
         return self.file.name.split('.')[-1].lower()
@@ -103,6 +106,7 @@ class AnalysedDocs(models.Model):
     file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="analysed_document")
     JSON_file = models.FilePathField(blank=False)
     case_number = models.CharField(max_length=20, blank=True)
+    reviewed = models.BooleanField(default=False)
 
 class View(models.Model):
     title = models.CharField(max_length=120)

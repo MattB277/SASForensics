@@ -1,0 +1,19 @@
+Requirements:
+- Have Virtual environment with all packages from requirements.txt
+    - pip install -r requirements.txt
+- Have react installed
+    - npm install
+
+How to run: 
+ - Start virtual environment
+    <name_of_env>\Scripts\activate
+ - Make migrations
+    python manage.py makemigrations
+    python manage.py migrate
+ - Run population Scripts
+    python manage.py populate_test_data
+ - cd to frontend
+    -npm start
+
+
+    
