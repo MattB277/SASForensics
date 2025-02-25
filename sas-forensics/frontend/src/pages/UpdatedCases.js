@@ -8,6 +8,8 @@ import connectionIcon from '../assets/connection.png';
 import commentIcon from '../assets/comment.png';
 import casesIcon from '../assets/cases-icon.png';
 
+import { Link } from 'react-router-dom';
+
 const UpdatedCases = () => {
     const [newEvidence, setNewEvidence] = useState([]);
     const [newComments, setNewComments] = useState([]);
@@ -39,6 +41,7 @@ const UpdatedCases = () => {
             item &&
             item.change_date &&
             item.case_id && (
+                <Link to={`/case-dashboard/${item.case_id}`} key={item.case_id} className="case-item-link"> 
                 <div key={item.case_id} className="case-item">
                     <div className="icon">
                         <img src={icon} alt={`${label} Icon`} />
@@ -49,6 +52,7 @@ const UpdatedCases = () => {
                         <p>at {item.change_date.split('T')[0]}</p>
                     </div>
                 </div>
+                </Link>
             )
         );
     };
@@ -57,6 +61,7 @@ const UpdatedCases = () => {
         return (
             Array.isArray(changes) &&
             changes.length > 0 && (
+                <Link to={`/case-dashboard/${caseId}`} key={caseId} className="case-item-link"> 
                 <div key={caseId} className="case-item">
                     <div className="icon">
                         <img src={casesIcon} alt="Cases Icon" />
@@ -67,6 +72,7 @@ const UpdatedCases = () => {
                         <p>Last change at {changes[0].change_date.split('T')[0]}</p>
                     </div>
                 </div>
+                </Link>
             )
         );
     };

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'django_filters',
     "rest_framework",
+    'rest_framework.authtoken',
     "case_api",
     "corsheaders",
 ]
@@ -63,6 +64,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "corsheaders.middleware.CorsMiddleware",
 ]
+
+X_FRAME_OPTIONS = 'ALLOWALL'    # Required for documents to load.
 
 ROOT_URLCONF = "backend_core.urls"
 
