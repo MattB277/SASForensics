@@ -16,7 +16,7 @@
   "scripts": {
     "start": "concurrently \"npm run start-react\" \"npm run start-django\"",
     "start-react": "react-scripts start",
-    "start-django": "cd backend && python manage.py runserver 0.0.0.0:8000",
+    "start-django": "cd ../backend && python manage.py runserver 0.0.0.0:8000",
     "build": "react-scripts build"
   },
   "eslintConfig": {

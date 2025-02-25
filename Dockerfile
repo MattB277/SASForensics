@@ -11,13 +11,13 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Set the working directory for the container
-WORKDIR /app
+WORKDIR /app/backend
 
 # Copy the backend code into the container
-COPY sas-forensics/backend/ /app/backend/
+COPY ./sas-forensics/backend/ /app/backend/
 
 # Set the working directory for the backend
-WORKDIR /app/backend
+# WORKDIR /backend
 
 # Install the Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
