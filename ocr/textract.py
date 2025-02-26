@@ -7,7 +7,7 @@ s3 = boto3.client("s3")
 def ocr(file_name, bucket_name = "2833791"):
 
     # Upload file to S3
-    s3.upload_file(file_name, bucket_name, file_name)
+    # s3.upload_file(file_name, bucket_name, file_name)
 
     textract = boto3.client("textract")
 
