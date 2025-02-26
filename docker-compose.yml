@@ -1,0 +1,14 @@
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+     - ./sas-forensics:/app
+    ports:
+      - "8000:8000"  # Django backend
+      - "3000:3000"  # React frontend
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: ["npm", "start"]
