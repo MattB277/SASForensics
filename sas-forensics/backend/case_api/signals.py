@@ -20,6 +20,7 @@ def analyse_upload(sender, instance, created, **kwargs):
                 return
             case "png": # placeholder until logic implemented
                 extracted_text = ocr(instance.file.name,True)
+                # print(extracted_text)
                 return
             case _: # default value
                 print("Datatype not supported!")
