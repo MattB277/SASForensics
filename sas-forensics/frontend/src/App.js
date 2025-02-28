@@ -13,6 +13,7 @@ import ReviewAnalysis from './pages/ReviewAnalysis';
 import ReviewDocuments from './pages/ReviewDocuments';
 import DocumentDashboard from './pages/DocumentDashboard';
 import CaseTimeline from './pages/CaseTimeline';
+import DocumentAnalysis from './pages/DocumentAnalysis';
 
 function App() {
     return (
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />
                     <Route path="/signup" element={<CreateAccount />} />
                     <Route path="/case/:caseId/document-dashboard/:fileId" element={<DocumentDashboard />} />
+                    <Route path="/case/:caseId/document-analysis/:fileId" element={<DocumentAnalysis />} />
                     <Route path="/cases/:caseId/timeline" element={<CaseTimeline />} />
                     <Route path="/review/:fileId" element={<ReviewAnalysis />} />
                     <Route path="/review-documents" element={<ReviewDocuments />} />
