@@ -5,6 +5,8 @@ from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI
 from typing import List, Optional
 from pydantic import BaseModel, Field, PastDatetime
+import boto3
+from backend_core.settings import MEDIA_ROOT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
 # Structured Output Pydantic model
 class AnalysisOutput(BaseModel):
@@ -109,3 +111,22 @@ def upload_to_based_on_type(instance, filename):
         return f"{subdir}/{base_filename}.{ext}"
     else:
         return f"others/{base_filename}.{ext}"
+    
+
+
+def ocr(file_name, upload = False, bucket_name = "textract-sasforensics"):
+
+    # Upload file to S3
+    if upload:        
+        s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+        s3.upload_file(os.path.join(MEDIA_ROOT, file_name), bucket_name, file_name)
+
+    textract = boto3.client("textract", region_name="eu-west-1")
+
+    response = textract.detect_document_text(
+        Document={"S3Object": {"Bucket": bucket_name, "Name": file_name}}
+    )
+
+    # Extract and print text
+    text = "\n".join([block["Text"] for block in response["Blocks"] if block["BlockType"] == "LINE"])
+    return text

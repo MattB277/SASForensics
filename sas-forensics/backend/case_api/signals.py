@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import File, AnalysedDocs
-from .utils import analyseTextIntoJSON, getPDFtext, openTXT
+from .utils import analyseTextIntoJSON, getPDFtext, openTXT, ocr
 import os, json
 from backend_core.settings import MEDIA_ROOT
 
@@ -19,6 +19,8 @@ def analyse_upload(sender, instance, created, **kwargs):
                 print("Docx analysis not implemented yet!")
                 return
             case "png": # placeholder until logic implemented
+                extracted_text = ocr(instance.file.name,True)
+                # print(extracted_text)
                 return
             case _: # default value
                 print("Datatype not supported!")
