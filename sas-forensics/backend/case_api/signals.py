@@ -1,5 +1,7 @@
+import io
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.files.base import ContentFile
 from .models import File, AnalysedDocs
 from .utils import analyseTextIntoJSON, getPDFtext, openTXT, ocr
 import os, json
@@ -25,27 +27,19 @@ def analyse_upload(sender, instance, created, **kwargs):
             case _: # default value
                 print("Datatype not supported!")
                 return 
+        print("analysing ", instance.file)
+        analysis_output = analyseTextIntoJSON(extracted_text)
+        json_data = analysis_output.model_dump_json()  # Convert JSON to string
 
-        # configure new JSON file
-        json_filename = os.path.splitext(os.path.basename(instance.file.name))[0] + ".json" # same name as original file
-        json_path = os.path.join(MEDIA_ROOT , "json", json_filename)
+        # Store JSON in memory
+        json_bytes_io = io.BytesIO(json_data.encode("utf-8"))
+        json_file = ContentFile(json_bytes_io.getvalue(), name=f"{os.path.splitext(os.path.basename(instance.file.name))[0]}.json")
 
-        # create json dir if it does not exist
-        if not (os.path.exists(os.path.join(MEDIA_ROOT, 'json'))):
-            os.makedirs(os.path.join(MEDIA_ROOT, 'json'))
-
-        # check if analysis exists before analysing
-        if not os.path.exists(json_path):
-            # analyse text
-            analysis_output = analyseTextIntoJSON(extracted_text)
-            # write JSON file to disk
-            with open(json_path, "w", encoding="utf-8") as json_file:
-                json_file.write(analysis_output.model_dump_json())
-
-        # create database record 
+        # Create database record with in-memory file
         AnalysedDocs.objects.create(
-            file_id = instance, 
-            JSON_file = json_path,
-            case_number = instance.case_id.case_number if instance.case_id else "",
-            reviewed = False
+            file_id=instance,
+            JSON_file=json_file,  # Pass in-memory file to be written to disk
+            case_number=instance.case_id.case_number if instance.case_id else "",
+            reviewed=False
         )
+        print(f"Analysis saved to: {os.path.splitext(os.path.basename(instance.file.name))[0]}.json")
