@@ -120,7 +120,7 @@ def get_analysis(request, pk):
 
     try:
         analysed_doc = file_obj.analysed_document # access analysed document through reference name set in AnalysedDocs
-        with open(analysed_doc.JSON_file, 'r') as f:
+        with analysed_doc.JSON_file.open('r') as f:
             json_data = json.load(f)
         
         return Response({
@@ -143,7 +143,7 @@ def update_analysis(request, pk):
 
         # save updated JSON if provided
         if json_data is not None:
-            with open(analysed_doc.JSON_file, 'w') as f:
+            with analysed_doc.JSON_file.open('w') as f:
                 json.dump(json_data, f, indent=4)
 
         # mark analysis as reviewed
