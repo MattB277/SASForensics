@@ -116,21 +116,6 @@ class AnalysedDocs(models.Model):
     case_number = models.CharField(max_length=20, blank=True)
     reviewed = models.BooleanField(default=False)
 
-    def save(self, *args, **kwargs):
-        # If replacing an existing file, make the "new" file have the same name as the "old" file
-        if self.pk:
-            try:
-                old_instance = AnalysedDocs.objects.get(pk=self.pk)
-                if old_instance.JSON_file:
-                    # Preserve old filename
-                    self.JSON_file.name = old_instance.JSON_file.name
-                    # Delete old file before saving new one
-                    old_instance.JSON_file.delete(save=False)
-            except AnalysedDocs.DoesNotExist:
-                pass  # No previous instance, nothing to delete
-
-        super().save(*args, **kwargs)  # Save the new file, which will have the same name as before
-
 class View(models.Model):
     title = models.CharField(max_length=120)
     description = models.TextField()

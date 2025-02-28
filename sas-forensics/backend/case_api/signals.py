@@ -28,22 +28,12 @@ def analyse_upload(sender, instance, created, **kwargs):
                 print("Datatype not supported!")
                 return 
         
-        # save original file basename (no extension)
+        # Save original file basename (no extension)
         file_basename = f"{os.path.splitext(os.path.basename(instance.file.name))[0]}.json"
 
-        # read in json if it already exists
-        json_path = os.path.join(MEDIA_ROOT, 'json', file_basename)
-        try:
-            with open(json_path, 'r') as f:
-                json_data=json.load(f)
-            print("Analysis already found, skipping")
-            json_data = json.dumps(json_data)
-        # only analyse if JSON does not exist
-        except FileNotFoundError as e:
-            print("No analysis found")
-            print("analysing ", instance.file)
-            analysis_output = analyseTextIntoJSON(extracted_text)
-            json_data = analysis_output.model_dump_json()  # Convert JSON to string
+        # Analyse document
+        analysis_output = analyseTextIntoJSON(extracted_text)
+        json_data = analysis_output.model_dump_json()  # Convert JSON to string
 
         # Store JSON in memory
         json_bytes_io = io.BytesIO(json_data.encode("utf-8"))
