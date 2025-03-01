@@ -102,19 +102,21 @@ class CaseChangelog(models.Model):
     change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
     type_of_change = models.CharField(max_length=50, choices=[("Added Evidence","Added Evidence"), ("Updated Information","Updated Information"), ("Assigned Detective", "Assigned Detective"), ("Assigned Reviewer", "Assigned Reviewer"), ("Created Connection","Created Connection"), ("Created Case", "Created Case")])
 
-class DocChangelog(models.Model):
-    change_id = models.AutoField(primary_key=True, blank=False)
-    file_id = models.ForeignKey(File, on_delete=models.CASCADE, related_name="file_changelog_record")
-    change_date = models.DateTimeField(auto_now=True)
-    change_details = models.CharField(max_length=70, blank=False)
-    change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-
 class AnalysedDocs(models.Model):
     Analysis_id = models.AutoField(primary_key=True, blank=False)
     file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="analysed_document")
     JSON_file = models.FileField(upload_to=upload_to_based_on_type)
     case_number = models.CharField(max_length=20, blank=True)
     reviewed = models.BooleanField(default=False)
+
+class DocChangelog(models.Model):
+    change_id = models.AutoField(primary_key=True, blank=False)
+    file_id = models.ForeignKey(File, on_delete=models.CASCADE, related_name="file_changelog_record")
+    analysis_id = models.ForeignKey(AnalysedDocs, on_delete=models.CASCADE, null=True, blank=True, related_name="analysis_changelog_record")
+    change_date = models.DateTimeField(auto_now=True)
+    change_details = models.CharField(max_length=70, blank=False)
+    change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    type_of_change = models.CharField(max_length=50, choices=[("File Uploaded", "File Uploaded"),("File Updated", "File Updated"),("File Deleted", "File Deleted"),("Analysis Created", "Analysis Created"),("Analysis Updated", "Analysis Updated"),("Analysis Reviewed", "Analysis Reviewed"),])
 
 class View(models.Model):
     title = models.CharField(max_length=120)
