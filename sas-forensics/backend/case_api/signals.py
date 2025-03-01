@@ -2,7 +2,7 @@ import io
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.files.base import ContentFile
-from .models import File, AnalysedDocs
+from .models import File, Case, AnalysedDocs, CaseChangelog, DocChangelog, UserCaseAccessRecord
 from .utils import analyseTextIntoJSON, getPDFtext, openTXT, ocr
 import os, json
 from backend_core.settings import MEDIA_ROOT
