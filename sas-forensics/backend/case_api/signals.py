@@ -27,13 +27,17 @@ def analyse_upload(sender, instance, created, **kwargs):
             case _: # default value
                 print("Datatype not supported!")
                 return 
-        print("analysing ", instance.file)
+        
+        # Save original file basename (no extension)
+        file_basename = f"{os.path.splitext(os.path.basename(instance.file.name))[0]}.json"
+
+        # Analyse document
         analysis_output = analyseTextIntoJSON(extracted_text)
         json_data = analysis_output.model_dump_json()  # Convert JSON to string
 
         # Store JSON in memory
         json_bytes_io = io.BytesIO(json_data.encode("utf-8"))
-        json_file = ContentFile(json_bytes_io.getvalue(), name=f"{os.path.splitext(os.path.basename(instance.file.name))[0]}.json")
+        json_file = ContentFile(json_bytes_io.getvalue(), name=file_basename)
 
         # Create database record with in-memory file
         AnalysedDocs.objects.create(
@@ -42,4 +46,4 @@ def analyse_upload(sender, instance, created, **kwargs):
             case_number=instance.case_id.case_number if instance.case_id else "",
             reviewed=False
         )
-        print(f"Analysis saved to: {os.path.splitext(os.path.basename(instance.file.name))[0]}.json")
+        print(f"Analysis saved to: {file_basename}")
