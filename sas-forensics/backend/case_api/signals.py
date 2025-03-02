@@ -133,3 +133,40 @@ def log_assigned_users_change(sender, instance, action, pk_set, **kwargs):
             change_author=None,  # If you have access to the request user, attach it here
             type_of_change=change_type
         )
+
+## Analysis Changelog signals ##
+@receiver(post_save, sender=AnalysedDocs)
+def log_analysis_changes(sender, instance, created, **kwargs):
+    change_details = getattr(instance, "_change_details", None) # only set if User changed JSON data
+    change_author = getattr(instance, "_change_author", None)
+    
+    # if no change details passed, and was created, make creation entry and return 
+    if change_details is None: 
+        if created:
+            DocChangelog.objects.create(
+            file_id = instance.file_id,
+            analysis_id=instance,
+            change_details=change_details,
+            change_author=change_author,
+            type_of_change="Analysis Created"
+            )
+    else:
+        # else if change details = Altered analysis, create changelog for changes first, then another for approval
+        if change_details == "Altered analysis":
+            DocChangelog.objects.create(
+                file_id = instance.file_id,
+                analysis_id=instance,
+                change_details=change_details,
+                change_author=change_author,
+                type_of_change="Updated Analysis"
+            )
+
+        # analysis must have been approved if not created.
+        DocChangelog.objects.create(
+            file_id = instance.file_id,
+            analysis_id=instance,
+            change_details=change_details,
+            change_author=change_author,
+            type_of_change="Analysis Reviewed"
+        )
+
