@@ -96,7 +96,15 @@ def upload_file(request):
 
     serializer = FileSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(case_id=case)
+        file_obj = serializer.save(case_id=case)
+
+        # attach metadata for changelog record
+        uploaded_file_name = file_obj.display_name()
+        user = request.user if request.user.is_authenticated else None # only show user if they are logged in, else anonymous user was used
+        setattr(file_obj, "_change_details", f"Added file {uploaded_file_name}")
+        setattr(file_obj, "_change_author", user)
+        file_obj.save()
+        
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

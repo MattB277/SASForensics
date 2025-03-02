@@ -1,12 +1,13 @@
 import io
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete, m2m_changed, pre_delete
 from django.dispatch import receiver
 from django.core.files.base import ContentFile
-from .models import File, Case, AnalysedDocs, CaseChangelog, DocChangelog, UserCaseAccessRecord
+from .models import File, Case, AnalysedDocs, CaseChangelog, DocChangelog, UserCaseAccessRecord, User
 from .utils import analyseTextIntoJSON, getPDFtext, openTXT, ocr
 import os, json
 from backend_core.settings import MEDIA_ROOT
 
+### Document Analysis ### 
 @receiver(post_save, sender=File)
 def analyse_upload(sender, instance, created, **kwargs):
     if created: # only analyse newly uploaded documents
@@ -33,10 +34,12 @@ def analyse_upload(sender, instance, created, **kwargs):
             # open existing json file
             json_filename = os.path.splitext(os.path.basename(instance.file.name))[0] + ".json"
             json_path = os.path.join(MEDIA_ROOT, "json", json_filename)
+            
             # save its contents
             with open(json_path, 'r', encoding='utf-8') as f:
                 json_data = json.load(f)
             print("Found existing json analysis, saved contents to memory")
+
             # delete the file
             os.remove(json_path)
             print("Removed existing json file")
@@ -62,3 +65,71 @@ def analyse_upload(sender, instance, created, **kwargs):
             )
             print(f"Analysis saved to: {os.path.splitext(os.path.basename(instance.file.name))[0]}.json")
         
+
+
+### Changelog signals ###
+
+## Case changelog signals ##
+# Update Case changelog upon file upload/change
+@receiver(post_save, sender=File)
+def log_file_upload(sender, instance, created, **kwargs):
+    if not instance.case_id:
+        return
+
+    # Get extra change details from the instance, if set
+    change_details = getattr(instance, "_change_details", None)
+    change_author = getattr(instance, "_change_author", None)
+
+    # default messages if no metadata is found.
+    if change_details is None:
+        change_details = f"File {instance.display_name()} updated."
+    if created:
+        change_details = f"File {instance.display_name()} uploaded."
+    
+    CaseChangelog.objects.create(
+        case_id = instance.case_id,
+        change_details=change_details,
+        change_author=change_author,
+        type_of_change="Added Evidence" if created else "Updated Information"
+    )
+
+    # clean up metadata
+    if hasattr(instance, "_change_details"):
+        delattr(instance, "_change_details")
+    if hasattr(instance, "_change_author"):
+        delattr(instance, "_change_author")
+
+#Log file deletion in Case changelog
+@receiver(pre_delete, sender=File)
+def log_file_deletion(sender, instance, **kwargs):
+    if instance.case_id:
+        CaseChangelog.objects.create(
+            case_id = instance.case_id,
+            change_details=f"File {instance.display_name()} deleted.",
+            change_author=None,
+            type_of_change="Removed Evidence"
+        )
+
+# log changes to assigned users
+@receiver(m2m_changed, sender=Case.assigned_users.through)
+def log_assigned_users_change(sender, instance, action, pk_set, **kwargs):
+    if action in ["post_add", "post_remove"]:
+        # Get the user objects from the provided primary keys
+        users = User.objects.filter(pk__in=pk_set)
+        user_names = ", ".join(user.username for user in users)
+
+        # Determine the type of change and details based on the action
+        if action == "post_add":
+            change_details = f"Added user(s): {user_names} to {instance.case_number}."
+            change_type = "Assigned Detective"  # or use a different type if needed
+        else:  # "post_remove"
+            change_details = f"Removed user(s): {user_names} from {instance.case_number}."
+            change_type = "Updated Information"  # Or define a specific type for removal if desired
+
+        # Create a changelog entry
+        CaseChangelog.objects.create(
+            case_id=instance,
+            change_details=change_details,
+            change_author=None,  # If you have access to the request user, attach it here
+            type_of_change=change_type
+        )

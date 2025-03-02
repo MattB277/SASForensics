@@ -100,7 +100,7 @@ class CaseChangelog(models.Model):
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
     change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    type_of_change = models.CharField(max_length=50, choices=[("Added Evidence","Added Evidence"), ("Updated Information","Updated Information"), ("Assigned Detective", "Assigned Detective"), ("Assigned Reviewer", "Assigned Reviewer"), ("Created Connection","Created Connection"), ("Created Case", "Created Case")])
+    type_of_change = models.CharField(max_length=50, choices=[("Added Evidence","Added Evidence"), ("Removed Evidence","Removed Evidence"), ("Updated Information","Updated Information"), ("Assigned Detective", "Assigned Detective"), ("Assigned Reviewer", "Assigned Reviewer"), ("Created Connection","Created Connection"), ("Created Case", "Created Case")])
 
 class AnalysedDocs(models.Model):
     Analysis_id = models.AutoField(primary_key=True, blank=False)
