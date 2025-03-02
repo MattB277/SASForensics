@@ -130,7 +130,7 @@ def log_assigned_users_change(sender, instance, action, pk_set, **kwargs):
         CaseChangelog.objects.create(
             case_id=instance,
             change_details=change_details,
-            change_author=None,  # If you have access to the request user, attach it here
+            change_author=None,
             type_of_change=change_type
         )
 
@@ -151,7 +151,9 @@ def log_analysis_changes(sender, instance, created, **kwargs):
             type_of_change="Analysis Created"
             )
     else:
+        """ updating analysis currently broken due to library!"""
         # else if change details = Altered analysis, create changelog for changes first, then another for approval
+        """
         if change_details == "Altered analysis":
             DocChangelog.objects.create(
                 file_id = instance.file_id,
@@ -160,6 +162,7 @@ def log_analysis_changes(sender, instance, created, **kwargs):
                 change_author=change_author,
                 type_of_change="Updated Analysis"
             )
+        """
 
         # analysis must have been approved if not created.
         DocChangelog.objects.create(
@@ -168,5 +171,15 @@ def log_analysis_changes(sender, instance, created, **kwargs):
             change_details=change_details,
             change_author=change_author,
             type_of_change="Analysis Reviewed"
+        )
+
+        # create Case changelog for analysis approval
+        file_instance = instance.file_id
+        case_instance = file_instance.case_id
+        CaseChangelog.objects.create(
+            case_id = case_instance,
+            change_details=f"Analysis Approved for {file_instance.display_name()}",
+            change_author=change_author,
+            type_of_change="Updated Information"
         )
 
