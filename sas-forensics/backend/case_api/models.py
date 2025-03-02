@@ -116,7 +116,7 @@ class DocChangelog(models.Model):
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
     change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    type_of_change = models.CharField(max_length=50, choices=[("File Uploaded", "File Uploaded"),("File Updated", "File Updated"),("File Deleted", "File Deleted"),("Analysis Created", "Analysis Created"),("Analysis Updated", "Analysis Updated"),("Analysis Reviewed", "Analysis Reviewed"),])
+    type_of_change = models.CharField(max_length=50, null=True, choices=[("File Uploaded", "File Uploaded"),("File Updated", "File Updated"),("File Deleted", "File Deleted"),("Analysis Created", "Analysis Created"),("Analysis Updated", "Analysis Updated"),("Analysis Reviewed", "Analysis Reviewed")])
 
 class View(models.Model):
     title = models.CharField(max_length=120)
