@@ -10,6 +10,7 @@ from backend_core.settings import MEDIA_ROOT
 @receiver(post_save, sender=File)
 def analyse_upload(sender, instance, created, **kwargs):
     if created: # only analyse newly uploaded documents
+        print("Database record for file: ", instance.file.name, " created")
         # extract text based upon file type
         match instance.file_extension():
             case "pdf":
@@ -35,15 +36,15 @@ def analyse_upload(sender, instance, created, **kwargs):
             # save its contents
             with open(json_path, 'r', encoding='utf-8') as f:
                 json_data = json.load(f)
-            print("got json")
+            print("Found existing json analysis, saved contents to memory")
             # delete the file
             os.remove(json_path)
-            print("removed existing json")
+            print("Removed existing json file")
             json_data = json.dumps(json_data)
 
         except FileNotFoundError:
             # no analysis exists, call AI analysis function
-            print("analysing ", instance.file)
+            print("Analysing ", instance.file.name)
             analysis_output = analyseTextIntoJSON(extracted_text)
             json_data = analysis_output.model_dump_json()  # Convert JSON to string
 
