@@ -153,7 +153,7 @@ def update_analysis(request, pk):
         if json_data is not None:
             with analysed_doc.JSON_file.open('w') as f:
                 json.dump(json_data, f, indent=4)
-            setattr(file_obj, "_change_details", "Altered analysis") # changelog metadata
+            setattr(analysed_doc, "_change_details", "Altered analysis") # changelog metadata
 
         # get user for changelog update
         user = request.user if request.user.is_authenticated else None
@@ -161,7 +161,7 @@ def update_analysis(request, pk):
         if reviewed is not None:    # only update if react component passes reviewed flag in request
             analysed_doc.reviewed = reviewed
 
-            setattr(file_obj, "_change_author", user) # changelog metadata
+            setattr(analysed_doc, "_change_author", user) # changelog metadata
             analysed_doc.save()
 
 
