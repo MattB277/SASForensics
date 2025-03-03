@@ -151,7 +151,7 @@ def log_analysis_changes(sender, instance, created, **kwargs):
     change_author = getattr(instance, "_change_author", None)
     
     # if no change details passed, and was created, make creation entry and return 
-    if change_details is None: 
+    if change_details != "Altered Analysis": 
         if created:
             DocChangelog.objects.create(
             file_id = instance.file_id,
