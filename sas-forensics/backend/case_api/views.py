@@ -32,6 +32,16 @@ class CaseChangeLogView(APIView):
 
         serializer = CaseChangelogSerializer(changes, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class DocChangeLogView(APIView):
+    def get(self, request, file_id, *args, **kwargs):
+        changes = DocChangelog.objects.filter(file_id=file_id).order_by('-change_date')
+        if not changes.exists():
+            return Response({"error": "No changes found for this document."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = DocChangelogSerializer(changes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 
 class UpdatedCasesView(APIView):
