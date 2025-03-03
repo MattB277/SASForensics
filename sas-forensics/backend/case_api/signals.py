@@ -78,8 +78,11 @@ def log_file_upload(sender, instance, created, **kwargs):
     # Get extra change details from the instance, if set
     change_details = getattr(instance, "_change_details", None)
     change_author = getattr(instance, "_change_author", None)
-    analysed_doc = instance.analysed_document   # get Files analysis instance
-
+    try:
+        analysed_doc = instance.analysed_document   # get Files analysis instance
+    except:
+        analysed_doc = None # set to none if the file has no analysis (eg. docx file)
+    
     # default messages if no metadata is found
     if change_details is None:
         change_details = f"File {instance.display_name()} updated."
@@ -93,7 +96,6 @@ def log_file_upload(sender, instance, created, **kwargs):
         change_author=change_author,
         type_of_change="File Uploaded"
         )
-    
     # update case changelog based on upload/ general file change
     CaseChangelog.objects.create(
         case_id = instance.case_id,
@@ -131,10 +133,10 @@ def log_assigned_users_change(sender, instance, action, pk_set, **kwargs):
         # Determine the type of change and details based on the action
         if action == "post_add":
             change_details = f"Added user(s): {user_names} to {instance.case_number}."
-            change_type = "Assigned Detective"  # or use a different type if needed
+            change_type = "Assigned Detective"  
         else:  # "post_remove"
             change_details = f"Removed user(s): {user_names} from {instance.case_number}."
-            change_type = "Updated Information"  # Or define a specific type for removal if desired
+            change_type = "Updated Information" 
 
         # Create a changelog entry
         CaseChangelog.objects.create(
@@ -156,10 +158,11 @@ def log_analysis_changes(sender, instance, created, **kwargs):
             DocChangelog.objects.create(
             file_id = instance.file_id,
             analysis_id=instance,
-            change_details=change_details,
+            change_details="Document was analysed with AI.",
             change_author=change_author,
             type_of_change="Analysis Created"
             )
+            return
     else:
         """ updating analysis currently broken due to library!"""
         # else if change details = Altered analysis, create changelog for changes first, then another for approval
@@ -174,23 +177,23 @@ def log_analysis_changes(sender, instance, created, **kwargs):
             )
         """
 
-        # analysis must have been approved if not created.
-        DocChangelog.objects.create(
-            file_id = instance.file_id,
-            analysis_id=instance,
-            change_details=change_details,
-            change_author=change_author,
-            type_of_change="Analysis Reviewed"
-        )
+    # analysis must have been approved if not created.
+    DocChangelog.objects.create(
+        file_id = instance.file_id,
+        analysis_id=instance,
+        change_details="Analysis was reviewed and approved",
+        change_author=change_author,
+        type_of_change="Analysis Reviewed"
+    )
 
-        # create Case changelog for analysis approval
-        file_instance = instance.file_id
-        case_instance = file_instance.case_id
-        CaseChangelog.objects.create(
-            case_id = case_instance,
-            change_details=f"Analysis Approved for {file_instance.display_name()}",
-            change_author=change_author,
-            type_of_change="Updated Information"
-        )
+    # create Case changelog for analysis approval
+    file_instance = instance.file_id
+    case_instance = file_instance.case_id
+    CaseChangelog.objects.create(
+        case_id = case_instance,
+        change_details=f"Analysis Approved for {file_instance.display_name()}",
+        change_author=change_author,
+        type_of_change="Updated Information"
+    )
 
 ## Document Changelog signals ##
