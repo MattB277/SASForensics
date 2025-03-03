@@ -11,7 +11,7 @@ const DocTabs = ({ caseId, fileId}) => {
         { path: `/doc-analysis/${fileId}`, label: "Full Analysis", key: "analysis" },
         { path: `/doc-entities/${fileId}`, label: "Entities", key: "entities" },
         { path: `/doc-timeline/${fileId}`, label: "Timeline", key: "timeline" },
-        { path: `/doc-change-log/${fileId}`, label: "Change Log", key: "changelog" },
+        { path: `/case/${caseId}/document-change-log/${fileId}`, label: "Change Log", key: "changelog" },
     ];
 
     return (
