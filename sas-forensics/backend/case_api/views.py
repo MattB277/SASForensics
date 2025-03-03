@@ -19,7 +19,7 @@ from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
 import json
-
+from django.utils import timezone
 class ReactAppView(TemplateView):
     template_name = "react/build/index.html"
 
@@ -249,6 +249,21 @@ def register_user(request):
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
+def track_case_access(request, case_id):
+    # get case object
+    case_instance = get_object_or_404(Case, pk=case_id)
+    User_instance = get_object_or_404(User, pk=1)
+    
+    # get user object
+    record, created = UserCaseAccessRecord.objects.get_or_create(
+        user_id=User_instance,
+        case_id=case_instance,
+        defaults={"last_accessed": timezone.now(), "status": "No Changes"}
+    )
+    if not created:
+        record.last_accessed = timezone.now()
+        record.save()
+
 class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileSerializer
@@ -256,6 +271,7 @@ class FileViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='case/(?P<case_id>[^/.]+)')
     def list_by_case(self, request, case_id=None):
         files = File.objects.filter(case_id=case_id)
+        track_case_access(request, case_id)     # for tracking when a user last accessed a case
         if not files.exists():
             return Response({"detail": "No files found for this case."}, status=status.HTTP_404_NOT_FOUND)
         serializer = self.get_serializer(files, many=True)
