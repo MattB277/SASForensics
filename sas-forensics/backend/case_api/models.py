@@ -105,7 +105,7 @@ class CaseChangelog(models.Model):
 class AnalysedDocs(models.Model):
     Analysis_id = models.AutoField(primary_key=True, blank=False)
     file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="analysed_document")
-    JSON_file = models.FileField(upload_to=upload_to_based_on_type)
+    JSON_file = models.FileField(upload_to=upload_to_based_on_type, blank=True)
     case_number = models.CharField(max_length=20, blank=True)
     reviewed = models.BooleanField(default=False)
 
