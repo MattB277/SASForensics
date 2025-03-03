@@ -4,7 +4,8 @@ from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import (
-    CaseViewSet, 
+    CaseViewSet,
+    DocChangeLogView, 
     FileViewSet, 
     CaseChangelogViewSet, 
     DocChangelogViewSet, 
@@ -43,6 +44,7 @@ urlpatterns = [
     path('updated-cases/', UpdatedCasesView.as_view(), name='updated-cases'),
     path('files/<int:pk>/', views.serve_file, name='serve_file'),
     path('cases/<int:case_id>/change-log/', CaseChangeLogView.as_view(), name='case-change-log'),
+    path('files/<int:file_id>/change-log/', DocChangeLogView.as_view(), name='doc-change-log'),
     path('api/cases/<int:case_id>/change-log/', CaseChangeLogView.as_view(), name='case-change-log'),
     path('api/get-analysis/<int:pk>/', get_analysis, name='get_analysis'),
     path('api/update-analysis/<int:pk>/', update_analysis, name='update_analysis'),
