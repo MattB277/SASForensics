@@ -69,8 +69,7 @@ def analyse_upload(sender, instance, created, **kwargs):
 
 ### Changelog signals ###
 
-## Case changelog signals ##
-# Update Case changelog upon file upload/change
+# Update Case and Doc changelog upon file upload/change
 @receiver(post_save, sender=File)
 def log_file_upload(sender, instance, created, **kwargs):
     if not instance.case_id:
@@ -79,19 +78,30 @@ def log_file_upload(sender, instance, created, **kwargs):
     # Get extra change details from the instance, if set
     change_details = getattr(instance, "_change_details", None)
     change_author = getattr(instance, "_change_author", None)
+    analysed_doc = instance.analysed_document   # get Files analysis instance
 
-    # default messages if no metadata is found.
+    # default messages if no metadata is found
     if change_details is None:
         change_details = f"File {instance.display_name()} updated."
     if created:
         change_details = f"File {instance.display_name()} uploaded."
+        # creation entry in doc changelog 
+        DocChangelog.objects.create(
+        file_id = instance,
+        analysis_id=analysed_doc,
+        change_details=change_details,
+        change_author=change_author,
+        type_of_change="File Uploaded"
+        )
     
+    # update case changelog based on upload/ general file change
     CaseChangelog.objects.create(
         case_id = instance.case_id,
         change_details=change_details,
         change_author=change_author,
         type_of_change="Added Evidence" if created else "Updated Information"
     )
+
 
     # clean up metadata
     if hasattr(instance, "_change_details"):
@@ -183,3 +193,4 @@ def log_analysis_changes(sender, instance, created, **kwargs):
             type_of_change="Updated Information"
         )
 
+## Document Changelog signals ##
