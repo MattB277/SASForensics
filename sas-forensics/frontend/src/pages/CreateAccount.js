@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/pages/SignUpPage.css'; // Make sure to import the CSS file
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
-
 export default function SignUp() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -17,7 +15,7 @@ export default function SignUp() {
     setError(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/signup/`, {
+      const response = await fetch('http://localhost:8000/api/signup/', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

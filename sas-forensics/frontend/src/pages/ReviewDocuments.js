@@ -13,7 +13,7 @@ const ReviewDocuments = () => {
     useEffect(() => {
         const fetchDocuments = async () => {
             try {
-                const response = await axios.get(`/api/documents-to-review/`);
+                const response = await axios.get(`/documents-to-review/`);
                 setDocuments(response.data)
             } catch (err) {
                 console.error("Error fetching Documents: ", err);

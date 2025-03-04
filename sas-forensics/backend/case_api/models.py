@@ -11,6 +11,38 @@ class Document(models.Model):
 
     def __str__(self):
         return self.file.name
+    
+class File(models.Model):
+    file_id = models.AutoField(primary_key=True, unique=True)
+    ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
+    file = models.FileField(upload_to=upload_to_based_on_type)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    case_id = models.ForeignKey(
+        "Case",
+        on_delete=models.SET_NULL,
+        related_name="files",
+        null=True,
+        blank=True,
+    )
+    file_type = models.CharField(
+        max_length=20,
+        choices=[("pdf", "pdf"), ("mp4", "mp4"), ("jpeg", "jpeg"), ("docx", "docx")],
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.file.name
+    
+    def display_name(self):
+        return self.file.name.split("/")[-1]
+
+    def file_extension(self):
+        return self.file.name.split('.')[-1].lower()
+
+    def save(self, *args, **kwargs):
+        if not self.file_type:
+            self.file_type = self.file_extension()
+        super().save(*args, **kwargs)
 
 class Case(models.Model):
     case_id = models.AutoField(primary_key=True, unique=True)
@@ -53,38 +85,6 @@ def upload_to_based_on_type(instance, filename):
     else:
         folder = 'others/'
     return f"{folder}{filename}"
-
-class File(models.Model):
-    file_id = models.AutoField(primary_key=True, unique=True)
-    ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
-    file = models.FileField(upload_to=upload_to_based_on_type)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    case_id = models.ForeignKey(
-        "Case",
-        on_delete=models.SET_NULL,
-        related_name="files",
-        null=True,
-        blank=True,
-    )
-    file_type = models.CharField(
-        max_length=20,
-        choices=[("pdf", "pdf"), ("mp4", "mp4"), ("jpeg", "jpeg"), ("docx", "docx")],
-        blank=True,
-    )
-
-    def __str__(self):
-        return self.file.name
-    
-    def display_name(self):
-        return self.file.name.split("/")[-1]
-
-    def file_extension(self):
-        return self.file.name.split('.')[-1].lower()
-
-    def save(self, *args, **kwargs):
-        if not self.file_type:
-            self.file_type = self.file_extension()
-        super().save(*args, **kwargs)
 
 class CaseChangelog(models.Model):
     change_id = models.AutoField(primary_key=True, blank=False)

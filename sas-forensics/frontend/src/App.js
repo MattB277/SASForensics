@@ -4,6 +4,7 @@ import FileUpload from './components/FileUpload';
 import LoginPage from './pages/LoginPage';     // Updated path
 import Dashboard from './pages/Dashboard';     // Updated path
 import MyCases from './pages/MyCases';         // Updated path
+import MyAccount from './pages/MyAccount'; 
 import CaseDashboard from './pages/CaseDashboard';
 import ManageCase from './pages/ManageCase';
 import UpdatedCases from './pages/UpdatedCases';
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/mycases" element={<MyCases />} />
+                    <Route path="/account" element={<MyAccount />} />
                     <Route path="/updatedcases" element={<UpdatedCases />} />
                     <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />

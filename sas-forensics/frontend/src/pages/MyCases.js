@@ -19,7 +19,7 @@ const MyCases = () => {
 
     useEffect(() => {
         axios
-            .get('/api/cases/')
+            .get('/cases/')
             .then((response) => {
                 setCases(response.data);
                 setFilteredCases(response.data);

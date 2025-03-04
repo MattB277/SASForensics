@@ -24,7 +24,7 @@ const FileUpload = ({ caseId, onClose, onFileUploaded }) => {
         formData.append('case_id', caseId);
 
         try {
-            const response = await axios.post('/api/files/', formData, {
+            const response = await axios.post('/files/', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
                 onUploadProgress: (progressEvent) => {
                     const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);

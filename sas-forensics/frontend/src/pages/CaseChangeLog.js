@@ -14,7 +14,7 @@ const CaseChangeLog = () => {
     useEffect(() => {
         const fetchChangeLog = async () => {
             try {
-                const response = await axios.get(`/api/cases/${caseId}/change-log/`);
+                const response = await axios.get(`/cases/${caseId}/change-log/`);
                 setChangeLog(response.data);
             } catch (err) {
                 console.error('Error fetching change log:', err);

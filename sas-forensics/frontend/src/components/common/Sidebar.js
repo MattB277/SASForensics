@@ -4,11 +4,11 @@ import logo from '../../assets/policelogo.png';
 import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar() {
-    const isLoggedIn = !!localStorage.getItem('token');
+    const isLoggedIn = !!localStorage.getItem('authToken');
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
         navigate('/login');
     };
 
@@ -17,7 +17,6 @@ function Sidebar() {
         { path: "/", label: "Dashboard" },
         { path: "/mycases", label: "My Cases" },
         { path: "/updatedcases", label: "Updated Cases" },
-        { path: "/login", label: "Login" },
         { path: "/review-documents", label: "Review Analysis"}
     ];
 
