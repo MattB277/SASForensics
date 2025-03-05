@@ -26,7 +26,7 @@ const Timeline = () => {
   useEffect(() => {
     const fetchTimelineData = async () => {
       try {
-        const docsResponse = await axios.get(`/api/cases/${caseId}/files/`);
+        const docsResponse = await axios.get(`/cases/${caseId}/files/`);
         const docs = docsResponse.data;
         const json_events = docs.map(async (doc) => {
           const fileName = doc.file.split('/').pop();
