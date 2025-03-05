@@ -4,6 +4,7 @@ stages:
   - install_backend
   - install_frontend
   - start-dev-app
+  - test_backend
 
 variables:
   PROJECT_DIR: "sas-forensics"
@@ -42,3 +43,22 @@ install_frontend:
   artifacts:
     paths:
       - $FRONTEND_DIR/node_modules/
+
+
+test_backend:
+  stage: test_backend
+  image: python:3.10
+  variables:
+    POSTGRES_DB: testdb
+    POSTGRES_USER: testuser
+    POSTGRES_PASSWORD: testpassword
+  before_script:
+    - python -m venv venv
+    - source venv/bin/activate
+    - pip install -r requirements.txt
+    - python manage.py migrate
+  script:
+    - python manage.py test sas-forensics/backend/case_api/tests/
+  artifacts:
+    reports:
+      junit: report.xml
