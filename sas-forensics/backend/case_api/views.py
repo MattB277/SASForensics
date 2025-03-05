@@ -1,6 +1,6 @@
 import json
 from django.contrib.auth import authenticate
-from django.contrib.auth.models import User, authenicate
+from django.contrib.auth.models import User
 from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -221,10 +221,11 @@ def update_analysis(request, pk):
 
 def documents_to_review(request):
     """Get document with analysis assigned to reviewer"""
-    #user = request.user
-    #cases = Case.objects.filter(reviewers__in=[user])
-    #files = File.objects.filter(case_id__in=cases).order_by("case_id", "uploaded_at")
-    files = File.objects.all().order_by("case_id", "uploaded_at")
+    print(type(request.user))
+    user = request.user
+    cases = Case.objects.filter(reviewers__in=[user])
+    files = File.objects.filter(case_id__in=cases).order_by("case_id", "uploaded_at")
+    #files = File.objects.all().order_by("case_id", "uploaded_at")
 
     document_list = [
         {
