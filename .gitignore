@@ -8,6 +8,7 @@ db.sqlite3
 myenv
 venv
 .env
+env
 sh06
 
 # npm installation
