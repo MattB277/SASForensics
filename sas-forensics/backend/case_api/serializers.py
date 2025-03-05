@@ -47,7 +47,7 @@ class DocChangelogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DocChangelog
-        fields = ['change_id', 'file_id', 'change_date', 'change_details', 'change_author']
+        fields = ['change_id', 'file_id', 'change_date', 'change_details', 'change_author', 'type_of_change']
 
 
 class UserCaseAccessRecordSerializer(serializers.ModelSerializer):

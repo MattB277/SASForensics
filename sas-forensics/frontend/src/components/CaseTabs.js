@@ -8,7 +8,7 @@ const CaseTabs = ({ caseId }) => {
     const tabs = [
         { path: `/case-dashboard/${caseId}`, label: "Case Dashboard", key: "dashboard" },
         { path: `/case-summary/${caseId}`, label: "Case Summary", key: "summary" },
-        { path: `/case-timeline/${caseId}`, label: "Case Timeline", key: "timeline" },
+        { path: `/cases/${caseId}/timeline`, label: "Case Timeline", key: "timeline" },
         { path: `/manage-case/${caseId}`, label: "Manage Case", key: "manage" },
         { path: `/case-change-log/${caseId}`, label: "Change Log", key: "changelog" },
     ];

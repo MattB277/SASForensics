@@ -1,10 +1,10 @@
-# AI Document Analysis Utils
-
 import pymupdf, boto3, os
 from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI
 from typing import List, Optional
 from pydantic import BaseModel, Field, PastDatetime
+import boto3
+from backend_core.settings import MEDIA_ROOT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
 # Structured Output Pydantic model
 class AnalysisOutput(BaseModel):
@@ -16,14 +16,14 @@ class AnalysisOutput(BaseModel):
     class Event(BaseModel):
         event_type: str = Field(description="What type of event is it?")
         details: str = Field(description="What happened in this event?")
-        time_of_event: str = Field(description="The datetime of the event") 
+        time_of_event: str = Field(description="The datetime of the event, in the format of DD/MM/YYYY-HH:MM, exclude hours and minutes if not applicable") 
     class Evidence(BaseModel):
         item_number: str = Field(description="The item number specified for this peice of evidence")
         description: List[str] = Field(description="The descriptions of the peice of evidence")
 
     # top level data containers/variables
     case_number: str = Field(description="the case number stated on the document")
-    date_on_document: str = Field(description="The date of the document, sometimes stated under Date of report")
+    date_on_document: str = Field(description="The date of the document, sometimes stated under Date of report, in the format DD/MM/YYYY")
     document_type: str = Field(description="What type of document it is, Interview, Forensic report etc")
     summary: str = Field(description="A three sentence long description of the document.")
     conclusion: Optional[str] = Field(description="A short conclusion highlighting any findings made in the document.")
@@ -77,7 +77,7 @@ def analyseTextIntoJSON(document_text):
     Output a JSON object with the following fields:
     - case_number
     - document_type (is it an Interview, incident report, investigative report, analysis report, etc.)
-    - date_of_incident
+    - date_of_incident (Formatted as DD/MM/YYYY)
     - people (list of objects with "name", "address" and "relevance" if available)
     - summary (a concise overview of the document, max 3 sentences long)
     - evidence (list of objects with "item_number", "description" containing any results or analysis per peice of evidence.)
@@ -109,3 +109,22 @@ def upload_to_based_on_type(instance, filename):
         return f"{subdir}/{base_filename}.{ext}"
     else:
         return f"others/{base_filename}.{ext}"
+    
+
+
+def ocr(file_name, upload = False, bucket_name = "textract-sasforensics"):
+
+    # Upload file to S3
+    if upload:        
+        s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+        s3.upload_file(os.path.join(MEDIA_ROOT, file_name), bucket_name, file_name)
+
+    textract = boto3.client("textract", region_name="eu-west-1")
+
+    response = textract.detect_document_text(
+        Document={"S3Object": {"Bucket": bucket_name, "Name": file_name}}
+    )
+
+    # Extract and print text
+    text = "\n".join([block["Text"] for block in response["Blocks"] if block["BlockType"] == "LINE"])
+    return text

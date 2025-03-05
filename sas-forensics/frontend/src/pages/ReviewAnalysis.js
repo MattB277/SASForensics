@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import axios from '../utils/axiosConfig';
 import {JSONEditor} from "react-json-editor-viewer";
 import FileViewer from "../components/FileViewer";
 import Sidebar from "../components/common/Sidebar";

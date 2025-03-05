@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import axios from "axios";
+import axios from '../utils/axiosConfig';
 import { Link } from "react-router-dom";
 import Sidebar from "../components/common/Sidebar";
 import '../styles/pages/ReviewDocuments.css';
@@ -27,7 +27,7 @@ const ReviewDocuments = () => {
     }, []);
 
     const filteredDocuments = documents.filter(doc =>
-        doc.file.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        doc.file_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         doc.case_id.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
@@ -53,8 +53,8 @@ const ReviewDocuments = () => {
                         filteredDocuments.map((doc) => (
                             <li key={doc.file_id} style={{ marginBottom: "10px" }}>
                                 <Link to={`/review/${doc.file_id}`}>
-                                    {doc.file_name} (Case: {doc.case_id})
-                                </Link> - Uploaded on {doc.uploaded_at}
+                                    {doc.file_name} <br/> {doc.case_id}
+                                </Link> <span style={{ marginLeft: "50px" }}> - Uploaded on {doc.uploaded_at}</span>
                             </li>
                         ))
                     ) : (

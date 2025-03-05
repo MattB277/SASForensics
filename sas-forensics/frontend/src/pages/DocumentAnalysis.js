@@ -8,7 +8,7 @@ import FileViewer from '../components/FileViewer';
 import DisplayAnalysis from '../components/DisplayAnalysis';
 import '../styles/pages/DocumentDashboard.css';
 
-const DocumentDashboard = () => {
+const DocumentAnalysis = () => {
     const { caseId , fileId } = useParams();
     const [fileUrl, setFileUrl] = useState("");
     const [jsonData, setJsonData] = useState({});
@@ -19,7 +19,7 @@ const DocumentDashboard = () => {
         const fetchAnalysis = async () => {
             //try to get analysis through file id
             try{
-                const response = await axios.get(`/get-analysis/${fileId}/`);
+                const response = await axios.get(`/api/get-analysis/${fileId}/`);
                 setFileUrl(response.data.file_url);
                 setJsonData(response.data.json_data);
                 setLoading(false);
@@ -51,7 +51,7 @@ const DocumentDashboard = () => {
                     </section>
 
                     <section className='document-summary-section'>
-                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={["summary", "conclusion", "events"]}/>
+                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={"all"}/>
                     </section>
 
                 </div>
@@ -60,4 +60,4 @@ const DocumentDashboard = () => {
     );
 };
 
-export default DocumentDashboard;
+export default DocumentAnalysis;

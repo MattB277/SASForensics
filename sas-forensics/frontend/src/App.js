@@ -13,6 +13,9 @@ import CreateAccount from './pages/CreateAccount';
 import ReviewAnalysis from './pages/ReviewAnalysis';
 import ReviewDocuments from './pages/ReviewDocuments';
 import DocumentDashboard from './pages/DocumentDashboard';
+import CaseTimeline from './pages/CaseTimeline';
+import DocumentChangeLog from './pages/DocumentChangeLog';
+import DocumentAnalysis from './pages/DocumentAnalysis';
 
 function App() {
     return (
@@ -31,8 +34,12 @@ function App() {
                     <Route path="/updatedcases" element={<UpdatedCases />} />
                     <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />
+                    <Route path="/cases/:caseId/timeline" element={<CaseTimeline />} />
                     <Route path="/signup" element={<CreateAccount />} />
                     <Route path="/case/:caseId/document-dashboard/:fileId" element={<DocumentDashboard />} />
+                    <Route path="/case/:caseId/document-change-log/:fileId" element={<DocumentChangeLog />} />
+                    <Route path="/case/:caseId/document-analysis/:fileId" element={<DocumentAnalysis />} />
+                    <Route path="/cases/:caseId/timeline" element={<CaseTimeline />} />
                     <Route path="/review/:fileId" element={<ReviewAnalysis />} />
                     <Route path="/review-documents" element={<ReviewDocuments />} />
                 </Routes>

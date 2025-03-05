@@ -37,7 +37,7 @@ install_frontend:
   image: node:latest
   script:
     - cd $FRONTEND_DIR
-    - npm install
+    - npm install --legacy-peer-deps
     - echo "Frontend installed OK!"
   artifacts:
     paths:

@@ -7,7 +7,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 from .views import (
-    CaseViewSet, 
+    CaseViewSet,
+    DocChangeLogView, 
     FileViewSet, 
     CaseChangelogViewSet, 
     DocChangelogViewSet, 
@@ -46,12 +47,14 @@ urlpatterns = [
     # Changelog
     path('cases/<int:case_id>/change-log/', CaseChangelogView.as_view(), name='case-change-log'),
     path('updated-cases/', UpdatedCasesView.as_view(), name='updated-cases'), 
+    path('files/<int:file_id>/change-log/', DocChangeLogView.as_view(), name='doc-change-log'),
 
     # File handling
     path('upload/', upload_file, name='upload_file'), 
     path('files/', list_files, name='list_files'),
     path('files/<int:pk>/', serve_file, name='serve_file'),
     path('cases/<int:case_id>/files/', FileViewSet.as_view({'get': 'list_by_case'}), name='case-files'),
+    
 
     # Analysis & Reviewal
     path('get-analysis/<int:pk>/', get_analysis, name='get_analysis'),

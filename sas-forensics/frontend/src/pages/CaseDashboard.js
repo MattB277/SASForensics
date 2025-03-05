@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Sidebar from '../components/common/Sidebar';
 import '../styles/pages/CaseDashboard.css';
 import axios from '../utils/axiosConfig';
@@ -8,7 +8,6 @@ import CaseTabs from '../components/CaseTabs';
 const CaseDashboard = () => {
     const { caseId } = useParams();
     const [documents, setDocuments] = useState([]);
-    const [selectedFile, setSelectedFile] = useState(null);
     const [activeTab, setActiveTab] = useState('documents');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -43,13 +42,13 @@ const CaseDashboard = () => {
         }
 
         return documents.map((doc) => (
-            <button
+            <Link
                 key={doc.file_id}
-                onClick={() => setSelectedFile(doc.file)}
+                to={`/case/${caseId}/document-dashboard/${doc.file_id}`}
                 className="document-link"
             >
                 {doc.file.split('/').pop()}
-            </button>
+            </Link>
         ));
     };
 
@@ -65,17 +64,7 @@ const CaseDashboard = () => {
 
                 <div className="case-content">
                     <section className="file-viewer-section">
-                        {selectedFile ? (
-                            <iframe
-                                src={selectedFile}
-                                title="File Viewer"
-                                width="100%"
-                                height="100%"
-                                frameBorder="0"
-                            ></iframe>
-                        ) : (
-                            <p>Select a document to view</p>
-                        )}
+                        <p>This area needs to be developed</p>
                     </section>
                     <section className="documents-related">
                         <nav className="tab-bar">
