@@ -13,22 +13,21 @@ def analyse_upload(sender, instance, created, **kwargs):
     if created: # only analyse newly uploaded documents
         print("Database record for file: ", instance.file.name, " created")
         # extract text based upon file type
-        match instance.file_extension():
-            case "pdf":
-                if os.path.exists(instance.file.path):
-                    extracted_text = getPDFtext(instance.file.path)
-                else:
-                    return
-            case "docx":    # placeholder until logic implemented
-                print("Docx analysis not implemented yet!")
+        if instance.file_extension() == "pdf":
+            if os.path.exists(instance.file.path):
+                extracted_text = getPDFtext(instance.file.path)
+            else:
                 return
-            case "png": # placeholder until logic implemented
-                extracted_text = ocr(instance.file.name,True)
-                # print(extracted_text)
-                return
-            case _: # default value
-                print("Datatype not supported!")
-                return 
+        elif instance.file_extension() ==  "docx":    # placeholder until logic implemented
+            print("Docx analysis not implemented yet!")
+            return
+        elif instance.file_extension() ==  "png": # placeholder until logic implemented
+            extracted_text = ocr(instance.file.name,True)
+            # print(extracted_text)
+            return
+        else: # default value
+            print("Datatype not supported!")
+            return 
         
         try:
             # open existing json file
