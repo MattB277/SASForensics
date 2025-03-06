@@ -9,6 +9,7 @@ stages:
 variables:
   PROJECT_DIR: "sas-forensics"
   FRONTEND_DIR: "sas-forensics/frontend"
+  BACKEND_DIR: "sas-forensics/backend"
 
 
 cache:
@@ -56,9 +57,11 @@ test_backend:
     - python -m venv venv
     - source venv/bin/activate
     - pip install -r requirements.txt
+    - cd $BACKEND_DIR
     - python manage.py migrate
   script:
-    - python manage.py test sas-forensics/backend/case_api/tests/
+    - cd $BACKEND_DIR
+    - python manage.py test case_api/tests/
   artifacts:
     reports:
       junit: report.xml
