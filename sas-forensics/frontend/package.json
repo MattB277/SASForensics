@@ -9,6 +9,7 @@
     "fileapp": "file:",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-json-editor-viewer": "^1.0.7",
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^4.2.4"
@@ -16,7 +17,7 @@
   "scripts": {
     "start": "concurrently \"npm run start-react\" \"npm run start-django\"",
     "start-react": "react-scripts start",
-    "start-django": "cd ../backend && python manage.py runserver 0.0.0.0:8000",
+    "start-django": "cd ../backend && python manage.py runserver",
     "build": "react-scripts build"
   },
   "eslintConfig": {
@@ -38,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "concurrently": "^9.1.2"
   }
 }
