@@ -11,7 +11,7 @@ class FileSerializer(serializers.ModelSerializer):
     analysis_json_url = serializers.SerializerMethodField()
     class Meta:
         model = File
-        fields = ['file_id', 'file', 'uploaded_at', 'file_type', 'case_id']
+        fields = ['file_id', 'file', 'uploaded_at', 'file_type', 'case_id', 'analysis_json_url']
 
     def get_analysis_json_url(self, instance):
         request = self.context.get('request')
