@@ -73,7 +73,7 @@ class FileViewSet(viewsets.ModelViewSet):
     queryset = File.objects.all()
     serializer_class = FileSerializer
 
-    @action(detail=False, methods=['get'], url_path='case/(?P<case_id>[^/.]+)')
+    @action(detail=True, methods=['get'], url_path='files')
     def list_by_case(self, request, case_id=None):
         files = File.objects.filter(case_id=case_id)
         track_case_access(request, case_id)     # for tracking when a user last accessed a case
@@ -225,6 +225,7 @@ def update_analysis(request, pk):
     except AnalysedDocs.DoesNotExist:
         return Response({"error": "Analysis not found"}, status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['GET'])
 def documents_to_review(request):
     """Get document with analysis assigned to reviewer"""
     print(type(request.user))
