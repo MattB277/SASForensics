@@ -124,6 +124,14 @@ def list_files(request):
 class CaseViewSet(viewsets.ModelViewSet):
     queryset = Case.objects.all().order_by('-last_updated')
     serializer_class = CaseSerializer
+    
+    def get_queryset(self):
+        """Filter the cases based on the currently logged-in user."""
+        user = self.request.user  
+        if user.is_authenticated:
+            return Case.objects.filter(assigned_users=user).order_by('-last_updated')
+        else:
+            return Case.objects.none()
 
     @action(detail=True, methods=['post'], url_path='assign-user')
     def assign_user(self, request, pk=None):
