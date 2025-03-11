@@ -201,9 +201,15 @@ def update_analysis(request, pk):
 
         # save updated JSON if provided
         if json_data is not None:
-            with analysed_doc.JSON_file.open('w') as f:
-                json.dump(json_data, f, indent=4)
-            setattr(analysed_doc, "_change_details", "Altered analysis") # changelog metadata
+            with analysed_doc.JSON_file.open('r+') as f:
+                # the check should go here
+                existing_json = json.load(f)
+
+                if existing_json != json_data:
+                    f.seek(0)
+                    f.truncate()
+                    json.dump(json_data, f, indent=4)
+                    setattr(analysed_doc, "_change_details", "Altered analysis") # changelog metadata
 
         # get user for changelog update
         user = request.user if request.user.is_authenticated else None

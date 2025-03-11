@@ -152,7 +152,7 @@ def log_analysis_changes(sender, instance, created, **kwargs):
     change_author = getattr(instance, "_change_author", None)
     
     # if no change details passed, and was created, make creation entry and return 
-    if change_details != "Altered Analysis": 
+    if change_details != "Altered analysis": 
         if created:
             DocChangelog.objects.create(
             file_id = instance.file_id,
@@ -163,9 +163,7 @@ def log_analysis_changes(sender, instance, created, **kwargs):
             )
             return
     else:
-        """ updating analysis currently broken due to library!"""
-        # else if change details = Altered analysis, create changelog for changes first, then another for approval
-        """
+        #else if change details = Altered analysis, create changelog for changes first, then another for approval
         if change_details == "Altered analysis":
             DocChangelog.objects.create(
                 file_id = instance.file_id,
@@ -174,7 +172,6 @@ def log_analysis_changes(sender, instance, created, **kwargs):
                 change_author=change_author,
                 type_of_change="Updated Analysis"
             )
-        """
 
     # analysis must have been approved if not created.
     DocChangelog.objects.create(
