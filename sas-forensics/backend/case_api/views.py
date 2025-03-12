@@ -275,10 +275,16 @@ class CaseChangelogView(APIView):
 
 class UpdatedCasesView(APIView):
     def get(self, request, *args, **kwargs):
+        user = request.user
+        if not user.is_authenticated:
+            return Response({"error": "Authentication required."}, status=status.HTTP_401_UNAUTHORIZED)
+
+        user_cases = Case.objects.filter(assigned_users=user)
+
         changes_by_type = {
-            "evidence": CaseChangelog.objects.filter(type_of_change="Added Evidence"),
-            "comments": CaseChangelog.objects.filter(type_of_change="Updated Information"),
-            "connections": CaseChangelog.objects.filter(type_of_change="Created Connection"),
+            "evidence": CaseChangelog.objects.filter(type_of_change="Added Evidence", case_id__in=user_cases),
+            "comments": CaseChangelog.objects.filter(type_of_change="Updated Information", case_id__in=user_cases),
+            "connections": CaseChangelog.objects.filter(type_of_change="Created Connection", case_id__in=user_cases),
         }
 
         formatted_data = {
