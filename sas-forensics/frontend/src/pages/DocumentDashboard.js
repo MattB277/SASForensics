@@ -51,7 +51,7 @@ const DocumentDashboard = () => {
                     </section>
 
                     <section className='document-summary-section'>
-                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={["summary", "conclusion", "events"]}/>
+                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={["summary", "conclusion", "events"]} fileId={fileId}/>
                     </section>
 
                 </div>

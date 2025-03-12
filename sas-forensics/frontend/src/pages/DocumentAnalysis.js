@@ -51,7 +51,7 @@ const DocumentAnalysis = () => {
                     </section>
 
                     <section className='document-summary-section'>
-                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={"all"}/>
+                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={"all"} fileId={fileId}/>
                     </section>
 
                 </div>
