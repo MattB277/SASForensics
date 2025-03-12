@@ -142,6 +142,7 @@ class CaseViewSet(viewsets.ModelViewSet):
         try:
             case = self.get_object()
             user = User.objects.get(id=user_id)
+            setattr(case, "_change_author", request.user)
             case.assigned_users.add(user)
             return Response(
                 {"success": f"User {user.username} assigned to case {case.case_number}."},
@@ -159,6 +160,7 @@ class CaseViewSet(viewsets.ModelViewSet):
         try:
             case = self.get_object()
             user = User.objects.get(id=user_id)
+            setattr(case, "_change_author", request.user)
             case.assigned_users.remove(user)
             return Response(
                 {"success": f"User {user.username} removed from case {case.case_number}."},

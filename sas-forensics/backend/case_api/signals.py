@@ -136,12 +136,14 @@ def log_assigned_users_change(sender, instance, action, pk_set, **kwargs):
         else:  # "post_remove"
             change_details = f"Removed user(s): {user_names} from {instance.case_number}."
             change_type = "Updated Information" 
+            
+        change_author = getattr(instance, "_change_author", None)
 
         # Create a changelog entry
         CaseChangelog.objects.create(
             case_id=instance,
             change_details=change_details,
-            change_author=None,
+            change_author=change_author,
             type_of_change=change_type
         )
 
