@@ -12,30 +12,19 @@ function Sidebar() {
         navigate('/login');
     };
 
-    // Static menu items that always appear
-    const menuItems = [
-        { path: "/", label: "Dashboard" },
-        { path: "/mycases", label: "My Cases" },
-        { path: "/updatedcases", label: "Updated Cases" },
-        { path: "/review-documents", label: "Review Analysis"}
-    ];
-
     return (
         <div className="sidebar">
             <div className="logo">
                 <img src={logo} alt="App Logo" className="logo-image" />
             </div>
             <div className="menu">
-                {menuItems.map((item, index) => (
-                    <Link key={index} to={item.path} className="menu-button">
-                        {item.label}
-                    </Link>
-                ))}
+                <Link to="/" className="menu-button">Dashboard</Link>
+                {isLoggedIn && <Link to="/account" className="menu-button">My Account</Link>}
+                <Link to="/mycases" className="menu-button">My Cases</Link>
+                <Link to="/updatedcases" className="menu-button">Updated Cases</Link>
+                <Link to="/review-documents" className="menu-button">Review Analysis</Link>
                 {isLoggedIn ? (
-                    <>
-                        <Link to="/account" className="menu-button">My Account</Link>
-                        <button onClick={handleLogout} className="menu-button">Logout</button>
-                    </>
+                    <button onClick={handleLogout} className="menu-button">Logout</button>
                 ) : (
                     <Link to="/login" className="menu-button">Login</Link>
                 )}
