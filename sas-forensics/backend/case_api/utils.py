@@ -80,7 +80,7 @@ def analyseTextIntoJSON(document_text):
     Output a JSON object with the following fields:
     - case_number
     - document_type (is it an Interview, incident report, investigative report, analysis report, etc.)
-    - date_of_incident
+    - date_of_incident (Formatted as DD/MM/YYYY)
     - people (list of objects with "name", "address" and "relevance" if available)
     - summary (a concise overview of the document, max 3 sentences long)
     - evidence (list of objects with "item_number", "description" containing any results or analysis per peice of evidence.)

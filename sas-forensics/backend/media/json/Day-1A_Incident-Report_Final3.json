@@ -1,1 +1,93 @@
-{"case_number":"B2022-16584","document_type":"Incident Report","summary":"On May 4, 2022, Jeff and Julie Hodges discovered a box containing a firearm and miscellaneous items while clearing vegetation at their home. Investigator Carrie Fitz responded to the scene, collected the items, and submitted them for forensic testing. The items included a firearm, unfired cartridges, and Halloween masks, all of which were inventoried and sent to the ABC Forensic Services Laboratory.","conclusion":"The collected items were submitted to the ABC Forensic Services Laboratory for forensic testing, and no further action was taken.","location":["620 Mason Street"],"people":[{"name":"Julie Hodges","address":"620 Mason Street","relevance":"Complainant"},{"name":"Jeff Hodges","address":"620 Mason Street","relevance":"Complainant"},{"name":"Carrie Fitz","address":null,"relevance":"Responding Officer"}],"events":[{"event_type":"Discovery of Found Property","details":"On May 4, 2022, Jeff and Julie Hodges discovered a box containing a firearm and miscellaneous items while clearing vegetation at their home at 620 Mason Street."},{"event_type":"Response and Collection","details":"Investigator Carrie Fitz responded to the scene, collected the items as found, and returned them to the Bramblewood County Sheriff's Office for documentation and inventory."},{"event_type":"Submission for Forensic Testing","details":"On May 9, 2022, the collected items were transported to the ABC Forensic Services Laboratory for forensic testing."}],"evidence":[{"item_number":"BCSO-1","description":["Tattered black in color plastic bag"]},{"item_number":"BCSO-2","description":["Black in color metal box with latch with interior containing insulated material and cardboard"]},{"item_number":"BCSO-3","description":["Black in color Glock 17 pistol, 9x19 mm caliber (S/N: obliterated) and unloaded black in color Glock 9mm magazine"]},{"item_number":"BCSO-4","description":["Seven stray bronze and silver in color 9mm unfired cartridges with Luger headstamp"]},{"item_number":"BCSO-5","description":["Small white in color towel with reddish-brown in color stains"]},{"item_number":"BCSO-6","description":["Black in color Halloween-type face mask with white in color eye rings"]},{"item_number":"BCSO-7","description":["Black in color Halloween-type face mask with purple in color eye rings"]}]}
+{
+    "case_number": "B2022-16584",
+    "date_on_document": "09/05/2022",
+    "document_type": "Incident Report",
+    "summary": "On May 4, 2022, Jeff and Julie Hodges discovered a box containing a firearm and other items while clearing vegetation at their home. Investigator Carrie Fitz responded to the scene and collected the items for forensic analysis. The items were submitted to the ABC Forensic Services Laboratory for testing on May 9, 2022.",
+    "conclusion": "The collected items were submitted for forensic testing to determine any potential evidence related to the found property.",
+    "location": [
+        "620 Mason Street"
+    ],
+    "people": [
+        {
+            "name": "Julie Hodges",
+            "address": "620 Mason Street",
+            "relevance": "Complainant"
+        },
+        {
+            "name": "Jeff Hodges",
+            "address": "620 Mason Street",
+            "relevance": "Complainant"
+        },
+        {
+            "name": "Carrie Fitz",
+            "address": null,
+            "relevance": "Responding Officer"
+        },
+        {
+            "name": "Leon Crowley",
+            "address": null,
+            "relevance": "Sheriff"
+        }
+    ],
+    "events": [
+        {
+            "event_type": "Discovery of property",
+            "details": "Julie Hodges discovered a box containing a firearm and other items while digging in her yard.",
+            "time_of_event": "04/05/2022-10:05"
+        },
+        {
+            "event_type": "Response and collection",
+            "details": "Investigator Carrie Fitz responded to the call and collected the items found by the Hodges.",
+            "time_of_event": "04/05/2022"
+        },
+        {
+            "event_type": "Submission for forensic testing",
+            "details": "The collected items were submitted to the ABC Forensic Services Laboratory for forensic testing.",
+            "time_of_event": "09/05/2022"
+        }
+    ],
+    "evidence": [
+        {
+            "item_number": "BCSO-1",
+            "description": [
+                "Tattered black in color plastic bag"
+            ]
+        },
+        {
+            "item_number": "BCSO-2",
+            "description": [
+                "Black in color metal box with latch with interior containing insulated material and cardboard"
+            ]
+        },
+        {
+            "item_number": "BCSO-3",
+            "description": [
+                "Black in color Glock 17 pistol, 9x19 mm caliber (S/N: obliterated) and unloaded black in color Glock 9mm magazine"
+            ]
+        },
+        {
+            "item_number": "BCSO-4",
+            "description": [
+                "Seven stray bronze and silver in color 9mm unfired cartridges with Luger headstamp"
+            ]
+        },
+        {
+            "item_number": "BCSO-5",
+            "description": [
+                "Small white in color towel with reddish-brown in color stains"
+            ]
+        },
+        {
+            "item_number": "BCSO-6",
+            "description": [
+                "Black in color Halloween-type face mask with white in color eye rings"
+            ]
+        },
+        {
+            "item_number": "BCSO-7",
+            "description": [
+                "Black in color Halloween-type face mask with purple in color eye rings"
+            ]
+        }
+    ]
+}

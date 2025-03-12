@@ -48,8 +48,16 @@ class UserCaseAccessRecord(models.Model):
 
 def upload_to_based_on_type(instance, filename):
     extension = filename.split('.')[-1]
-    if extension.lower() in ['pdf', 'jpeg', 'docx', 'mp4']:
-        folder = 'pdfs/' if extension.lower() == 'pdf' else 'images/'
+    extension = extension.lower()
+    if extension in ['pdf', 'jpeg', 'docx', 'mp4','json']:
+        if extension.lower() == 'pdf':
+            folder = 'pdfs/'
+        elif extension == 'json':
+            folder = 'json/'
+        elif extension == 'jpeg':
+            folder = 'images/'
+        else:
+            folder = 'others/'
     else:
         folder = 'others/'
     return f"{folder}{filename}"
@@ -104,7 +112,7 @@ class DocChangelog(models.Model):
 class AnalysedDocs(models.Model):
     Analysis_id = models.AutoField(primary_key=True, blank=False)
     file_id = models.OneToOneField(File, on_delete=models.CASCADE, related_name="analysed_document")
-    JSON_file = models.FilePathField(blank=False)
+    JSON_file = models.FileField(upload_to=upload_to_based_on_type, blank=True)
     case_number = models.CharField(max_length=20, blank=True)
     reviewed = models.BooleanField(default=False)
 

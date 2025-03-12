@@ -4,10 +4,12 @@
   "private": true,
   "homepage": "/",
   "dependencies": {
+    "ajv": "^8.15.0",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "fileapp": "file:",
     "react": "^19.0.0",
+    "react-chrono": "2.6.1",
     "react-dom": "^19.0.0",
     "react-json-editor-viewer": "^1.0.7",
     "react-router-dom": "^7.1.1",
