@@ -1,11 +1,16 @@
 .review-documents {
     display: flex;
-    min-height: 100vh;
+    max-height: 100vh;
     background-color: #f9f9f9;
+}
+
+.list-documents {
+    min-width: 1000px;
 }
 
 .list-documents h2 {
     margin-bottom: 16px;
+    max-height: 100vh;
 }
 
 .list-documents input {
@@ -19,6 +24,8 @@
 .list-documents ul {
     list-style: none;
     padding: 0;
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 
 .list-documents li {
@@ -30,6 +37,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.2s ease-in-out;
+    max-height: 100vh;
+    overflow: auto;
 }
 
 .list-documents li:hover {
