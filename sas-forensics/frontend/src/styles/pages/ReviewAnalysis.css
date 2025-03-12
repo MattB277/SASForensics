@@ -1,6 +1,6 @@
 .review-analysis {
     display: flex;
-    min-height: 100vh;
+    max-height: 100vh;
     background-color: #f9f9f9;
 }
 
