@@ -4,6 +4,11 @@ from .models import File, AnalysedDocs
 from .utils import analyseTextIntoJSON, getPDFtext, openTXT, ocr
 import os, json
 from backend_core.settings import MEDIA_ROOT
+from docx import Document
+import docx
+# from spire.doc import *	
+# from spire.doc.common import Document as D
+
 
 @receiver(post_save, sender=File)
 def analyse_upload(sender, instance, created, **kwargs):
@@ -16,11 +21,15 @@ def analyse_upload(sender, instance, created, **kwargs):
                 else:
                     return
             case "docx":    # placeholder until logic implemented
-                print("Docx analysis not implemented yet!")
+                doc = docx.Document(instance.file.path)
+                fullText = []
+                for para in doc.paragraphs:
+                    fullText.append(para.text)
+                extracted_text = '\n'.join(fullText)
+                print(extracted_text)
                 return
-            case "png": # placeholder until logic implemented
-                extracted_text = ocr(instance.file.name,True)
-                # print(extracted_text)
+            case "png":
+                extracted_text = ocr(instance.file.name,True) #that would be only for ocr tho
                 return
             case _: # default value
                 print("Datatype not supported!")
