@@ -8,7 +8,7 @@
   .sidebar {
     flex: 0 0 250px; /* Adjust the width as needed */
     background-color: #5bc0de; /* Example background */
-    height: 100vh;
+    max-height: 100vh;
   }
   
   /* Main content styling: takes remaining space and stacks elements vertically */
@@ -16,7 +16,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px;
     background-color: #f9f9f9;
     overflow-y: auto; /* Allow vertical scrolling if content overflows */
   }
