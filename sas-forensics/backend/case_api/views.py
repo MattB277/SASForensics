@@ -252,6 +252,9 @@ def documents_to_review(request):
     
     return Response(document_list, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def case_summary(request):
+    return
 
 
 # Changelog Views

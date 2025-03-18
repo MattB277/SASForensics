@@ -16,6 +16,7 @@ import DocumentDashboard from './pages/DocumentDashboard';
 import CaseTimeline from './pages/CaseTimeline';
 import DocumentChangeLog from './pages/DocumentChangeLog';
 import DocumentAnalysis from './pages/DocumentAnalysis';
+import CaseSummary from './pages/CaseSummary';
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                     <Route path="/account" element={<MyAccount />} />
                     <Route path="/updatedcases" element={<UpdatedCases />} />
                     <Route path="/case-dashboard/:caseId" element={<CaseDashboard />} />
+                    <Route path="/case-summary/:caseId" element={<CaseSummary />} />
                     <Route path="/case-change-log/:caseId" element={<CaseChangeLog />} />
                     <Route path="/cases/:caseId/timeline" element={<CaseTimeline />} />
                     <Route path="/signup" element={<CreateAccount />} />

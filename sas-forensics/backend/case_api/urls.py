@@ -21,6 +21,7 @@ from .views import (
     serve_file,
     get_analysis,
     update_analysis,
+    case_summary,
     documents_to_review,
     sign_up,
     get_user_info,
@@ -60,6 +61,7 @@ urlpatterns = [
     path('get-analysis/<int:pk>/', get_analysis, name='get_analysis'),
     path('update-analysis/<int:pk>/', update_analysis, name='update_analysis'),
     path('documents-to-review/', documents_to_review, name='documents_to_review'),
+    path('case-summary/<int:pk>', case_summary, name='case_summary'),
 
     # Include router endpoints
     path('', include(router.urls)), 
