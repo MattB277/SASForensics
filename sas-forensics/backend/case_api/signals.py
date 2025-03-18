@@ -17,6 +17,7 @@ def analyse_upload(sender, instance, created, **kwargs):
                     return
             case "docx":    # placeholder until logic implemented
                 print("Docx analysis not implemented yet!")
+                return
             case "png": # placeholder until logic implemented
                 return
             case _: # default value
