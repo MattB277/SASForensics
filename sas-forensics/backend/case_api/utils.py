@@ -98,15 +98,17 @@ def summariseCaseAnalysis(file_list, case_id):
         max_tokens=3500, # larger than other prompt due to much higher volume of input data
     )
 
+    # parse response into python object
+    parsed_json = json.loads(response.choices[0].message.content)
+    print(parsed_json)
     # save summary to file (this could probably be refactored into a read/write function instead)
     summary_filename = f"case_{case_id}_summary.json"
     summary_file_path = os.path.join(settings.MEDIA_ROOT, "json", summary_filename)
-    print(response.choices[0].message.content)
     with open(summary_file_path, "w") as f:
-        json.dump(response.choices[0].message.content, f)
+        f.write(json.dumps(parsed_json)) # slice quotes off of string
     print(f"case {case_id} summary saved to file {summary_filename}")
 
-    return response.choices[0].message.content   # return analysis output to cut down Read/writes on json file. 
+    return parsed_json   # return analysis output to cut down Read/writes on json file. 
 
 # Analyse Document Text
 def analyseTextIntoJSON(document_text):
