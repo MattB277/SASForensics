@@ -103,7 +103,7 @@ def summariseCaseAnalysis(file_list, case_id):
     summary_file_path = os.path.join(settings.MEDIA_ROOT, "json", summary_filename)
     print(response.choices[0].message.content)
     with open(summary_file_path, "w") as f:
-        json.dump(response.choices[0].message.content, f, indent=2)
+        json.dump(response.choices[0].message.content, f)
     print(f"case {case_id} summary saved to file {summary_filename}")
 
     return response.choices[0].message.content   # return analysis output to cut down Read/writes on json file. 
