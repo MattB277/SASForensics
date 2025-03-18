@@ -4,6 +4,7 @@ import Sidebar from '../components/common/Sidebar';
 import axios from '../utils/axiosConfig';
 import CaseTabs from '../components/CaseTabs';
 import '../styles/pages/CaseSummary.css';
+import DisplayAnalysis from '../components/DisplayAnalysis';
 
 const CaseSummary = () => {
     const { caseId } = useParams();
@@ -36,9 +37,10 @@ const CaseSummary = () => {
                 <header>
                     <h1>Case Summary</h1>
                 </header>
-
                 <CaseTabs caseId={caseId} activeTab="summary" />
-                <div></div>
+                <div>
+                    <DisplayAnalysis jsonData={summary} reviewed={true} keysToDisplay={"all"} fileId={caseId}/>
+                </div>
             </div>
         </div>
     );
