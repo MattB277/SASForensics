@@ -9,21 +9,19 @@ from backend_core.settings import MEDIA_ROOT
 def analyse_upload(sender, instance, created, **kwargs):
     if created: # only analyse newly uploaded documents
         # extract text based upon file type
-        file_extension = instance.file_extension()
-        if file_extension == "pdf":
-            if os.path.exists(instance.file.path):
-                extracted_text = getPDFtext(instance.file.path)
-            else:
+        match instance.file_extension():
+            case "pdf":
+                if os.path.exists(instance.file.path):
+                    extracted_text = getPDFtext(instance.file.path)
+                else:
+                    return
+            case "docx":    # placeholder until logic implemented
+                print("Docx analysis not implemented yet!")
+            case "png": # placeholder until logic implemented
                 return
-        elif file_extension == "docx":    # placeholder until logic implemented
-            print("Docx analysis not implemented yet!")
-            return
-        elif file_extension == "png": # placeholder until logic implemented
-            return
-        else:
-             # default value
-            print("Datatype not supported!")
-            return 
+            case _: # default value
+                print("Datatype not supported!")
+                return 
 
         # configure new JSON file
         json_filename = os.path.splitext(os.path.basename(instance.file.name))[0] + ".json" # same name as original file
