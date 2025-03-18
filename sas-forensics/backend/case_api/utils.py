@@ -1,3 +1,4 @@
+from django.conf import settings
 import pymupdf, boto3, os
 from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI
@@ -50,7 +51,7 @@ def openTXT(document_path):
         content = file.read()
     return content
 
-def summariseCaseAnalysis(file_list):
+def summariseCaseAnalysis(file_list, case_id):
     """Takes a list of JSON file paths, creates a case summary and returns the JSON dictionary as a string."""
     #extract the data from the individual analysis files
     extracted_data = []
@@ -96,6 +97,16 @@ def summariseCaseAnalysis(file_list):
         response_format="json",
         max_tokens=3500, # larger than other prompt due to much higher volume of input data
     )
+
+    # save summary to file (this could probably be refactored into a read/write function instead)
+    summary_filename = f"case_{case_id}_summary.json"
+    summary_file_path = os.path.join(settings.MEDIA_ROOT, "json", summary_filename)
+    
+    with open(summary_file_path, "w") as f:
+        json.dump(response.choices[0].message.parsed, f, indent=2)
+    print(f"case {case_id} summary saved to file {summary_filename}")
+
+    return response.choices[0].message.parsed   # return analysis output to cut down Read/writes on json file. 
 
 # Analyse Document Text
 def analyseTextIntoJSON(document_text):
