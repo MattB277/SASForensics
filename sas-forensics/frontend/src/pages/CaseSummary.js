@@ -34,8 +34,8 @@ const CaseSummary = () => {
         <div className="case-summary">
             <Sidebar />
             <div className="main-content">
-                <header>
-                    <h1>Case Summary</h1>
+                <header className="header">
+                    <h2>Case Number: {caseId} Summary</h2>
                 </header>
                 <CaseTabs caseId={caseId} activeTab="summary" />
                 <div>
