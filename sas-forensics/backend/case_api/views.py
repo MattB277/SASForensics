@@ -16,7 +16,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-from utils import summariseCaseAnalysis
+from .utils import summariseCaseAnalysis
 
 from .models import (
     Case, File, CaseChangelog, DocChangelog,
