@@ -1,3 +1,35 @@
+/* Sidebar.css */
+.sidebar {
+    width: 250px;
+    max-height: 100vh;
+    background-color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.logo-image {
+    max-width: 90%;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
 .menu {
     display: flex;
     flex-direction: column;
@@ -15,7 +47,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;
-    font-size: 16px;       
+    font-size: 20px;       
     font-family: inherit; 
 }
 

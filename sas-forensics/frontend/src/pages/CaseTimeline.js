@@ -26,20 +26,21 @@ const Timeline = () => {
   useEffect(() => {
     const fetchTimelineData = async () => {
       try {
-        const docsResponse = await axios.get(`/api/cases/${caseId}/files/`);
+        const docsResponse = await axios.get(`/cases/${caseId}/files/`);
         const docs = docsResponse.data;
-        const json_events = docs.map(async (doc) => {
-          const fileName = doc.file.split('/').pop();
-          const baseName = fileName.replace(/\.[^/.]+$/, "");
-          const jsonUrl = `http://localhost:8000/media/json/${baseName}.json`;
-          try {
-            const jsonResponse = await axios.get(jsonUrl);
-            return jsonResponse.data.events || [];
-          } catch (err) {
-            console.error(`Error fetching JSON for ${fileName}:`, err);
-            return [];
+        const json_events = await Promise.all(
+          docs.map(async (doc) => {
+            const json_url = doc.analysis_json_url;
+            if (!json_url) return [];
+            try {
+              const jsonResponse = await axios.get(json_url);
+              return jsonResponse.data.events || [];
+            } catch (err) {
+              console.error(`Error fetching JSON for ${doc}:`, err);
+              return [];
           }
-        });
+        })
+      );
         const eventsArrays = await Promise.all(json_events);
         let allEvents = eventsArrays.flat();
         allEvents.sort((a, b) => parseDateTime(a.time_of_event) - parseDateTime(b.time_of_event));

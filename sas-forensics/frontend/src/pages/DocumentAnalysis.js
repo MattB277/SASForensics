@@ -19,7 +19,7 @@ const DocumentAnalysis = () => {
         const fetchAnalysis = async () => {
             //try to get analysis through file id
             try{
-                const response = await axios.get(`/api/get-analysis/${fileId}/`);
+                const response = await axios.get(`get-analysis/${fileId}/`);
                 setFileUrl(response.data.file_url);
                 setJsonData(response.data.json_data);
                 setLoading(false);
@@ -51,7 +51,7 @@ const DocumentAnalysis = () => {
                     </section>
 
                     <section className='document-summary-section'>
-                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={"all"}/>
+                        <DisplayAnalysis jsonData={jsonData} reviewed={reviewed} keysToDisplay={"all"} fileId={fileId}/>
                     </section>
 
                 </div>

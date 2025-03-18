@@ -11,6 +11,38 @@ class Document(models.Model):
 
     def __str__(self):
         return self.file.name
+    
+class File(models.Model):
+    file_id = models.AutoField(primary_key=True, unique=True)
+    ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
+    file = models.FileField(upload_to=upload_to_based_on_type)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    case_id = models.ForeignKey(
+        "Case",
+        on_delete=models.SET_NULL,
+        related_name="files",
+        null=True,
+        blank=True,
+    )
+    file_type = models.CharField(
+        max_length=20,
+        choices=[("pdf", "pdf"), ("mp4", "mp4"), ("jpeg", "jpeg"), ("docx", "docx")],
+        blank=True,
+    )
+
+    def __str__(self):
+        return self.file.name
+    
+    def display_name(self):
+        return self.file.name.split("/")[-1]
+
+    def file_extension(self):
+        return self.file.name.split('.')[-1].lower()
+
+    def save(self, *args, **kwargs):
+        if not self.file_type:
+            self.file_type = self.file_extension()
+        super().save(*args, **kwargs)
 
 class Case(models.Model):
     case_id = models.AutoField(primary_key=True, unique=True)
@@ -62,52 +94,13 @@ def upload_to_based_on_type(instance, filename):
         folder = 'others/'
     return f"{folder}{filename}"
 
-class File(models.Model):
-    file_id = models.AutoField(primary_key=True, unique=True)
-    ALLOWED_FILE_TYPES = ['pdf', 'mp4', 'jpeg', 'docx']
-    file = models.FileField(upload_to=upload_to_based_on_type)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-    case_id = models.ForeignKey(
-        "Case",
-        on_delete=models.SET_NULL,
-        related_name="files",
-        null=True,
-        blank=True,
-    )
-    file_type = models.CharField(
-        max_length=20,
-        choices=[("pdf", "pdf"), ("mp4", "mp4"), ("jpeg", "jpeg"), ("docx", "docx")],
-        blank=True,
-    )
-
-    def __str__(self):
-        return self.file.name
-    
-    def display_name(self):
-        return self.file.name.split("/")[-1]
-
-    def file_extension(self):
-        return self.file.name.split('.')[-1].lower()
-
-    def save(self, *args, **kwargs):
-        if not self.file_type:
-            self.file_type = self.file_extension()
-        super().save(*args, **kwargs)
-
 class CaseChangelog(models.Model):
     change_id = models.AutoField(primary_key=True, blank=False)
     case_id = models.ForeignKey(Case, on_delete=models.CASCADE, related_name="case_changelog_record")
     change_date = models.DateTimeField(auto_now=True)
     change_details = models.CharField(max_length=70, blank=False)
     change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    type_of_change = models.CharField(max_length=50, choices=[("Added Evidence","Added Evidence"), ("Updated Information","Updated Information"), ("Assigned Detective", "Assigned Detective"), ("Assigned Reviewer", "Assigned Reviewer"), ("Created Connection","Created Connection"), ("Created Case", "Created Case")])
-
-class DocChangelog(models.Model):
-    change_id = models.AutoField(primary_key=True, blank=False)
-    file_id = models.ForeignKey(File, on_delete=models.CASCADE, related_name="file_changelog_record")
-    change_date = models.DateTimeField(auto_now=True)
-    change_details = models.CharField(max_length=70, blank=False)
-    change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    type_of_change = models.CharField(max_length=50, choices=[("Added Evidence","Added Evidence"), ("Removed Evidence","Removed Evidence"), ("Updated Information","Updated Information"), ("Assigned Detective", "Assigned Detective"), ("Assigned Reviewer", "Assigned Reviewer"), ("Created Connection","Created Connection"), ("Created Case", "Created Case")])
 
 class AnalysedDocs(models.Model):
     Analysis_id = models.AutoField(primary_key=True, blank=False)
@@ -115,6 +108,15 @@ class AnalysedDocs(models.Model):
     JSON_file = models.FileField(upload_to=upload_to_based_on_type, blank=True)
     case_number = models.CharField(max_length=20, blank=True)
     reviewed = models.BooleanField(default=False)
+
+class DocChangelog(models.Model):
+    change_id = models.AutoField(primary_key=True, blank=False)
+    file_id = models.ForeignKey(File, on_delete=models.CASCADE, related_name="file_changelog_record")
+    analysis_id = models.ForeignKey(AnalysedDocs, on_delete=models.CASCADE, null=True, blank=True, related_name="analysis_changelog_record")
+    change_date = models.DateTimeField(auto_now=True)
+    change_details = models.CharField(max_length=70, blank=False)
+    change_author = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    type_of_change = models.CharField(max_length=50, null=True, choices=[("File Uploaded", "File Uploaded"),("File Updated", "File Updated"),("File Deleted", "File Deleted"),("Analysis Created", "Analysis Created"),("Analysis Updated", "Analysis Updated"),("Analysis Reviewed", "Analysis Reviewed")])
 
 class View(models.Model):
     title = models.CharField(max_length=120)

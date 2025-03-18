@@ -1,5 +1,3 @@
-# AI Document Analysis Utils
-
 import pymupdf, boto3, os
 from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI

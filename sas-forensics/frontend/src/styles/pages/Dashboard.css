@@ -1,14 +1,8 @@
 /* General Container */
 .dashboard-container {
     display: flex;
-    min-height: 100vh;
     background-color: #f9f9f9;
-}
-
-/* Sidebar */
-.sidebar {
-    flex: 0 0 200px;
-    background-color: #5bc0de;
+    height: 100vh;
 }
 
 /* Content */
@@ -16,6 +10,8 @@
     flex: 1;
     padding: 16px;
     background-color: #f7f7f7;
+    max-height: 100vh;
+    overflow: auto;
 }
 
 h1, h2 {
