@@ -3,7 +3,7 @@ from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI
 from typing import List, Optional
 from pydantic import BaseModel, Field, PastDatetime
-import boto3
+import json
 from backend_core.settings import MEDIA_ROOT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
 # Structured Output Pydantic model
@@ -49,6 +49,53 @@ def openTXT(document_path):
     with open(document_path, "r") as file:
         content = file.read()
     return content
+
+def summariseCaseAnalysis(file_list):
+    """Takes a list of JSON file paths, creates a case summary and returns the JSON dictionary as a string."""
+    #extract the data from the individual analysis files
+    extracted_data = []
+
+    for file in file_list:
+        try:
+            with open(file, "r") as f:
+                data = json.load(f)
+                extracted_data.append(data)
+        except Exception as e:
+            print(f"Error reading JSON: {file}", e)
+    
+    # create prompt
+    prompt = ("I have had AI extract information from some individual documents belonging to the same case, and have had a human review them for accuracy."
+            "I now would like you to summarize and condense the information into a case summary, highlighting where references to other case numbers or documents have been made."
+            "I would also like a list of next steps to be taken, including highlighting prime suspects, these should be closely linked with the following JSON data"
+            "Ensure the response is a valid JSON dictionary:\n\n"
+            f"{json.dumps(extracted_data, indent=2)}"
+            )
+    system_prompt = "You are a helpful assistant whose task is to reduce the time required by detectives in analysing cold case documents by ingesting documents and returning valuable information"
+
+    # create AI client
+    try:
+        client = OpenAI()
+        print("openAI client opened successfully!")
+    except APIStatusError as e:
+        # environment variables are misbehaving
+        print("openAI client creation failed!")
+        print(e)
+        try:
+            # try to manually retrieve the API key from environment
+            client=OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        except:
+            print("fatal error with OpenAI client!")
+            print("Set the API key to an evironment variable with the name OPENAI_API_KEY")
+    
+    response = client.chat.completions.create(
+        model="gpt-4-turbo",
+        messages=[
+            {'role':'system', 'content':system_prompt},
+            {'role':'user', 'content':prompt}
+        ],
+        response_format="json",
+        max_tokens=3500, # larger than other prompt due to much higher volume of input data
+    )
 
 # Analyse Document Text
 def analyseTextIntoJSON(document_text):
