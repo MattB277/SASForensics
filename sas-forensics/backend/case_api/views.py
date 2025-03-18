@@ -1,4 +1,6 @@
 import json
+import os
+from django.conf import settings
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import FileResponse, JsonResponse
@@ -14,6 +16,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
+from utils import summariseCaseAnalysis
 
 from .models import (
     Case, File, CaseChangelog, DocChangelog,
@@ -253,8 +256,29 @@ def documents_to_review(request):
     return Response(document_list, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def case_summary(request):
-    return
+def case_summary(request, pk):
+    # get a case summary or create it if it does not exist
+    case = get_object_or_404(Case, case_id=pk)
+    summary_filename = f"case_{pk}_summary.json"
+    summary_path = os.path.join(settings.MEDIA_ROOT, "json", summary_filename)
+    
+    # try to open summary
+    try:
+        with open(summary_path, "r") as f:
+            summary_data = json.load(f)
+            return Response(summary_data, status=status.HTTP_200_OK)
+    # if it does not exist, create one
+    except FileNotFoundError as e:
+        print("Case summary not found, creating one now")
+        analysed_docs = AnalysedDocs.objects.filter(file_id__case_id=case) # filter AnalysedDocs where "parent" file belongs to case.
+        file_paths = [doc.JSON_file.path for doc in analysed_docs if doc.JSON_file and doc.reviewed]    # get file path if JSON file exists and has been reviewed
+
+        if not file_paths:
+            return Response({"error": "No analysed documents found for this case."}, status=status.HTTP_404_NOT_FOUND)
+        
+        # call util function to create the summary
+        summary_data = summariseCaseAnalysis(file_paths, pk)
+        return Response(summary_data, status=status.HTTP_201_CREATED)
 
 
 # Changelog Views
