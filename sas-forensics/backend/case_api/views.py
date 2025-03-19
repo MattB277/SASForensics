@@ -126,7 +126,7 @@ def recent_documents(request):
 
     # Get documents related to cases the user has access to
     cases = Case.objects.filter(assigned_users=user)
-    documents = File.objects.filter(case_id__in=cases).order_by('-uploaded_at')[:10]  # Limit to 10 recent docs
+    documents = File.objects.filter(case_id__in=cases).order_by('-uploaded_at')[:6]  # Limit to 10 recent docs
 
     document_list = [
         {
