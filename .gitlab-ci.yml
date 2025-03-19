@@ -60,7 +60,6 @@ test_backend:
     - cd $BACKEND_DIR
     - python manage.py migrate
   script:
-    - cd $BACKEND_DIR
     - python manage.py test case_api/tests/
   artifacts:
     reports:
