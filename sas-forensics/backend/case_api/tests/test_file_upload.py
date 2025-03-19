@@ -38,18 +38,18 @@ class FileUploadTest(TestCase):
     def test_upload_invalid_file(self):
         """Test upload invalid file format"""
         data = {"file": self.invalid_file, "case_id": self.case.case_id}
-        response = self.client.post("/api/files/", data, format="multipart")
+        response = self.client.post("/api/upload/", data, format="multipart")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_get_file_by_case(self):
         """Test to get files by case"""
-        file_instance = File.objects.create(file="test.pdf", case_id=self.case)
+        file_instance = File.objects.create(file="pdfs/test.pdf", case_id=self.case)
         response = self.client.get(f"/api/cases/{self.case.case_id}/files/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreaterEqual(len(response.data), 1)
 
     def test_get_single_file(self):
         """Test to get a single file"""
-        file_instance = File.objects.create(file="test.pdf", case_id=self.case)
+        file_instance = File.objects.create(file="pdfs/test.pdf", case_id=self.case)
         response = self.client.get(f"/api/files/{file_instance.file_id}/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
