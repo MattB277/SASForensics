@@ -40,10 +40,8 @@ const Dashboard = () => {
     }, []);
 
     const getCaseNumber = (case_id) => {
-        console.log("doc.case_id value:", case_id);
         const caseObj = cases.find(c => c.case_number === case_id);
-        console.log(caseObj);
-        return caseObj ? caseObj.case_id: null; // Return the case number or null if case not found
+        return caseObj ? caseObj.case_id: null; 
     };
     
     return (
