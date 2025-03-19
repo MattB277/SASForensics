@@ -38,6 +38,13 @@ const Dashboard = () => {
                 setLoadingDocs(false);
             });
     }, []);
+
+    const getCaseNumber = (case_id) => {
+        console.log("doc.case_id value:", case_id);
+        const caseObj = cases.find(c => c.case_number === case_id);
+        console.log(caseObj);
+        return caseObj ? caseObj.case_id: null; // Return the case number or null if case not found
+    };
     
     return (
         <div className="dashboard-container">
@@ -121,7 +128,7 @@ const Dashboard = () => {
                                         <h4>{doc.case_id}</h4>
                                         <p>File: {doc.file_name}</p>
                                         <Link
-                                            to={`/document/${doc.file_id}`}
+                                            to={`/case/${getCaseNumber(doc.case_id)}/document-dashboard/${doc.file_id}`} 
                                             className="view-document-link"
                                         >
                                             View Document
