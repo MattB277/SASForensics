@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Sidebar from '../components/common/Sidebar';
 import axios from '../utils/axiosConfig';
-import CaseTabs from '../components/CaseTabs';
-import '../styles/pages/CaseChangeLog.css';
+import DocTabs from '../components/DocTabs';
+import '../styles/pages/DocumentChangeLog.css';
 
-const CaseChangeLog = () => {
-    const { caseId } = useParams();
+const DocumentChangeLog = () => {
+    const { caseId, fileId } = useParams();
     const [changeLog, setChangeLog] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -14,7 +15,7 @@ const CaseChangeLog = () => {
     useEffect(() => {
         const fetchChangeLog = async () => {
             try {
-                const response = await axios.get(`/cases/${caseId}/change-log/`);
+                const response = await axios.get(`/files/${fileId}/change-log/`);
                 setChangeLog(response.data);
             } catch (err) {
                 console.error('Error fetching change log:', err);
@@ -25,8 +26,11 @@ const CaseChangeLog = () => {
         };
 
         fetchChangeLog();
-    }, [caseId]);
+    }, [fileId]);
 
+    if (loading) return <p>Loading Changelog...</p>
+
+    
     const renderTableContent = () => {
         if (loading) {
             return <p>Loading change log...</p>;
@@ -37,11 +41,11 @@ const CaseChangeLog = () => {
         }
 
         if (changeLog.length === 0) {
-            return <p className="no-data">No changes found for this case.</p>;
+            return <p className="no-data">No changes found for this document.</p>;
         }
 
         return (
-            <table className="change-log-table" aria-label="Case Change Log">
+            <table className="change-log-table" aria-label="Document Change Log">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -65,19 +69,24 @@ const CaseChangeLog = () => {
     };
 
     return (
-        <div className="case-change-log">
+        <div className="document-dashboard">
             <Sidebar />
             <div className="main-content">
-                <header>
-                    <h1>Case Change Log</h1>
-                    <h2>Case ID: {caseId}</h2>
+                <header className="header">
+                    <h2>File Number: {fileId} Case Number: {caseId}</h2>
                 </header>
+                <DocTabs caseId={caseId} fileId={fileId} activeTab="summary" />
+                
+                <div className="document-content">
+                    
+                    <div className='document-changelog'>
+                        {renderTableContent()}
+                    </div>
 
-                <CaseTabs caseId={caseId} activeTab="dashboard" />
-                <div className="content-section">{renderTableContent()}</div>
+                </div>
             </div>
         </div>
     );
 };
 
-export default CaseChangeLog;
+export default DocumentChangeLog;

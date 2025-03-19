@@ -1,12 +1,13 @@
 .case-dashboard {
     display: flex;
-    min-height: 100vh;
+    max-height: 100vh;
 }
 
 .main-content {
     flex: 1;
     padding: 16px;
     background-color: #f9f9f9;
+    max-height: 100vh;
 }
 
 .header {

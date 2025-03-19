@@ -4,21 +4,13 @@ import logo from '../../assets/policelogo.png';
 import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar() {
-    const isLoggedIn = !!localStorage.getItem('token');
+    const isLoggedIn = !!localStorage.getItem('authToken');
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
         navigate('/login');
     };
-
-    // Static menu items that always appear
-    const menuItems = [
-        { path: "/", label: "Dashboard" },
-        { path: "/mycases", label: "My Cases" },
-        { path: "/updatedcases", label: "Updated Cases" },
-        { path: "/review-documents", label: "Review Analysis"}
-    ];
 
     return (
         <div className="sidebar">
@@ -26,16 +18,13 @@ function Sidebar() {
                 <img src={logo} alt="App Logo" className="logo-image" />
             </div>
             <div className="menu">
-                {menuItems.map((item, index) => (
-                    <Link key={index} to={item.path} className="menu-button">
-                        {item.label}
-                    </Link>
-                ))}
+                <Link to="/" className="menu-button">Dashboard</Link>
+                {isLoggedIn && <Link to="/account" className="menu-button">My Account</Link>}
+                <Link to="/mycases" className="menu-button">My Cases</Link>
+                <Link to="/updatedcases" className="menu-button">Updated Cases</Link>
+                <Link to="/review-documents" className="menu-button">Review Analysis</Link>
                 {isLoggedIn ? (
-                    <>
-                        <Link to="/account" className="menu-button">My Account</Link>
-                        <button onClick={handleLogout} className="menu-button">Logout</button>
-                    </>
+                    <button onClick={handleLogout} className="menu-button">Logout</button>
                 ) : (
                     <Link to="/login" className="menu-button">Login</Link>
                 )}

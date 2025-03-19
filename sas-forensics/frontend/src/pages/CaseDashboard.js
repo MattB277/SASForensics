@@ -15,7 +15,7 @@ const CaseDashboard = () => {
     useEffect(() => {
         const fetchDocuments = async () => {
             try {
-                const response = await axios.get(`/api/cases/${caseId}/files/`);
+                const response = await axios.get(`/cases/${caseId}/files/`);
                 setDocuments(response.data);
             } catch (err) {
                 console.error('Error fetching documents:', err);

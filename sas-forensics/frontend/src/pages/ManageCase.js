@@ -15,21 +15,21 @@ const ManageCase = () => {
     const [isFileUploadOpen, setIsFileUploadOpen] = useState(false);
 
     useEffect(() => {
-        axios.get(`/api/cases/${caseId}/`).then((response) => setCaseDetails(response.data));
-        axios.get(`/api/cases/${caseId}/files/`).then((response) => setDocuments(response.data));
-        axios.get(`/api/cases/${caseId}/users/`).then((response) => setUsers(response.data));
-        axios.get('/api/users/').then((response) => setAllUsers(response.data));
+        axios.get(`/cases/${caseId}/`).then((response) => setCaseDetails(response.data));
+        axios.get(`/cases/${caseId}/files/`).then((response) => setDocuments(response.data));
+        axios.get(`/cases/${caseId}/users/`).then((response) => setUsers(response.data));
+        axios.get('/users/').then((response) => setAllUsers(response.data));
     }, [caseId]);
 
     const assignUser = (userId) => {
-        axios.post(`/api/cases/${caseId}/assign-user/`, { user_id: userId }).then(() =>
-            axios.get(`/api/cases/${caseId}/users/`).then((response) => setUsers(response.data))
+        axios.post(`/cases/${caseId}/assign-user/`, { user_id: userId }).then(() =>
+            axios.get(`/cases/${caseId}/users/`).then((response) => setUsers(response.data))
         );
     };
 
     const removeUser = (userId) => {
-        axios.post(`/api/cases/${caseId}/remove-user/`, { user_id: userId }).then(() =>
-            axios.get(`/api/cases/${caseId}/users/`).then((response) => setUsers(response.data))
+        axios.post(`/cases/${caseId}/remove-user/`, { user_id: userId }).then(() =>
+            axios.get(`/cases/${caseId}/users/`).then((response) => setUsers(response.data))
         );
     };
 
@@ -103,7 +103,7 @@ const ManageCase = () => {
                     caseId={caseId}
                     onClose={() => setIsFileUploadOpen(false)}
                     onFileUploaded={() =>
-                        axios.get(`/api/cases/${caseId}/files/`).then((response) =>
+                        axios.get(`/cases/${caseId}/files/`).then((response) =>
                             setDocuments(response.data)
                         )
                     }

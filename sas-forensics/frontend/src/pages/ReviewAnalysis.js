@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import axios from '../utils/axiosConfig';
-import {JSONEditor} from "react-json-editor-viewer";
+import {JsonEditor as Editor} from 'jsoneditor-react';
+import 'jsoneditor-react/es/editor.min.css'
 import FileViewer from "../components/FileViewer";
 import Sidebar from "../components/common/Sidebar";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,7 @@ const ReviewAnalysis = () => {
         const fetchAnalysis = async () => {
             //try to fet analysis through file id
             try{
-                const response = await axios.get(`http://localhost:8000/api/api/get-analysis/${fileId}/`);
+                const response = await axios.get(`http://localhost:8000/api/get-analysis/${fileId}/`);
                 setFileUrl(response.data.file_url);
                 setJsonData(response.data.json_data);
                 setReviewed(response.data.reviewed);
@@ -37,14 +38,14 @@ const ReviewAnalysis = () => {
         navigate("/review-documents");
     };
 
-    const handleJsonChange = (key, value, parent, data) => {
-        console.log("Key:", key, "Value:", value, "Parent:", parent, "Updated Data:", data);
-        setJsonData(data);
+    const handleChange = (changedJSON) => {
+        console.log("Updated JSON:", changedJSON);
+        setJsonData(changedJSON);
     };
 
     const handleApprove = async () => {
         try {
-            await axios.put(`/api/update-analysis/${fileId}/`, {    // save changes made to JSON
+            await axios.put(`/update-analysis/${fileId}/`, {    // save changes made to JSON
             json_data: jsonData,
             reviewed: true,
             });
@@ -72,10 +73,10 @@ const ReviewAnalysis = () => {
                 {/* Right side: JSON Analysis Editor */}
                     <h3>JSON Analysis</h3>
                     <div className="scrollable-content">
-                        <JSONEditor
-                            data={jsonData}
-                            onChange={handleJsonChange} // Capture changes
-                            editable={true} // Allow editing
+                        <Editor
+                            value={jsonData}
+                            onChange={handleChange} // Capture changes
+                            //editable={true} // Allow editing
                         />
                     </div>
                     <br />

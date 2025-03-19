@@ -37,7 +37,9 @@ class Command(BaseCommand):
                 status=random.choice(statuses),
             )
             case.save()
-            case.assigned_users.set(random.sample(users, k=random.randint(1, 3)))
+            temp_users = random.sample(users, k=random.randint(1, 3))
+            case.assigned_users.set(temp_users)
+            case.reviewers.set(temp_users)
             case.refresh_from_db()
             cases.append(case)
             created_case_numbers.append(case_number)

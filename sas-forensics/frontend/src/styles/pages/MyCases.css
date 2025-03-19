@@ -1,6 +1,6 @@
 .my-cases {
     display: flex;
-    min-height: 100vh;
+    max-height: 100vh;
     background-color: #f9f9f9;
 }
 
@@ -8,6 +8,8 @@
     flex: 1;
     padding: 20px;
     background-color: #B3E5FC;
+    max-height: 100vh;
+    overflow-y: scroll;
 }
 
 h2 {

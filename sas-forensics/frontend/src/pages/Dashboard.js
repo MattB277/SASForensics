@@ -11,7 +11,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         axios
-            .get('/api/recent-cases/')
+            .get('/dashboard/')
             .then((response) => {
                 setCases(response.data);
                 setLoading(false);

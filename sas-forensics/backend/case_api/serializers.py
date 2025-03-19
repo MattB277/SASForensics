@@ -7,10 +7,19 @@ from rest_framework.viewsets import ReadOnlyModelViewSet
 
 
 class FileSerializer(serializers.ModelSerializer):
+    # send the analysis url if it exists 
+    analysis_json_url = serializers.SerializerMethodField()
     class Meta:
         model = File
-        fields = ['file_id', 'file', 'uploaded_at', 'file_type', 'case_id']
+        fields = ['file_id', 'file', 'uploaded_at', 'file_type', 'case_id', 'analysis_json_url']
 
+    def get_analysis_json_url(self, instance):
+        request = self.context.get('request')
+        if hasattr(instance, 'analysed_document') and instance.analysed_document.JSON_file: # if attribute exists, analysis has been created
+            url = instance.analysed_document.JSON_file.url
+            return request.build_absolute_uri(url) if request else url
+        return None # null if analysis does not exist
+    
     def to_representation(self, instance):
         data = super().to_representation(instance)
         request = self.context.get('request')
@@ -47,7 +56,7 @@ class DocChangelogSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DocChangelog
-        fields = ['change_id', 'file_id', 'change_date', 'change_details', 'change_author']
+        fields = ['change_id', 'file_id', 'change_date', 'change_details', 'change_author', 'type_of_change']
 
 
 class UserCaseAccessRecordSerializer(serializers.ModelSerializer):

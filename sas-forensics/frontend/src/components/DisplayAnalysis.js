@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/components/DisplayAnalysis.css";
+import { Link } from "react-router-dom";
 
 // insert a newline after every ". "
 const formatText = (text) => {
@@ -44,15 +45,16 @@ const renderTable = (data) => {
   );
 };
 
-const DisplayAnalysis = ({ jsonData, keysToDisplay, reviewed }) => {
+const DisplayAnalysis = ({ jsonData, keysToDisplay, reviewed, fileId }) => {
   // If no data exists
+  console.log(fileId)
   if (!jsonData || Object.keys(jsonData).length === 0) {
     return <p className="error-message">Error: No analysis found for this document!</p>;
   }
 
   // If data exists but hasn't been reviewed
   if (!reviewed) {
-    return <p className="waiting-message">This document is waiting for review.</p>;
+    return <p className="waiting-message">This document is waiting for review. <Link to={`/review/${fileId}`}> Click here to review it.</Link></p>;
   }
 
   // Determine which keys to display. If keysToDisplay is "all", use all top-level keys.
