@@ -3,26 +3,42 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../components/common/Sidebar';
 import axios from '../utils/axiosConfig';
 import '../styles/pages/Dashboard.css';
+import fileImage from '../assets/cases-icon.png';
 
 const Dashboard = () => {
     const [cases, setCases] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [documents, setDocuments] = useState([]);
+    const [loadingCases, setLoadingCases] = useState(true);
+    const [loadingDocs, setLoadingDocs] = useState(true);
+    const [errorCases, setErrorCases] = useState(null);
+    const [errorDocs, setErrorDocs] = useState(null);
 
     useEffect(() => {
-        axios
-            .get('/dashboard/')
-            .then((response) => {
+        // Fetch Recent Cases
+        axios.get('/dashboard/')
+            .then(response => {
                 setCases(response.data);
-                setLoading(false);
+                setLoadingCases(false);
             })
-            .catch((err) => {
+            .catch(err => {
                 console.error('Error fetching cases:', err);
-                setError('Failed to load recent cases.');
-                setLoading(false);
+                setErrorCases('Failed to load recent cases.');
+                setLoadingCases(false);
+            });
+    
+        // Fetch Recent Documents
+        axios.get('/recent-documents/')  // Updated to use the new backend URL
+            .then(response => {
+                setDocuments(response.data);
+                setLoadingDocs(false);
+            })
+            .catch(err => {
+                console.error('Error fetching documents:', err);
+                setErrorDocs('Failed to load recent documents.');
+                setLoadingDocs(false);
             });
     }, []);
-
+    
     return (
         <div className="dashboard-container">
             <Sidebar />
@@ -31,15 +47,16 @@ const Dashboard = () => {
                 <h1>Dashboard</h1>
 
                 <div className="dashboard-grid">
+                    {/* Recent Cases Section */}
                     <div className="recent-cases">
                         <h2>Your Recent Cases</h2>
-                        {loading ? (
+                        {loadingCases ? (
                             <p>Loading cases...</p>
-                        ) : error ? (
-                            <p className="error">{error}</p>
+                        ) : errorCases ? (
+                            <p className="error">{errorCases}</p>
                         ) : cases.length > 0 ? (
                             <div className="case-items-grid">
-                                {cases.map((caseItem) => (
+                                {cases.map(caseItem => (
                                     <div key={caseItem.case_id} className="case-item">
                                         <div className="case-header">
                                             <span
@@ -82,39 +99,39 @@ const Dashboard = () => {
                         ) : (
                             <p>No cases available.</p>
                         )}
-                        <div className="legend">
-                            <p>
-                                <span className="indicator red"></span> New evidence
-                            </p>
-                            <p>
-                                <span className="indicator orange"></span> New collaboration
-                            </p>
-                            <p>
-                                <span className="indicator green"></span> No changes
-                            </p>
-                        </div>
                     </div>
 
-                    <div className="quick-links">
-                        <h2>Quick Links</h2>
-                        <div className="links-grid">
-                            <div className="link-item">
-                                <div className="icon uploads"></div>
-                                <p>Your Uploads</p>
+                    {/* Your Recent Documents Section */}
+                    <div className="recent-documents">
+                        <h2>Your Recent Documents</h2>
+                        {loadingDocs ? (
+                            <p>Loading documents...</p>
+                        ) : errorDocs ? (
+                            <p className="error">{errorDocs}</p>
+                        ) : documents.length > 0 ? (
+                            <div className="document-items-grid">
+                                {documents.map((doc) => (
+                                    <div key={doc.file_id} className="document-item">
+                                        <img
+                                            src={fileImage}
+                                            alt="File"
+                                            className="document-item-image"
+                                        />
+                                        {/* Display Doc */}
+                                        <h4>{doc.case_id}</h4>
+                                        <p>File: {doc.file_name}</p>
+                                        <Link
+                                            to={`/document/${doc.file_id}`}
+                                            className="view-document-link"
+                                        >
+                                            View Document
+                                        </Link>
+                                    </div>
+                                ))}
                             </div>
-                            <div className="link-item">
-                                <div className="icon cases"></div>
-                                <p>Your Cases</p>
-                            </div>
-                            <div className="link-item">
-                                <div className="icon manage"></div>
-                                <p>Manage Cases</p>
-                            </div>
-                            <div className="link-item">
-                                <div className="icon updated"></div>
-                                <p>Updated Cases</p>
-                            </div>
-                        </div>
+                        ) : (
+                            <p>No recent documents available.</p>
+                        )}
                     </div>
                 </div>
             </div>
