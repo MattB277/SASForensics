@@ -16,7 +16,6 @@ const formatKey = (key) =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
-
 const isArrayOfObjects = (val) =>
   Array.isArray(val) && val.length > 0 && typeof val[0] === "object";
 
@@ -45,16 +44,52 @@ const renderTable = (data) => {
   );
 };
 
+// Helper function to render nested objects
+const renderObject = (obj) => {
+  return Object.keys(obj).map((subKey) => {
+    const subValue = obj[subKey];
+
+    if (isArrayOfObjects(subValue)) {
+      return (
+        <div key={subKey}>
+          <h3>{formatKey(subKey)}</h3>
+          {renderTable(subValue)}
+        </div>
+      );
+    }
+
+    if (typeof subValue === "object" && subValue !== null) {
+      return (
+        <div key={subKey} className="nested-object">
+          <h3>{formatKey(subKey)}</h3>
+          {renderObject(subValue)}
+        </div>
+      );
+    }
+
+    return (
+      <div key={subKey} className="key-value-pair">
+        <strong>{formatKey(subKey)}:</strong> {formatText(subValue)}
+      </div>
+    );
+  });
+};
+
 const DisplayAnalysis = ({ jsonData, keysToDisplay, reviewed, fileId }) => {
   // If no data exists
-  console.log(fileId)
+  console.log(fileId);
   if (!jsonData || Object.keys(jsonData).length === 0) {
     return <p className="error-message">Error: No analysis found for this document!</p>;
   }
 
   // If data exists but hasn't been reviewed
   if (!reviewed) {
-    return <p className="waiting-message">This document is waiting for review. <Link to={`/review/${fileId}`}> Click here to review it.</Link></p>;
+    return (
+      <p className="waiting-message">
+        This document is waiting for review.{" "}
+        <Link to={`/review/${fileId}`}> Click here to review it.</Link>
+      </p>
+    );
   }
 
   // Determine which keys to display. If keysToDisplay is "all", use all top-level keys.
@@ -62,11 +97,10 @@ const DisplayAnalysis = ({ jsonData, keysToDisplay, reviewed, fileId }) => {
 
   return (
     <div className="display-analysis">
-      <p className="disclaimer">
-        Disclaimer: This content is AI-generated.
-      </p>
+      <p className="disclaimer">Disclaimer: This content is AI-generated.</p>
       {keys.map((key) => {
         const value = jsonData[key];
+        
         // Skip rendering if value is null, undefined, an empty array, or an empty object.
         if (
           value === null ||
@@ -80,31 +114,26 @@ const DisplayAnalysis = ({ jsonData, keysToDisplay, reviewed, fileId }) => {
         // If the value is an array of objects, render it as a table.
         if (isArrayOfObjects(value)) {
           return (
-            <div key={key}>
+            <div key={key} className="analysis-section">
               <h2>{formatKey(key)}</h2>
               {renderTable(value)}
             </div>
           );
         }
 
-
-        /*
-        This code snippet may have future value but currently it does not improve over the normal key-val pair rendering.
-        // If the value is an object (but not an array of objects), render it as a JSON string.
-        if (typeof value === "object") {
+        // If the value is an object, render it with the helper function
+        if (typeof value === "object" && value !== null) {
           return (
-            <div key={key}>
+            <div key={key} className="analysis-section">
               <h2>{formatKey(key)}</h2>
-              <pre className="json-pre">{JSON.stringify(value, null, 2)}</pre>
+              {renderObject(value)}
             </div>
           );
         }
-        */
 
-
-        // Otherwise, render as a normal key-value pair.
+        // Render simple values
         return (
-          <div key={key}>
+          <div key={key} className="analysis-section">
             <h2>{formatKey(key)}</h2>
             <p className="json-paragraph">{formatText(value)}</p>
           </div>
