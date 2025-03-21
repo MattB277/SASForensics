@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import '../styles/pages/SignUpPage.css'; // Import the CSS file
+import React, { useState } from 'react'; 
+import { useNavigate } from 'react-router-dom';
+import axios from '../utils/axiosConfig';
+import '../styles/pages/SignUpPage.css';
 import logo from '../assets/policelogo.png';
 
 export default function SignUp() {
@@ -16,22 +17,22 @@ export default function SignUp() {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/api/signup/', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ first_name: firstName, last_name: lastName, username, password }),
+      const response = await axios.post('/signup/', {
+        first_name: firstName,
+        last_name: lastName,
+        username,
+        password
       });
 
-      if (response.ok) {
+      if (response.status === 201) { 
         navigate("/login");
       } else {
-        const data = await response.json();
+        const data = response.data;
         setError(data.error || "Sign-up failed");
       }
     } catch (err) {
-      setError("Network error");
+      console.error('Signup error:', err.response?.data || err.message);
+      setError(err.response?.data?.error || "Network error");
     }
   };
 
