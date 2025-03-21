@@ -1,88 +1,131 @@
 # Team SH06 Main Project - Team Project 3 Course 2024
-# SH06 Main
 
+## Project Name
 
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://stgit.dcs.gla.ac.uk/team-project-h/2024/sh06/sh06-main/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
+Cold Case Management System
 
 ## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+**This is a proof of concept product, and is not ready for market deployment**  
+The AI analysis in this system is reviewed by a human user, but is not guaranteed to be perfectly truthful.  
+
+### Our goal
+
+This project has been developed as part of a University of Glasgow module, Professional Software Development.
+
+It is aimed at reducing the time taken in order for detectives to collate, analyse and connect evidence.  
+This is achieved by digitizing various types of cold case evidence, using AI to extract and summarize information found within it and providing tools for collaboration between detectives and visual representation of the data.  
+The project also organises evidence in an ordered, logical manner.  
+
+### Features of this project
+
+Document Analysis Features
+
+1. Analysing cold case evidence data of various formats, including:
+
+    - PDF, images (including handwritten documents) & .txt
+    - Audio/Video file types may be available to upload and download from the software. However, there are no plans to have these be analysed
+
+2. Using AI, extract information from documents, including:
+
+    - People involved, place of events, time of events, case number referenced within document.
+    - This will be a “text-based” relationship at first, and if possible, it can be built upon to create programmatic relationships.
+
+Document Visualisation Features
+
+1. View a summary of the document.
+2. View the related documents of the current document.
+3. An “Entities” view which highlights:  
+    - People, Events, Evidence, Locations
+4. View the changes made to a document, in a [who did / what / when] format.
+5. Users can make comments on a document
+
+Case Management
+
+1. Search all cases assigned to user.  
+    - Wildcard searching
+    - Sort by recently updated/Date of last access
+2. See a list of cases recently accessed by the user  
+3. Manage cases:  
+    - Assign a user to a case (general or reviewer type user)
+4. View updates made to cases
+5. System to review uploads  
+    - A case can have a main reviewer assigned, who will verify and validate the output from the AI result. (persons involved, events and times etc.)
+
+General System Features
+
+1. Secure login system (username + password combo)
+2. Sidebar for navigation between the "top level" pages
+3. User types of the system  
+    - Detective (general user)
+    - Reviewer (can approve AI generated outputs before they are inserted into the case)
+4. Ability to download the original, raw documents from the server.
+5. AI generated content will have a disclaimer displayed to the user where it is used, to account for the lack of a 100% accurate output requirement.
 
 ## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 ## Installation
-Packages for this system are installed using pip(https://pip.pypa.io/en/stable/) and npm(https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).   
-We used virtual environments throughout development, these should be created within the SH06-MAIN directory.   
-Once you have activated your virtual environment, run these commands:
+
+Packages for this system are installed using pip (<https://pip.pypa.io/en/stable/>) and npm (<https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>).  
+We used virtual environments throughout development, these should be created within the sh06-main directory.  
+Once you have activated your virtual environment, these are the steps to install the dependancies:
+
 ```bash
-cd sas-forensics
+> sh06-main/sas-forensics/
 pip install -r requirements.txt
 
-cd frontend
+> sh06-main/sas-forensics/frontend/
 npm install
 ```
-There may be some installation issues with node.js.  
-To troubleshoot these, install nodeJS (https://nodejs.org/en/download/) and verify your npm and node versions, then attempt "npm install" again.
 
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+There may be some installation issues with node.js.  
+To troubleshoot these, install nodeJS (<https://nodejs.org/en/download/>), verify your npm and node versions, then attempt "npm install" again.
+
+You may want to use Docker to build a local image, to build the images for this project:
+
+```bash
+> sh06-main/sas-forensics
+docker-compose build
+docker-compose up
+```
 
 ## Usage
+
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
 ## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+
+Feel free to contact Matthew Ballantyne (<2774408B@student.gla.ac.uk>) for support for this project.
 
 ## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Features which have been discussed:
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+- creating programmatic relationships between entities, such as people, evidence, events etc.
+  - This would allow for real links to be built between these giving more depth to the project.
+- Commenting and annotations on documents and cases:
+  - A user currently cannot highlight/comment on documents or leave comments on a case.  
+    This feature would enable collaboration between users of the system
 
 ## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+
+We have worked on this project as a team of 6 students,
+
+- Matthew Ballantyne (<2774408B@student.gla.ac.uk>)
+- Viktoriia Boiechko (<2833791B@student.gla.ac.uk>)
+- Eduardo Flores Lopez (<2840598F@student.gla.ac.uk>)
+- Edan Hynes (<2777195H@student.gla.ac.uk>)
+- Yuan Kuang (<2672762K@student.gla.ac.uk>)
+- Sophia Pollock (<2801049P@student.gla.ac.uk>)
+
+With the help of our team coach,
+
+- Boris Velinov (<2641360V@student.gla.ac.uk>)
 
 ## License
+
 For open source projects, say how it is licensed.
 
 ## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+
+The university module which this project was being developed for has come to an end, so there are no current plans to continue development.
