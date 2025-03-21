@@ -130,4 +130,4 @@ For open source projects, say how it is licensed.
 
 ## Project status
 
-The university module which this project was being developed for has come to an end, so there are no current plans to continue development.
+The university module which this project was being developed for has come to an end, so there are no current plans to continue development. However, we may continue development of features if requested by our customer.
