@@ -93,7 +93,34 @@ docker-compose up
 
 ## Usage
 
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+How to run this project locally:  
+
+```bash
+cd sh06-main
+<name_of_env>\Scripts\activate
+cd sasforensics/backend
+python manage.py makemigrations
+python manage.py migrate
+python manage.py populate_test_data
+cd  ../frontend
+npm start
+```
+
+How to build docker images for this project:
+
+```bash
+cd sh06-main
+<name_of_env>\Scripts\activate
+cd sasforensics/backend
+python manage.py makemigrations
+python manage.py migrate
+python manage.py populate_test_data
+cd ..
+docker-compose build
+docker-compose up
+```
+
+This will run the project locally on localhost:3000.
 
 ## Support
 
@@ -103,7 +130,7 @@ Feel free to contact Matthew Ballantyne (<2774408B@student.gla.ac.uk>) for suppo
 
 Features which have been discussed:
 
-- creating programmatic relationships between entities, such as people, evidence, events etc.
+- Creating programmatic relationships between entities, such as people, evidence, events etc.
   - This would allow for real links to be built between these giving more depth to the project.
 - Commenting and annotations on documents and cases:
   - A user currently cannot highlight/comment on documents or leave comments on a case.  
@@ -126,7 +153,7 @@ With the help of our team coach,
 
 ## License
 
-For open source projects, say how it is licensed.
+This project is licensed under the MIT License, see the [LICENSE](LICENSE) for details.
 
 ## Project status
 
