@@ -6,6 +6,11 @@ from .models import File, Case, AnalysedDocs, CaseChangelog, DocChangelog, UserC
 from .utils import analyseTextIntoJSON, getPDFtext, openTXT, ocr
 import os, json
 from backend_core.settings import MEDIA_ROOT
+from docx import Document
+import docx
+# from spire.doc import *	
+# from spire.doc.common import Document as D
+
 
 ### Document Analysis ### 
 @receiver(post_save, sender=File)
@@ -19,8 +24,8 @@ def analyse_upload(sender, instance, created, **kwargs):
             else:
                 return
         elif instance.file_extension() ==  "docx":    # placeholder until logic implemented
-            print("Docx analysis not implemented yet!")
-            return
+                print("Docx analysis not implemented yet!")
+                return
         elif instance.file_extension() ==  "png": # placeholder until logic implemented
             if os.path.exists(instance.file.path):
                 extracted_text = ocr(instance.file.name,True)

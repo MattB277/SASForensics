@@ -173,19 +173,21 @@ def upload_to_based_on_type(instance, filename):
     
 
 
-def ocr(file_name, upload = False, bucket_name = "textract-sasforensics"):
-
+def ocr(file_name, upload = False):
     # Upload file to S3
     if upload:        
         s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
-        s3.upload_file(os.path.join(MEDIA_ROOT, file_name), bucket_name, file_name)
+        s3.upload_file(os.path.join(MEDIA_ROOT, file_name), AWS_S3_OCR_BUCKET, file_name)
 
     textract = boto3.client("textract", region_name="eu-west-1")
 
     response = textract.detect_document_text(
-        Document={"S3Object": {"Bucket": bucket_name, "Name": file_name}}
+        Document={"S3Object": {"Bucket": AWS_S3_OCR_BUCKET, "Name": file_name}}
     )
 
     # Extract and print text
     text = "\n".join([block["Text"] for block in response["Blocks"] if block["BlockType"] == "LINE"])
+
+    if len(text) == 0:
+        text = "This image has no text in it."
     return text
