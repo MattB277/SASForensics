@@ -62,8 +62,6 @@ General System Features
 4. Ability to download the original, raw documents from the server.
 5. AI generated content will have a disclaimer displayed to the user where it is used, to account for the lack of a 100% accurate output requirement.
 
-## Visuals
-
 ## Installation
 
 This project uses a Django backend, with a local SQLite database, and React frontend.
@@ -82,14 +80,6 @@ npm install
 
 There may be some installation issues with node.js.  
 To troubleshoot these, install nodeJS (<https://nodejs.org/en/download/>), verify your npm and node versions, then attempt "npm install" again.
-
-You may want to use Docker to build a local image, to build the images for this project:
-
-```bash
-> sh06-main/sas-forensics
-docker-compose build
-docker-compose up
-```
 
 ## Usage
 
