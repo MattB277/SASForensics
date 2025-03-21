@@ -4,6 +4,7 @@ from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI
 from typing import List, Optional
 from pydantic import BaseModel, Field, PastDatetime
+import boto3
 import json
 from backend_core.settings import MEDIA_ROOT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
 
