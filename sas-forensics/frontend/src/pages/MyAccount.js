@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from '../utils/axiosConfig'; // Assuming you have a preconfigured axios instance
 import '../styles/pages/MyAccount.css';
 import Sidebar from '../components/common/Sidebar';
+import profile from '../assets/profile.png';
+
 
 const MyAccountPage = () => {
   const [userDetails, setUserDetails] = useState(null);
@@ -54,6 +56,14 @@ const MyAccountPage = () => {
       <div className="dashboard-content">
         <h1>My Account</h1>
         <div className="user-details">
+          {/* Display Profile Picture */}
+          <div className="profile-picture">
+            <img 
+              src={profile} 
+              alt="Profile" 
+              className="profile-img"
+            />
+          </div>
           <p><strong>Username:</strong> {userDetails.username}</p>
           <p><strong>Email:</strong> {userDetails.email}</p>
           {/* You can display other user details here as needed */}
