@@ -4,6 +4,7 @@ FROM python:3.11-slim
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DEBUG=0  # Production default, override locally if needed
 
 # Set work directory
 WORKDIR /app
@@ -27,14 +28,14 @@ RUN pip install --upgrade pip
 COPY backend/requirements.txt .
 RUN pip install -r requirements.txt
 
-# Create static files directory
-RUN mkdir -p /app/staticfiles
+# Create directories for static files and media
+RUN mkdir -p /app/staticfiles /app/media
 
-# Collect static files (this assumes you've added STATIC_ROOT to settings.py)
+# Collect static files (uses STATIC_ROOT from settings.py)
 RUN python manage.py collectstatic --noinput
 
-# Expose the port the app runs on
+# Expose the port (EB uses 8000 by default)
 EXPOSE 8000
 
-# Run the application
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Run the application with gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "backend_core.wsgi:application"]

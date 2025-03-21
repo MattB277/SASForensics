@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.d8b6bba3.css",
+    "main.js": "/static/js/main.a13a1574.js",
+    "static/js/488.12af2739.chunk.js": "/static/js/488.12af2739.chunk.js",
+    "static/media/profile.png": "/static/media/profile.9e4745a27351f6317a61.png",
+    "static/media/policelogo.png": "/static/media/policelogo.93141fbd6a483f293aa7.png",
+    "static/media/ic_case_red.png": "/static/media/ic_case_red.76ad418b59a2f24f97f4.png",
+    "static/media/ic_case_green.png": "/static/media/ic_case_green.5aa78cf7f13cc1a9c4c2.png",
+    "static/media/jsoneditor-icons.svg": "/static/media/jsoneditor-icons.15f2789dd231f36d43a4.svg",
+    "static/media/ic_case_yellow.png": "/static/media/ic_case_yellow.bbc0e4556e649715c8d2.png",
+    "static/media/connection.png": "/static/media/connection.225709d584edce56a620.png",
+    "static/media/cases-icon.png": "/static/media/cases-icon.1cae250af926c0e471c1.png",
+    "index.html": "/index.html",
+    "main.d8b6bba3.css.map": "/static/css/main.d8b6bba3.css.map",
+    "main.a13a1574.js.map": "/static/js/main.a13a1574.js.map",
+    "488.12af2739.chunk.js.map": "/static/js/488.12af2739.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d8b6bba3.css",
+    "static/js/main.a13a1574.js"
+  ]
+}
