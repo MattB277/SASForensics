@@ -25,6 +25,7 @@ from .views import (
     documents_to_review,
     sign_up,
     get_user_info,
+    recent_documents,
 )
 
 # Create a router and register viewsets
@@ -49,6 +50,7 @@ urlpatterns = [
     path('cases/<int:case_id>/change-log/', CaseChangelogView.as_view(), name='case-change-log'),
     path('updated-cases/', UpdatedCasesView.as_view(), name='updated-cases'), 
     path('files/<int:file_id>/change-log/', DocChangeLogView.as_view(), name='doc-change-log'),
+    path('recent-documents/', recent_documents, name='recent-documents'),
 
     # File handling
     path('upload/', upload_file, name='upload_file'), 

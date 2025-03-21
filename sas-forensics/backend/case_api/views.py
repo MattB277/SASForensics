@@ -122,6 +122,27 @@ def list_files(request):
     serializer = FileSerializer(files, many=True)
     return Response(serializer.data)
 
+@api_view(['GET'])
+def recent_documents(request):
+    """Fetch the most recent documents"""
+    user = request.user
+
+    # Get documents related to cases the user has access to
+    cases = Case.objects.filter(assigned_users=user)
+    documents = File.objects.filter(case_id__in=cases).order_by('-uploaded_at')[:6]  # Limit to 10 recent docs
+
+    document_list = [
+        {
+            "file_id": doc.file_id,
+            "file_name": doc.display_name(),
+            "case_id": doc.case_id.case_number if doc.case_id else "Unknown",
+            "uploaded_at": doc.uploaded_at.strftime("%Y-%m-%d %H:%M:%S"),
+            "file_url": request.build_absolute_uri(doc.file.url)
+        }
+        for doc in documents
+    ]
+
+    return Response(document_list, status=status.HTTP_200_OK)
 
 # Case Views
 class CaseViewSet(viewsets.ModelViewSet):
