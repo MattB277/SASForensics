@@ -22,9 +22,12 @@ def analyse_upload(sender, instance, created, **kwargs):
             print("Docx analysis not implemented yet!")
             return
         elif instance.file_extension() ==  "png": # placeholder until logic implemented
-            extracted_text = ocr(instance.file.name,True)
+            if os.path.exists(instance.file.path):
+                extracted_text = ocr(instance.file.name,True)
+            else:
+                return
             # print(extracted_text)
-            return
+
         else: # default value
             print("Datatype not supported!")
             return 
