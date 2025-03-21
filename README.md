@@ -66,6 +66,8 @@ General System Features
 
 ## Installation
 
+This project uses a Django backend, with a local SQLite database, and React frontend.
+
 Packages for this system are installed using pip (<https://pip.pypa.io/en/stable/>) and npm (<https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>).  
 We used virtual environments throughout development, these should be created within the sh06-main directory.  
 Once you have activated your virtual environment, these are the steps to install the dependancies:
