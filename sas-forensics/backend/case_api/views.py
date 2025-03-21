@@ -42,6 +42,7 @@ def get_user_info(request):
     }
     return Response(user_data)
 
+@csrf_exempt
 def sign_up(request):
     if request.method == "POST":
         try:
