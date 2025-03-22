@@ -38,7 +38,7 @@ class FileUploadTest(TestCase):
     def test_upload_invalid_file(self):
         """Test upload invalid file format"""
         data = {"file": self.invalid_file, "case_id": self.case.case_id}
-        response = self.client.post("/api/upload/", data, format="multipart")
+        response = self.client.post("/api/files/", data, format="multipart")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_get_file_by_case(self):
