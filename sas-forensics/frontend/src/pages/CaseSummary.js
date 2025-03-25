@@ -29,6 +29,7 @@ const CaseSummary = () => {
     }, [caseId]);
 
     
+    if (loading) return <p>Loading Case Summary...</p>
 
     return (
         <div className="case-summary">
