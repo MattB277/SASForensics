@@ -4,13 +4,31 @@ import Sidebar from '../components/common/Sidebar';
 import '../styles/pages/CaseDashboard.css';
 import axios from '../utils/axiosConfig';
 import CaseTabs from '../components/CaseTabs';
+import DisplayAnalysis from '../components/DisplayAnalysis';
 
 const CaseDashboard = () => {
     const { caseId } = useParams();
     const [documents, setDocuments] = useState([]);
+    const [summary, setSummary] = useState([]);
     const [activeTab, setActiveTab] = useState('documents');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchCaseSummary = async () => {
+            try {
+                const response = await axios.get(`/case-summary/${caseId}/`);
+                setSummary(response.data);
+            } catch (err) {
+                console.error('Error fetching case summary:', err);
+                setError('Failed to load the summary. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCaseSummary();
+    }, [caseId]);
 
     useEffect(() => {
         const fetchDocuments = async () => {
@@ -64,7 +82,7 @@ const CaseDashboard = () => {
 
                 <div className="case-content">
                     <section className="file-viewer-section">
-                        <p>This area needs to be developed</p>
+                        <DisplayAnalysis jsonData={summary} reviewed={true} keysToDisplay={"all"} fileId={caseId}/>
                     </section>
                     <section className="documents-related">
                         <nav className="tab-bar">

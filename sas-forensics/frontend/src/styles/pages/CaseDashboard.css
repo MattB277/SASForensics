@@ -59,14 +59,14 @@
     display: flex;
     gap: 20px;
     margin-top: 20px;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 100px);
 }
 
 .file-viewer-section {
     flex: 2;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
-    overflow: hidden;
+    min-height: fit-content;
 }
 
 .tabbed-content {
