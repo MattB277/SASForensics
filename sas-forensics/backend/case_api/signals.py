@@ -31,6 +31,11 @@ def analyse_upload(sender, instance, created, **kwargs):
                 extracted_text = ocr(instance.file.name,True)
             else:
                 return
+        elif instance.file_extension() ==  "jpeg": # placeholder until logic implemented
+            if os.path.exists(instance.file.path):
+                extracted_text = ocr(instance.file.name,True)
+            else:
+                return
             # print(extracted_text)
 
         else: # default value

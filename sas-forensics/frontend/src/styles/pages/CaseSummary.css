@@ -1,7 +1,7 @@
 /* Container that holds the sidebar and main content */
 .case-summary {
     display: flex;
-    height: 100vh; /* Full viewport height */
+    max-height: 100vh; /* Full viewport height */
   }
   
   /* Sidebar styling: fixed width and full height */
@@ -14,6 +14,7 @@
   /* Main content styling: takes remaining space and stacks elements vertically */
   .main-content {
     flex: 1;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: #f9f9f9;
