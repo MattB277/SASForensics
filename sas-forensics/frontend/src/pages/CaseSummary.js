@@ -1,3 +1,9 @@
+/*
+THIS PAGE IS NOT IN USE
+It has been archived incase it would be of use in future development.
+The functionality of this page is now in CaseDashboard.js
+*/
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Sidebar from '../components/common/Sidebar';
