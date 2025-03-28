@@ -13,6 +13,7 @@ const CaseDashboard = () => {
     const [activeTab, setActiveTab] = useState('documents');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         const fetchCaseSummary = async () => {
@@ -29,6 +30,19 @@ const CaseDashboard = () => {
 
         fetchCaseSummary();
     }, [caseId]);
+
+    const refreshSummary = async () => {
+        setRefreshing(true);
+        try {
+            const response = await axios.post(`/case-summary/${caseId}/`);
+            setSummary(response.data);
+        } catch (err) {
+            console.error('Error refreshing summary', err);
+        } finally {
+            setRefreshing(false);
+        }
+    }
+
 
     useEffect(() => {
         const fetchDocuments = async () => {
