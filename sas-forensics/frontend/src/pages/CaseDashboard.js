@@ -97,6 +97,13 @@ const CaseDashboard = () => {
                 <div className="case-content">
                     <section className="file-viewer-section">
                         <DisplayAnalysis jsonData={summary} reviewed={true} keysToDisplay={"all"} fileId={caseId}/>
+                        <button
+                            onClick={refreshSummary}
+                            disabled={refreshing}
+                            className='refresh-summary-button'
+                        >
+                            {refreshing?'Updating...':'Refresh Summary'}
+                        </button>
                     </section>
                     <section className="documents-related">
                         <nav className="tab-bar">
