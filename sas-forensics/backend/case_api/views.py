@@ -16,7 +16,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
-from .utils import check_summary_exists, create_or_update_case_summary
+from .utils import summariseCaseAnalysis
 
 from .models import (
     Case, File, CaseChangelog, DocChangelog,
@@ -275,6 +275,24 @@ def documents_to_review(request):
         } for file in files]
     
     return Response(document_list, status=status.HTTP_200_OK)
+
+# Case Summary helper functions
+def check_summary_exists(case_id):
+    # takes a caseID and returns a boolean value of if it exists in /media/
+    summary_path = os.path.join(settings.MEDIA_ROOT, "json", f"case_{case_id}_summary.json")
+    return os.path.exists(summary_path)
+
+def create_or_update_case_summary(case_id):
+    # creates or case summary for a given caseID
+    case = get_object_or_404(Case, case_id=case_id)
+    analysed_docs = AnalysedDocs.objects.filter(file_id__case_id=case, reviewed=True) # only include reviewed data
+    file_paths = [doc.JSON_file.path for doc in analysed_docs if doc.JSON_file]
+
+    if not file_paths:
+        return None  # No reviewed documents available
+
+    summary_data = summariseCaseAnalysis(file_paths, case_id)
+    return summary_data
 
 @api_view(['GET', 'POST'])
 def case_summary(request, pk):
