@@ -1,13 +1,11 @@
 from django.conf import settings
-from django.shortcuts import get_object_or_404
 import pymupdf, boto3, os
-from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI
 from typing import List, Optional
 from pydantic import BaseModel, Field, PastDatetime
 import boto3
 import json
-from backend_core.settings import MEDIA_ROOT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
+from backend_core.settings import MEDIA_ROOT, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_S3_OCR_BUCKET
 
 # Structured Output Pydantic model
 class AnalysisOutput(BaseModel):
