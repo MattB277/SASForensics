@@ -102,7 +102,7 @@ const CaseDashboard = () => {
                             disabled={refreshing}
                             className='refresh-summary-button'
                         >
-                            {refreshing?'Updating...':'Refresh Summary'}
+                            {refreshing?'Updating, this may take a while. Please refresh the page in 30 seconds':'Refresh Summary'}
                         </button>
                     </section>
                     <section className="documents-related">
