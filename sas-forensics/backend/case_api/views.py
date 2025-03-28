@@ -300,6 +300,7 @@ def case_summary(request, pk):
     # return the updated / created summary data
     if summary_data:
         return Response(summary_data, status=status.HTTP_201_CREATED)
+    # if summary data is empty, no reviewed documents exist in the case.
     return Response({'error': "No reviewed documents found for this case!"}, status=status.HTTP_404_NOT_FOUND)
 
 
