@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.shortcuts import get_object_or_404
+from models import AnalysedDocs, Case
 import pymupdf, boto3, os
 from botocore.exceptions import ClientError
 from openai import APIStatusError, OpenAI
@@ -51,6 +53,24 @@ def openTXT(document_path):
     with open(document_path, "r") as file:
         content = file.read()
     return content
+
+# Case Summary helper functions
+def check_summary_exists(case_id):
+    # takes a caseID and returns a boolean value of if it exists in /media/
+    summary_path = os.path.join(settings.MEDIA_ROOT, "json", f"case_{case_id}_summary.json")
+    return os.path.exists(summary_path)
+
+def create_or_update_case_summary(case_id):
+    # creates or case summary for a given caseID
+    case = get_object_or_404(Case, case_id=case_id)
+    analysed_docs = AnalysedDocs.objects.filter(file_id__case_id=case, reviewed=True) # only include reviewed data
+    file_paths = [doc.JSON_file.path for doc in analysed_docs if doc.JSON_file]
+
+    if not file_paths:
+        return None  # No reviewed documents available
+
+    summary_data = summariseCaseAnalysis(file_paths, case_id)
+    return summary_data
 
 def summariseCaseAnalysis(file_list, case_id):
     """Takes a list of JSON file paths, creates a case summary and returns the JSON dictionary as a string."""
