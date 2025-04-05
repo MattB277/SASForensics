@@ -13,6 +13,7 @@ const CaseDashboard = () => {
     const [activeTab, setActiveTab] = useState('documents');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         const fetchCaseSummary = async () => {
@@ -29,6 +30,19 @@ const CaseDashboard = () => {
 
         fetchCaseSummary();
     }, [caseId]);
+
+    const refreshSummary = async () => {
+        setRefreshing(true);
+        try {
+            const response = await axios.post(`/case-summary/${caseId}/`);
+            setSummary(response.data);
+        } catch (err) {
+            console.error('Error refreshing summary', err);
+        } finally {
+            setRefreshing(false);
+        }
+    }
+
 
     useEffect(() => {
         const fetchDocuments = async () => {
@@ -83,6 +97,13 @@ const CaseDashboard = () => {
                 <div className="case-content">
                     <section className="file-viewer-section">
                         <DisplayAnalysis jsonData={summary} reviewed={true} keysToDisplay={"all"} fileId={caseId}/>
+                        <button
+                            onClick={refreshSummary}
+                            disabled={refreshing}
+                            className='refresh-summary-button'
+                        >
+                            {refreshing?'Updating, this may take a while. Please refresh the page in 30 seconds':'Refresh Summary'}
+                        </button>
                     </section>
                     <section className="documents-related">
                         <nav className="tab-bar">
