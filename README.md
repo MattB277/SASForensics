@@ -75,7 +75,7 @@ Once you have activated your virtual environment, these are the steps to install
 pip install -r requirements.txt
 
 > sh06-main/sas-forensics/frontend/
-npm install
+npm install --legacy-peer-deps
 ```
 
 There may be some installation issues with node.js.  
