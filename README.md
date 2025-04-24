@@ -66,29 +66,61 @@ General System Features
 
 This project uses a Django backend, with a local SQLite database, and React frontend.
 
+*You should run this project on a machine which has both Python and Node.js installed.*
+
 Packages for this system are installed using pip (<https://pip.pypa.io/en/stable/>) and npm (<https://docs.npmjs.com/downloading-and-installing-node-js-and-npm>).  
-We used virtual environments throughout development, these should be created within the sh06-main directory.  
+We used virtual environments throughout development, these should be created within the /SASForensics/ directory.  
+
+```bash
+> SASForensics/
+python -m venv /path/to/new/virtual/environment
+```
+
+Help on Python virtual environments can be found here: (<https://docs.python.org/3/library/venv.html>)
+
 Once you have activated your virtual environment, these are the steps to install the dependancies:
 
 ```bash
-> sh06-main/sas-forensics/
+> SASForensics/sas-forensics/
 pip install -r requirements.txt
 
-> sh06-main/sas-forensics/frontend/
+> SASForensics/sas-forensics/frontend/
 npm install --legacy-peer-deps
 ```
 
 There may be some installation issues with node.js.  
 To troubleshoot these, install nodeJS (<https://nodejs.org/en/download/>), verify your npm and node versions, then attempt "npm install" again.
 
+## Setup
+
+This project requires a few external resources in order for all features to work.
+The project will run without any of these set. However, the file upload, case summary and analysis features will all be broken.
+
+You will need:
+
+- An OpenAI API key with API permissions should be obtained.
+- An AWS S3 bucket should be created, you will need the following items:
+  - The Access key ID
+  - The AWS secret access key
+  - The region name which the S3 bucket belongs to.
+  - The name of the S3 bucket.
+- The Django secret key
+
+All of the above items should then be entered into your .env file.
+An example file giving correct syntax is named .env.example
+
+If you are unsure how to set any of these up, please contact us for support.
+
 ## Usage
 
-How to run this project locally:  
+You should have the requirements installed and environment variables set before moving onto this step.
+
+**How to run this project locally:**
 
 ```bash
-cd sh06-main
+> SASForensics
 <name_of_env>\Scripts\activate
-cd sasforensics/backend
+cd sas-forensics/backend
 python manage.py makemigrations
 python manage.py migrate
 python manage.py populate_test_data
@@ -96,12 +128,14 @@ cd  ../frontend
 npm start
 ```
 
-How to build docker images for this project:
+**How to build docker images for this project:**
+
+You will need to have Docker installed and running on your machine, the download can be found here: (<https://www.docker.com/products/docker-desktop/>)
 
 ```bash
-cd sh06-main
+> SASForensics
 <name_of_env>\Scripts\activate
-cd sasforensics/backend
+cd sas-forensics/backend
 python manage.py makemigrations
 python manage.py migrate
 python manage.py populate_test_data
@@ -110,7 +144,7 @@ docker-compose build
 docker-compose up
 ```
 
-This will run the project locally on localhost:3000.
+This will run the project locally on localhost:3000 across a pair of backend and frontend docker images.
 
 ## Support
 
